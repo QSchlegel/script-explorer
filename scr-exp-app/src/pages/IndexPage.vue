@@ -17,7 +17,7 @@
   <div class="col-auto popover__title popover__wrapper" v-if="store.CurScript == ''">      
       <h2 class="text-center q-mt-none q-mb-none">-</h2>
            
-      <p class="q-mt-xl q-mb-none popover__content" style="font-size:10px;">by Quirin_Schlegel</p>
+      <p class="q-mt-xl q-mb-none popover__content" style="font-size:10px;">by Quirin Schlegel</p>
     </div>
     <p class="col-5 col-sm-auto"></p> 
     <h2 class="col-4 text-left q-mt-none q-mb-none">Explorer</h2>
