@@ -28,6 +28,7 @@ export const useScriptStore = defineStore('scr', {
     }),
     actions: {
         setApi(pID) {
+            //Check API Credentials
             this.ApiDetails = {
                 url: (pID.slice(0, 7) === "mainnet") ? 'https://cardano-mainnet.blockfrost.io/api/v0/' : 'https://cardano-testnet.blockfrost.io/api/v0/',
                 pid: pID

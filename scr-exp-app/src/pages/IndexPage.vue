@@ -1,16 +1,26 @@
 <template>
   <q-page>
-
-    <div class="q-pa-md">
+    <!--Loggin-->
+    <div class="q-pa-md" v-if="!loggedIn">
+      <q-input text spellcheck="off" bottom-slots v-model="pID" label="Enter Project ID">
+        <template v-slot:append>
+          <q-btn flat round  icon="login" @click="store.setApi(pID); pID=''" />
+        </template>
+      </q-input>
+    </div>
+    <!--Search Field-->
+    <div class="q-pa-md" v-if="loggedIn">
       <q-input text spellcheck="off" bottom-slots v-model="searchScript" label="Find a Script">
         <template v-slot:append>
-          <q-icon name="search" @click="store.CurScript = searchScript; store.loadScriptData()" />
+          <q-btn flat round  icon="search" @click="store.CurScript = searchScript; store.loadScriptData()" />
         </template>
         <template v-slot:before>
           <q-icon v-if="searchScript !== ''" name="close" @click="searchScript = ''" class="cursor-pointer" />
         </template>
       </q-input>
     </div>
+
+<!--Title-->
 
 <div class="row" v-if="store.CurScript == ''">
   <h2 class="col-7 col-sm-4 text-right q-mt-none q-mb-none">Script</h2>
@@ -23,8 +33,9 @@
     <h2 class="col-4 text-left q-mt-none q-mb-none">Explorer</h2>
 </div>
 
-    
 
+    
+<!--Scriptitem-->
 
     <q-card bordered class="q-ma-md" v-if="store.CurScript != ''">
       <q-card-section class="row">
@@ -36,7 +47,7 @@
 
       </q-card-section>
 
-
+      <!--ToDo build Timelock Script Component-->
 
       <q-card-section v-if='variant == "timelock"'>
         <q-separator />
@@ -102,7 +113,14 @@ import RedeemerView from 'src/components/RedeemerView.vue';
 
 const store = useScriptStore();
 
+const pID = ref('')
+
 const searchScript = ref('')
+
+const loggedIn = computed(() => {
+  return store.ApiDetails.pid !== ''
+})
+
 
 const cTC = function () {
   const textToCopy = store.CurScript
