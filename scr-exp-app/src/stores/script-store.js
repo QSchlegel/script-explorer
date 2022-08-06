@@ -5,8 +5,8 @@ export const useScriptStore = defineStore('scr', {
     state: () => ({
 
         ApiDetails: {
-            url: 'https://cardano-testnet.blockfrost.io/api/v0',
-            pid: 'testnetxXUIC6taqoSc53e1fKnz17pdCuwc7w0J'
+            url: '',
+            pid: ''
         },
 
         ScriptList: [],
