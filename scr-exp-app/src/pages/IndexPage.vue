@@ -1,6 +1,6 @@
 <template>
   <q-page>
-    
+
     <!--Title-->
     <div class="row q-py-xl" v-if="store.CurScript == ''">
       <h2 class="col-7 col-sm-4 text-right q-mt-none q-mb-none">Script</h2>
@@ -35,52 +35,48 @@
     </div>
 
     <!--Explainer-->
-    <div class="row" v-if="store.CurScript == ''">
-      <q-card bordered class="col q-ma-md" >
-      <q-card-section >
-        <q-card-section class="text-h5 q-pt-md q-pl-md q-pb-none">
-          How to use the Script Explorer ?
+
+    <q-card class="col-12 col-sm-6 q-ma-md" v-if="!store.LoggedIn">
+      <q-card-section>
+        <q-card-section class="text-h5 q-pt-md q-pl-md q-pb-none row">
+          <div class="col-auto q-ma-xs">How to use the Script Explorer ?</div>
+          <div class="col-auto">
+            <q-btn flat round icon="chevron_left" @click="infoToggle = !infoToggle" v-if="!infoToggle" />
+            <q-btn flat round icon="keyboard_arrow_down" @click="infoToggle = !infoToggle" v-if="infoToggle" />
+          </div>
+
         </q-card-section>
-      
-        <ol>
-          <li>
-            Setup a
-            <a href="https://blockfrost.io/auth/signin" target="_blank">
-              Blockfrost
-            </a>
-             Account.
-          </li>
-          <li>
-            Setup <a href="https://blockfrost.io" target="_blank">Blockfrost</a> Project
-          </li>
-          <li>
-            Enter the Project ID in the Field above.
-          </li>
-          <li>
-            Load or Find Scripts to look at.
-          </li>
-        </ol>
-        <q-card-section class="text-h5 q-pt-md q-pl-md">
-          How does the Script Explorer work?
+        <q-card-section v-if="infoToggle">
+          <ol>
+            <li>Setup <a href="https://blockfrost.io" target="_blank">Blockfrost</a> Project</li>
+            <li>Setup <a href="https://blockfrost.io" target="_blank">Blockfrost</a> Project</li>
+            <li>Enter the Project ID in the Field above.</li>
+            <li>Load or Find Scripts to look at.</li>
+          </ol>
+          <q-card-section class="text-h5 q-pt-md q-pl-md">
+            How does the Script Explorer work?
+          </q-card-section>
+          <q-card-section>
+            The Script Explorer is a Frontend and requires a Backend, which provides data.<br />
+            The Script Explorer does not have its own Backend. <br />
+            Instead it uses the <a href="https://blockfrost.io" target="_blank">Blockfrost</a> Backend (REST API).
+            <br />
+            That is why you have to setup a free Blockfrost Account and a Project. <br /> <br />
+            Once you give the project ID to the Script Explorer, it can fetch data from the Backend on your behalf.
+            <br />
+            The Script Explorer currently saves no data persistently. <br />
+            Also the Script Explorer is still under development, so please excuse some rough Edges. <br />
+            None the less have fun exploring.
+          </q-card-section>
+
+          <q-card bordered class="q-ma-xl">
+            <q-video :ratio="18 / 9" class="q-ma-md" src="https://www.youtube.com/embed/6L0f7zNanY8" />
+          </q-card>
         </q-card-section>
-        <q-card-section>
-          The Script Explorer is a Frontend and requires a Backend, which provides data.<br/>
-          The Script Explorer does not have its own Backend. <br/>
-          Instead it uses the <a href="https://blockfrost.io" target="_blank">Blockfrost</a> Backend (REST API). <br/>
-          That is why you have to setup a free Blockfrost Account and a Project. <br/> <br/>
-          Once you give the project ID to the Script Explorer, it can fetch data from the Backend on your behalf. <br/>
-          The Script Explorer currently saves no data persistently. <br/>
-          Also the Script Explorer is still under development, so please excuse some rough Edges.
-        </q-card-section>
-        
+
 
       </q-card-section>
     </q-card>
-    <q-card bordered class="col q-ma-md"></q-card>
-
-    </div>
-    
-
 
     <!--Scriptitem-->
 
@@ -145,7 +141,7 @@
           </div>
         </q-list>
       </q-card-section>
-
+      <!--Plutus Scripts-->
       <RedeemerView v-if='variant == "plutus" && rLoaded' />
       <q-linear-progress query track-color="primary" color="accent" class="q-mt-sm"
         v-if='variant == "plutus" && !rLoaded' />
@@ -162,6 +158,7 @@ const store = useScriptStore();
 
 const pID = ref('')
 const searchScript = ref('')
+const infoToggle = ref(false)
 
 const cTC = function () {
   const textToCopy = store.CurScript

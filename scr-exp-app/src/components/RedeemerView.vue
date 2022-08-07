@@ -9,7 +9,7 @@
                 <div class="q-pa-sm q-pl-xl text-center col-12 col-sm-6 col-md-3 row">
                     <div class="">
                         <q-btn flat round icon="chevron_right" @click="store.CurTx = tx.tx_hash"
-                            v-if="store.CurTx !== tx.tx_hash" />
+                            v-if="store.CurTx !== tx.tx_hash" :disabled="!store.LoggedIn"/>
                         <q-btn flat round icon="keyboard_arrow_down" @click="store.CurTx = ''"
                             v-if="store.CurTx === tx.tx_hash" />
                     </div>

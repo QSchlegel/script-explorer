@@ -40,7 +40,10 @@ export const useScriptStore = defineStore('scr', {
                         project_id: this.ApiDetails.pid
                     }
                 })
-                if(data.data.url !== '') this.LoggedIn = true
+                if(data.data.url !== '') {
+                    this.LoggedIn = true;
+                    this.loadMoreScripts()
+                }
 
             } catch (err){
                 this.ApiDetails ={
