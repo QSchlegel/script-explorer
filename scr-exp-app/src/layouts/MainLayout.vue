@@ -10,7 +10,7 @@
           
         </q-toolbar-title>
 
-        <q-btn no-caps flat rounded class="q-mt-none q-mb-none" style="font-size:smaller" color="accent" :label="pidDisplay" v-if="loggedIn" @click="store.clearApi"/>
+        <q-btn no-caps flat rounded class="q-mt-none q-mb-none" style="font-size:smaller" color="accent" :label="pidDisplay" v-if="store.LoggedIn" @click="store.clearApi"/>
 
         <!--- <q-btn dense flat round icon="menu" @click="toggleRightDrawer" />-->
       </q-toolbar>
@@ -39,10 +39,6 @@ import LeftList from './LeftList.vue';
 import { useScriptStore } from '../stores/script-store'
 
 const store = useScriptStore();
-
-const loggedIn = computed(() => {
-  return store.ApiDetails.pid !== ''
-})
 
 const leftDrawerOpen = ref(false)
 //const rightDrawerOpen = ref(false)

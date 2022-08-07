@@ -1,18 +1,32 @@
 <template>
   <q-page>
+    
+    <!--Title-->
+    <div class="row q-py-xl" v-if="store.CurScript == ''">
+      <h2 class="col-7 col-sm-4 text-right q-mt-none q-mb-none">Script</h2>
+      <div class="col-auto popover__title popover__wrapper" v-if="store.CurScript == ''">
+        <h2 class="text-center q-mt-none q-mb-none">-</h2>
+
+        <p class="q-mt-xl q-mb-none popover__content" style="font-size:10px;">by Quirin_Schlegel</p>
+      </div>
+      <p class="col-5 col-sm-auto"></p>
+      <h2 class="col-4 text-left q-mt-none q-mb-none">Explorer</h2>
+    </div>
+
     <!--Loggin-->
-    <div class="q-pa-md" v-if="!loggedIn">
+    <div class="q-pa-md" v-if="!store.LoggedIn">
       <q-input text spellcheck="off" bottom-slots v-model="pID" label="Enter Project ID">
         <template v-slot:append>
-          <q-btn flat round  icon="login" @click="store.setApi(pID); pID=''" />
+          <q-btn flat round icon="login" @click="store.setApi(pID); pID = ''" />
         </template>
       </q-input>
     </div>
+
     <!--Search Field-->
-    <div class="q-pa-md" v-if="loggedIn">
+    <div class="q-pa-md" v-if="store.LoggedIn">
       <q-input text spellcheck="off" bottom-slots v-model="searchScript" label="Find a Script">
         <template v-slot:append>
-          <q-btn flat round  icon="search" @click="store.CurScript = searchScript; store.loadScriptData()" />
+          <q-btn flat round icon="search" @click="store.CurScript = searchScript; store.loadScriptData()" />
         </template>
         <template v-slot:before>
           <q-icon v-if="searchScript !== ''" name="close" @click="searchScript = ''" class="cursor-pointer" />
@@ -20,22 +34,55 @@
       </q-input>
     </div>
 
-<!--Title-->
+    <!--Explainer-->
+    <div class="row" v-if="store.CurScript == ''">
+      <q-card bordered class="col q-ma-md" >
+      <q-card-section >
+        <q-card-section class="text-h5 q-pt-md q-pl-md q-pb-none">
+          How to use the Script Explorer ?
+        </q-card-section>
+      
+        <ol>
+          <li>
+            Setup a
+            <a href="https://blockfrost.io/auth/signin" target="_blank">
+              Blockfrost
+            </a>
+             Account.
+          </li>
+          <li>
+            Setup <a href="https://blockfrost.io" target="_blank">Blockfrost</a> Project
+          </li>
+          <li>
+            Enter the Project ID in the Field above.
+          </li>
+          <li>
+            Load or Find Scripts to look at.
+          </li>
+        </ol>
+        <q-card-section class="text-h5 q-pt-md q-pl-md">
+          How does the Script Explorer work?
+        </q-card-section>
+        <q-card-section>
+          The Script Explorer is a Frontend and requires a Backend, which provides data.<br/>
+          The Script Explorer does not have its own Backend. <br/>
+          Instead it uses the <a href="https://blockfrost.io" target="_blank">Blockfrost</a> Backend (REST API). <br/>
+          That is why you have to setup a free Blockfrost Account and a Project. <br/> <br/>
+          Once you give the project ID to the Script Explorer, it can fetch data from the Backend on your behalf. <br/>
+          The Script Explorer currently saves no data persistently. <br/>
+          Also the Script Explorer is still under development, so please excuse some rough Edges.
+        </q-card-section>
+        
 
-<div class="row" v-if="store.CurScript == ''">
-  <h2 class="col-7 col-sm-4 text-right q-mt-none q-mb-none">Script</h2>
-  <div class="col-auto popover__title popover__wrapper" v-if="store.CurScript == ''">      
-      <h2 class="text-center q-mt-none q-mb-none">-</h2>
-           
-      <p class="q-mt-xl q-mb-none popover__content" style="font-size:10px;">by Quirin_Schlegel</p>
+      </q-card-section>
+    </q-card>
+    <q-card bordered class="col q-ma-md"></q-card>
+
     </div>
-    <p class="col-5 col-sm-auto"></p> 
-    <h2 class="col-4 text-left q-mt-none q-mb-none">Explorer</h2>
-</div>
-
-
     
-<!--Scriptitem-->
+
+
+    <!--Scriptitem-->
 
     <q-card bordered class="q-ma-md" v-if="store.CurScript != ''">
       <q-card-section class="row">
@@ -114,18 +161,11 @@ import RedeemerView from 'src/components/RedeemerView.vue';
 const store = useScriptStore();
 
 const pID = ref('')
-
 const searchScript = ref('')
-
-const loggedIn = computed(() => {
-  return store.ApiDetails.pid !== ''
-})
-
 
 const cTC = function () {
   const textToCopy = store.CurScript
-    return navigator.clipboard.writeText(textToCopy);
-  
+  return navigator.clipboard.writeText(textToCopy);
 }
 
 const rLoaded = computed(() => {
@@ -149,61 +189,3 @@ const variant = computed(() => {
 )
 
 </script>
-
-
-<style>
-.popover__wrapper {
-    position: relative;
-}
-
-.popover__content {
-    opacity: 0;
-    visibility: hidden;
-    position: absolute;
-    font-size: 12px;
-    left: 0%;
-    top: 90%;
-    transform: translate(0px, 10px);
-    border-radius: 5px;
-    color: black;
-    background-color: white;
-    padding: 0.5em;
-    border: 1px solid #dc500f;
-    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
-
-}
-
-.popover__content::after,
-.popover__content::before {
-    display: block;
-    box-sizing: border-box;
-    border-right: 1px solid transparent;
-    background-color: white;
-
-}
-
-.popover__content::before {
-    content: "";
-    position: absolute;
-    width: 12px;
-    height: 12px;
-    border-left: 1px solid #dc500f;
-    border-top: 1px solid #dc500f;
-    border-bottom: 1px solid transparent;
-
-    transform: rotate(45deg) skew(10deg, 10deg);
-    top: -6px;
-    left: 8px;
-    bottom: -13px;
-    transition-duration: 0.3s;
-    transition-property: transform;
-}
-
-.popover__wrapper:hover .popover__content {
-    z-index: 10;
-    opacity: 1;
-    visibility: visible;
-    transform: translate(0px, 0px);
-    transition: all 0.5s cubic-bezier(0.75, -0.02, 0.2, 0.97);
-}
-</style>

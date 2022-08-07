@@ -8,6 +8,7 @@ export const useScriptStore = defineStore('scr', {
             url: '',
             pid: ''
         },
+        LoggedIn: false,
 
         ScriptList: [],
         SLLoading: false,
@@ -27,18 +28,34 @@ export const useScriptStore = defineStore('scr', {
 
     }),
     actions: {
-        setApi(pID) {
+        async setApi(pID) {
             //Check API Credentials
             this.ApiDetails = {
                 url: (pID.slice(0, 7) === "mainnet") ? 'https://cardano-mainnet.blockfrost.io/api/v0/' : 'https://cardano-testnet.blockfrost.io/api/v0/',
                 pid: pID
             }
+            try {
+                const data = await axios.get(this.ApiDetails.url, {
+                    headers: {
+                        project_id: this.ApiDetails.pid
+                    }
+                })
+                if(data.data.url !== '') this.LoggedIn = true
+
+            } catch (err){
+                this.ApiDetails ={
+                    url: '',
+                    pid: ''
+                }
+                this.LoggedIn = false
+            }        
         },
         clearApi() {
             this.ApiDetails = {
                 url: '',
                 pid: ''
             }
+            this.LoggedIn =false
         },
         async loadMoreScripts() {
             try {
