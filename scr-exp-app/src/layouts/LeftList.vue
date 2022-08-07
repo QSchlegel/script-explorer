@@ -4,7 +4,7 @@
             <q-item-section>
                 <q-btn  :style='{"background-color": (store.CurScript == s)? "lightgrey": "white"}' 
                         @click="store.CurScript = s; store.loadScriptData()"
-                        >
+                        :disabled="!store.LoggedIn">
                     {{s.slice(0,10)+ " ... " + s.slice(s.length-10)}}
                 </q-btn>
                 

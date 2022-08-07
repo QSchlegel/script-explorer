@@ -5,7 +5,7 @@
       <q-toolbar>
         <q-btn dense flat round icon="menu" @click="toggleLeftDrawer" />
         <q-toolbar-title >
-            <p class="q-mt-none q-mb-none" style="font-size:small">Script Explorer</p>
+            <p class="q-mt-none q-mb-none" style="font-size:small">Script-Explorer</p>
             
           
         </q-toolbar-title>
