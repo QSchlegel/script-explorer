@@ -1,19 +1,24 @@
 <template>
 
-
+    
     <div :style='{ "background-color": "white", "border": (props.put == "inputs") ? "1px solid blue" : "1px solid red" }'>
         <q-list>
             <q-item class="text-h6 flex flex-center">{{ props.put }}</q-item>
 
+            <!--Individual UtxOs-->
             <div v-for='i, index  in store.TxList.filter((f) => f.hash == store.CurTx).map((m) => (put == "inputs") ? m.inputs : m.outputs)[0]'
                 :key="index">
 
-                <div class="q-px-sm q-py-md">
+                <div class="q-px-sm q-py-md"  >
                     <q-card>
+                        <!--Take Colateral in to Account-->
                         <div class="q-pa-md flex flex-center">
-                            <div>
-                                {{ i.address.slice(10, 20) + " ... " +
-                                        i.address.slice(i.address.length - 10) + " - " + i.output_index
+                            <div v-if='props.put == "inputs"'>
+                                {{ i.tx_hash + " - " + i.output_index
+                                }}
+                            </div>
+                            <div v-if='props.put == "outputs"'>
+                                {{ tx_hash + " - " + i.output_index
                                 }}
                             </div>
                             <div class=" q-pa-sm popover__title popover__wrapper">
@@ -25,7 +30,7 @@
                         </div>
 
                         <div class="q-pa-xs">
-                            <q-list bordered separator v-for="j, index in i.amount" :key="index">
+                            <q-list bordered separator v-for="j, jndex in i.amount" :key="jndex">
                                 <div class="row q-pa-sm" v-if="j.unit == 'lovelace'">
                                     <div class="col-6 q-pl-md">
                                         ₳
@@ -76,7 +81,8 @@ import { useScriptStore } from 'stores/script-store';
 
 const store = useScriptStore();
 const props = defineProps({
-    put: String
+    put: String,
+    tx_hash: String
 })
 
 </script>
