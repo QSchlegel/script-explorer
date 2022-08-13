@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="text-center" id="Sankey"></div>
+    <div class="text-center" id="Sankey" v-if="props.tx_hash == store.CurTx"></div>
   </div>
 </template>
 <script setup>
@@ -8,6 +8,9 @@ import * as d3 from "d3"
 import * as d3Sankey from "d3-sankey"
 import { useScriptStore } from 'stores/script-store';
 import { onMounted } from "vue";
+const props = defineProps({
+    tx_hash: String
+})
 
 const store = useScriptStore();
 const SankeyChart = ({

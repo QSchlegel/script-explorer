@@ -86,7 +86,8 @@
                 v-if='store.CurTx == tx.tx_hash && store.CurTxIndex === tx.tx_index && !utxLoaded' />
 
             <SankeyTry  v-if="store.CurTx === tx.tx_hash && store.CurTxIndex === tx.tx_index &&  store.TxList.filter((f) => f.hash === store.CurTx).length > 0"
-                        class="q-ma-md"></SankeyTry>
+                        class="q-ma-md"
+                        :tx_hash="tx.tx_hash"></SankeyTry>
 
             <q-card-section v-if="store.CurTx == tx.tx_hash && store.CurTxIndex === tx.tx_index &&  utxLoaded">
 
