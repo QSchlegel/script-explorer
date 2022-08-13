@@ -10,7 +10,7 @@
                 <div class="q-pa-sm q-pl-xl text-center col-12 col-sm-6 col-md-3 row">
                     <div class="">
                         <q-btn flat round icon="chevron_right" @click="store.CurTx = tx.tx_hash; store.CurTxIndex = tx.tx_index"
-                            v-if="(store.CurTx !== tx.tx_hash && store.CurTxIndex !== tx.tx_index || store.CurTx === tx.tx_hash && store.CurTxIndex !== tx.tx_index)" :disabled="!store.LoggedIn"/>
+                            v-if="(store.CurTx !== tx.tx_hash || store.CurTx === tx.tx_hash && store.CurTxIndex !== tx.tx_index)" :disabled="!store.LoggedIn"/>
                         <q-btn flat round icon="keyboard_arrow_down" @click="store.CurTx = ''; store.CurTxIndex = ''"
                             v-if="store.CurTx === tx.tx_hash && store.CurTxIndex === tx.tx_index" />
                     </div>
@@ -84,7 +84,10 @@
 
             <q-linear-progress query track-color="primary" color="accent" class="q-mt-sm"
                 v-if='store.CurTx == tx.tx_hash && store.CurTxIndex === tx.tx_index && !utxLoaded' />
-            <SankeyTry v-if="store.CurTx === tx.tx_hash && store.CurTxIndex === tx.tx_index &&  store.TxList.filter((f) => f.hash === store.CurTx).length > 0"></SankeyTry>
+
+            <SankeyTry  v-if="store.CurTx === tx.tx_hash && store.CurTxIndex === tx.tx_index &&  store.TxList.filter((f) => f.hash === store.CurTx).length > 0"
+                        class="q-ma-md"></SankeyTry>
+
             <q-card-section v-if="store.CurTx == tx.tx_hash && store.CurTxIndex === tx.tx_index &&  utxLoaded">
 
                 <div class="row justify-center">

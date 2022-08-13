@@ -14,11 +14,11 @@
                         <!--Take Colateral in to Account-->
                         <div class="q-pa-md flex flex-center">
                             <div v-if='props.put == "inputs"'>
-                                {{ i.tx_hash + " - " + i.output_index
+                                {{ i.tx_hash.slice(0,5)+"..."+i.tx_hash.slice(i.tx_hash.length-5) + " - " + i.output_index
                                 }}
                             </div>
                             <div v-if='props.put == "outputs"'>
-                                {{ tx_hash + " - " + i.output_index
+                                {{ tx_hash.slice(0,5)+"..."+tx_hash.slice(tx_hash.length-5) + " - " + i.output_index
                                 }}
                             </div>
                             <div class=" q-pa-sm popover__title popover__wrapper">

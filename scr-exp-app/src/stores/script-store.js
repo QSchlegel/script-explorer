@@ -168,40 +168,24 @@ export const useScriptStore = defineStore('scr', {
                 if (u === "lovelace") return "₳"
                 return u.slice(0, 3) + "..." + u.slice(u.length - 3)
             }
-            const shortenTx = (tx) => { return tx.slice(0, 3) + "..." + tx.slice(tx.length - 3) }
+            //const shortenTx = (tx) => { return tx.slice(0, 3) + "..." + tx.slice(tx.length - 3) }
             const shortenAddr = (a) => {return a.slice(0, 3) + "..." + a.slice(a.length - 5)}
             
             //Inputs
             //Input addr to values
             valIn.map((m) =>
                 l.push({
-                    source: shortenAddr(m.addr) + "-i",
-                    target: shortenUnit(m.unit) + "-i",
+                    source: shortenAddr(m.addr),
+                    target: shortenUnit(m.unit),
                     value: calcPrice(m.unit, m.quantity)
                 }))
 
-            //Values In to tx 
-            valIn.map((m) =>
-                l.push({
-                    source: shortenUnit(m.unit) + "-i",
-                    target: shortenTx(CurTx),
-                    value: calcPrice(m.unit, m.quantity)
-                })
-            )
-            // Outputs
-            //tx  to Values Out
+            
+            //Values to Output tx ToDo: Collateral
             valOut.map((m) =>
                 l.push({
-                    source: shortenTx(CurTx),
-                    target: shortenUnit(m.unit) + "-o",
-                    value: calcPrice(m.unit, m.quantity)
-                })
-            )
-            //Values to Output tx
-            valOut.map((m) =>
-                l.push({
-                    source: shortenUnit(m.unit) + "-o",
-                    target: shortenAddr(m.addr) + "-o",
+                    source: shortenUnit(m.unit),
+                    target: shortenAddr(m.addr),
                     value: calcPrice(m.unit, m.quantity)
                 }))
             const n = [... new Set(l.map((m) => m.source)), ... new Set(l.map((m) => m.target))]
