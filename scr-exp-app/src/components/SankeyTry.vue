@@ -1,18 +1,43 @@
 <template>
   <div>
-    <div class="text-center" id="Sankey" v-if="props.tx_hash == store.CurTx"></div>
+    <div   class="text-center" id="Sankey" v-if="props.tx_hash == store.CurTx "></div>
   </div>
 </template>
 <script setup>
 import * as d3 from "d3"
 import * as d3Sankey from "d3-sankey"
 import { useScriptStore } from 'stores/script-store';
-import { onMounted } from "vue";
+import { onMounted,computed,reactive } from "vue";
+import { useMediaQuery } from '@vueuse/core'
 const props = defineProps({
     tx_hash: String
 })
-
 const store = useScriptStore();
+
+//ToDo: Resizing in accordance with device width
+const isLargeScreen = useMediaQuery('(min-width: 1024px)')
+const isLS = computed(()=>reactive(isLargeScreen))
+
+
+
+onMounted(() => {
+  const graph = store.GraphList.filter((f) => f.id === store.CurTx)[0]
+  //console.log(graph)
+  const chart = SankeyChart({
+    links: graph.links
+  }, {
+    nodeGroup: d => d.id.split(/\W/)[0],
+    nodeAlign:"right", 
+    linkColor:"source-target",
+    format: (f => d => `${f(d)}`)(d3.format(",.1~f")),
+    width: (isLS)?1200:400, 
+    height: 300
+  })
+
+  d3.select("#Sankey").append(() => chart);
+})
+
+
 const SankeyChart = ({
   nodes, // an iterable of node objects (typically [{id}, …]); implied by links if missing
   links // an iterable of link objects (typically [{source, target}, …])
@@ -26,7 +51,7 @@ const SankeyChart = ({
   nodeTitle = d => `${d.id}\n${format(d.value)}`, // given d in (computed) nodes, hover text
   nodeAlign = align, // Sankey node alignment strategy: left, right, justify, center
   nodeWidth = 15, // width of node rects
-  nodePadding = 10, // vertical separation between adjacent nodes
+  nodePadding = 18, // vertical separation between adjacent nodes
   nodeLabelPadding = 6, // horizontal separation between node and label
   nodeStroke = "currentColor", // stroke around node rects
   nodeStrokeWidth, // width of stroke around node rects, in pixels
@@ -43,9 +68,9 @@ const SankeyChart = ({
   colors = d3.schemeTableau10, // array of colors
   width = 640, // outer width, in pixels
   height = 400, // outer height, in pixels
-  marginTop = 5, // top margin, in pixels
+  marginTop = 10, // top margin, in pixels
   marginRight = 1, // right margin, in pixels
-  marginBottom = 5, // bottom margin, in pixels
+  marginBottom = 10, // bottom margin, in pixels
   marginLeft = 1, // left margin, in pixels
 } = {}) => {
   // Convert nodeAlign from a name to a function (since d3-sankey is not part of core d3).
@@ -146,7 +171,7 @@ const SankeyChart = ({
 
   if (Tl) svg.append("g")
     .attr("font-family", "sans-serif")
-    .attr("font-size", 10)
+    .attr("font-size", 14)
     .selectAll("text")
     .data(nodes)
     .join("text")
@@ -163,20 +188,5 @@ const SankeyChart = ({
   return Object.assign(svg.node(), { scales: { color } });
 }
 
-onMounted(() => {
-  const graph = store.GraphList.filter((f) => f.id === store.CurTx)[0]
-  //console.log(graph)
-  const chart = SankeyChart({
-    links: graph.links
-  }, {
-    nodeGroup: d => d.id.split(/\W/)[0],
-    nodeAlign:"right", // e.g., d3.sankeyJustify; set by input above
-    linkColor:"source-target",
-    format: (f => d => `${f(d)} 🪙`)(d3.format(",.1~f")),
-    width: 1000,
-    height: 400
-  })
 
-  d3.select("#Sankey").append(() => chart);
-})
 </script>

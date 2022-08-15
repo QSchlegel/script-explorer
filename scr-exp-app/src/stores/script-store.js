@@ -49,19 +49,12 @@ export const useScriptStore = defineStore('scr', {
                 }
 
             } catch (err) {
-                this.ApiDetails = {
-                    url: '',
-                    pid: ''
-                }
-                this.LoggedIn = false
+                this.clearApi()
             }
         },
         clearApi() {
-            this.ApiDetails = {
-                url: '',
-                pid: ''
-            }
-            this.LoggedIn = false
+            this.$reset()
+            
         },
         async loadMoreScripts() {
             try {
@@ -158,33 +151,54 @@ export const useScriptStore = defineStore('scr', {
 
             const tx = this.TxList.filter((f) => f.hash === this.CurTx)[0]
             const l = []
-            const valIn  = tx.inputs .map((m) => m.amount.map((n) => Object.assign(n, { addr: m.tx_hash + "-" + m.output_index }))).flat()
-            const valOut = tx.outputs.map((m) => m.amount.map((n) => Object.assign(n, { addr: this.CurTx + "-" + m.output_index }))).flat()
+            const valIn  = tx.inputs .map((m) => m.amount.map((n) => Object.assign(n, { utxo: m.tx_hash + "-" + m.output_index, addr:m.address, collateral:m.collateral }))).flat()
+            const valOut = tx.outputs.map((m) => m.amount.map((n) => Object.assign(n, { utxo: this.CurTx + "-"+ m.output_index, addr:m.address+" " }))).flat()
             const calcPrice = (u, q) => {
                 if (u === "lovelace") q = q / 1000000
                 return q
             }
             const shortenUnit = (u) => {
                 if (u === "lovelace") return "₳"
-                return u.slice(0, 3) + "..." + u.slice(u.length - 3)
+                return u.slice(0, 3) + " ... " + u.slice(u.length - 3)+" 📦"
             }
-            //const shortenTx = (tx) => { return tx.slice(0, 3) + "..." + tx.slice(tx.length - 3) }
-            const shortenAddr = (a) => {return a.slice(0, 3) + "..." + a.slice(a.length - 5)}
+            const shortenUtxO = (tx) => { return tx.slice(0, 3) + " ... " + tx.slice(tx.length - 5) +" 💸" }
+            const shortenAddr = (a)  => { return a.slice(10, 15)  + " ... " + a.slice(a.length - 6) +" 📍"}
             
             //Inputs
-            //Input addr to values
-            valIn.map((m) =>
+            valIn.map((m)=>
                 l.push({
                     source: shortenAddr(m.addr),
+                    target: shortenUtxO(m.utxo),
+                    value: calcPrice(m.unit, m.quantity)
+                }))
+            //Input utxo to values
+            valIn.map((m) =>
+                (m.collateral)? l.push({
+                    source: shortenUtxO(m.utxo),
+                    target: "Collateral",
+                    value: calcPrice(m.unit, m.quantity)
+                },{
+                    source: shortenUtxO(m.utxo),
+                    target: shortenUnit(m.unit),
+                    value: calcPrice(m.unit, m.quantity)
+                }):l.push({
+                    source: shortenUtxO(m.utxo),
                     target: shortenUnit(m.unit),
                     value: calcPrice(m.unit, m.quantity)
                 }))
 
             
-            //Values to Output tx ToDo: Collateral
+            //Outputs
+            //values to output utxo
             valOut.map((m) =>
                 l.push({
                     source: shortenUnit(m.unit),
+                    target: shortenUtxO(m.utxo),
+                    value: calcPrice(m.unit, m.quantity)
+                }))
+            valOut.map((m)=>
+                l.push({
+                    source: shortenUtxO(m.utxo),
                     target: shortenAddr(m.addr),
                     value: calcPrice(m.unit, m.quantity)
                 }))

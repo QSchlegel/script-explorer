@@ -4,35 +4,43 @@
     <div :style='{ "background-color": "white", "border": (props.put == "inputs") ? "1px solid blue" : "1px solid red" }'>
         <q-list>
             <q-item class="text-h6 flex flex-center">{{ props.put }}</q-item>
-
+            <!--ToDo: Group by Address-->
             <!--Individual UtxOs-->
             <div v-for='i, index  in store.TxList.filter((f) => f.hash == store.CurTx).map((m) => (put == "inputs") ? m.inputs : m.outputs)[0]'
                 :key="index">
 
                 <div class="q-px-sm q-py-md"  >
-                    <q-card>
-                        <!--Take Colateral in to Account-->
-                        <div class="q-pa-md flex flex-center">
+                    <q-card  :class='(i.collateral)?"bg-warning":""'>
+                    <div class="q-pa-md flex flex-center" > 
+                        <div class=" q-pa-sm popover__title popover__wrapper">
+                            📍 
+                            <p class="popover__content">Address</p>
+                        </div>
+                            {{i.address.slice(0,17)+" ... "+i.address.slice(i.address.length-7)}}
+                    </div>
+
+                        <div class="q-pa-md flex flex-center" >
+                            <div class=" q-pa-sm popover__title popover__wrapper">
+                                💸 
+                                <p class="popover__content">UnspentTransactionOutput: UtxO-Index</p>
+                            </div>
                             <div v-if='props.put == "inputs"'>
-                                {{ i.tx_hash.slice(0,5)+"..."+i.tx_hash.slice(i.tx_hash.length-5) + " - " + i.output_index
+                                {{ i.tx_hash.slice(0,5)+" ... "+i.tx_hash.slice(i.tx_hash.length-5) + " - " + i.output_index
                                 }}
                             </div>
                             <div v-if='props.put == "outputs"'>
-                                {{ tx_hash.slice(0,5)+"..."+tx_hash.slice(tx_hash.length-5) + " - " + i.output_index
+                                {{ tx_hash.slice(0,5)+" ... "+tx_hash.slice(tx_hash.length-5) + " - " + i.output_index
                                 }}
                             </div>
-                            <div class=" q-pa-sm popover__title popover__wrapper">
-                                💸
-                                <p class="popover__content">UnspentTransactionOutput: Address-Index</p>
-                            </div>
+                            
 
 
                         </div>
 
-                        <div class="q-pa-xs">
+                        <div class="q-pa-xs ">
                             <q-list bordered separator v-for="j, jndex in i.amount" :key="jndex">
-                                <div class="row q-pa-sm" v-if="j.unit == 'lovelace'">
-                                    <div class="col-6 q-pl-md">
+                                <div class="row q-pa-sm bg-white" v-if="j.unit == 'lovelace'">
+                                    <div class="col-6 q-pl-md ">
                                         ₳
                                     </div>
 
