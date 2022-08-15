@@ -1,14 +1,15 @@
 import { defineStore } from 'pinia';
 import axios from "axios"
+import { useStorage } from '@vueuse/core'
 
 export const useScriptStore = defineStore('scr', {
     state: () => ({
 
-        ApiDetails: {
-            url: '',
-            pid: ''
-        },
-        LoggedIn: false,
+        ApiDetails: useStorage('ApiDetails',{
+            url: String,
+            pid: String
+        }),
+        LoggedIn: useStorage('LoggedIn', Boolean),
 
         ScriptList: [],
         SLLoading: false,
@@ -54,6 +55,8 @@ export const useScriptStore = defineStore('scr', {
         },
         clearApi() {
             this.$reset()
+            this.ApiDetails = {}
+            this.LoggedIn = false
             
         },
         async loadMoreScripts() {

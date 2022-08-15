@@ -30,8 +30,8 @@ onMounted(() => {
     nodeAlign:"right", 
     linkColor:"source-target",
     format: (f => d => `${f(d)}`)(d3.format(",.1~f")),
-    width: (isLS)?1200:400, 
-    height: 300
+    width: (isLS)?1500:800, 
+    height: 700
   })
 
   d3.select("#Sankey").append(() => chart);
