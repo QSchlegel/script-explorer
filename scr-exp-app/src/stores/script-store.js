@@ -161,17 +161,17 @@ export const useScriptStore = defineStore('scr', {
                 return q
             }
             const shortenUnit = (u) => {
-                if (u === "lovelace") return "₳"
-                return u.slice(0, 3) + " ... " + u.slice(u.length - 3)+" 📦"
+                if (u === "lovelace") return "Ada_₳"
+                return "Unit_"+u.slice(0, 3) + " ... " + u.slice(u.length - 3)
             }
-            const shortenUtxO = (tx) => { return tx.slice(0, 3) + " ... " + tx.slice(tx.length - 5) +" 💸" }
-            const shortenAddr = (a)  => { return a.slice(10, 15)  + " ... " + a.slice(a.length - 6) +" 📍"}
+            const shortenUtxO = (tx) => { return "UtxO_"+tx.slice(0, 3) + " ... " + tx.slice(tx.length - 5)}
+            const shortenAddr = (a)  => { return "Addr_"+a.slice(10, 15)  + " ... " + a.slice(a.length - 6)}
 
-            //ToDo: Recognise Burns 🔥 and mints 🔨
+            //Detect Burns 🔥 and Mints 🔨
             valOut.map((m)=>
                 (valIn.filter((f) => f.unit === m.unit  ).length === 0 && m.unit !== "lovelace")?
                     l.push({
-                        source: "Mint 🔨",
+                        source: "m_Mint 🔨",
                         target: shortenUnit(m.unit),
                         value: calcPrice(m.unit, m.quantity)
                     }):m
@@ -180,7 +180,7 @@ export const useScriptStore = defineStore('scr', {
                 (valOut.filter((f) => f.unit === m.unit  ).length === 0 && m.unit !== "lovelace")?
                     l.push({
                         source: shortenUnit(m.unit),
-                        target: "Burn 🔥",
+                        target: "b_Burn 🔥",
                         value: calcPrice(m.unit, m.quantity)
                     }):m
             )
@@ -200,7 +200,7 @@ export const useScriptStore = defineStore('scr', {
                     value: calcPrice(m.unit, m.quantity)
                 },{
                     source: shortenUnit(m.unit),
-                    target: "Collateral",
+                    target: "c_Collateral",
                     value: calcPrice(m.unit, m.quantity)
                 }):l.push({
                     source: shortenUtxO(m.utxo),

@@ -22,16 +22,18 @@ const isLS = computed(()=>reactive(isLargeScreen))
 
 onMounted(() => {
   const graph = store.GraphList.filter((f) => f.id === store.CurTx)[0]
-  //console.log(graph)
   const chart = SankeyChart({
     links: graph.links
   }, {
-    nodeGroup: d => d.id.split(/\W/)[0],
+    nodeGroup: d => d.id.split('_')[0],
+    nodeLabel: d => d.id.split('_').pop(),
     align:"right", 
     linkColor:"source-target",
     format: (f => d => `${f(d)}`)(d3.format(",.1~f")),
     width: (isLS)?1500:800, 
-    height: 700
+    height: 700,
+    nodeGroups: ['Ada'    ,'Unit'     ,'b'       ,'UtxO'      ,'m'        ,'c'        ,'Addr'],
+    colors:     ["#0130a7","#d8b88f"  ,"#f72922" ,"#87a4ed"   ,"#86d865"  ,"#f86300"  ,"#f7bc42", "#7f7f7f", "#bcbd22", "#17becf"]
   })
 
   d3.select("#Sankey").append(() => chart);
