@@ -27,7 +27,7 @@ onMounted(() => {
     links: graph.links
   }, {
     nodeGroup: d => d.id.split(/\W/)[0],
-    nodeAlign:"right", 
+    align:"right", 
     linkColor:"source-target",
     format: (f => d => `${f(d)}`)(d3.format(",.1~f")),
     width: (isLS)?1500:800, 

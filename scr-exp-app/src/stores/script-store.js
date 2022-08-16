@@ -166,7 +166,25 @@ export const useScriptStore = defineStore('scr', {
             }
             const shortenUtxO = (tx) => { return tx.slice(0, 3) + " ... " + tx.slice(tx.length - 5) +" 💸" }
             const shortenAddr = (a)  => { return a.slice(10, 15)  + " ... " + a.slice(a.length - 6) +" 📍"}
-            
+
+            //ToDo: Recognise Burns 🔥 and mints 🔨
+            valOut.map((m)=>
+                (valIn.filter((f) => f.unit === m.unit  ).length === 0 && m.unit !== "lovelace")?
+                    l.push({
+                        source: "Mint 🔨",
+                        target: shortenUnit(m.unit),
+                        value: calcPrice(m.unit, m.quantity)
+                    }):m
+            )
+            valIn.map((m)=>
+                (valOut.filter((f) => f.unit === m.unit  ).length === 0 && m.unit !== "lovelace")?
+                    l.push({
+                        source: shortenUnit(m.unit),
+                        target: "Burn 🔥",
+                        value: calcPrice(m.unit, m.quantity)
+                    }):m
+            )
+
             //Inputs
             valIn.map((m)=>
                 l.push({
@@ -178,11 +196,11 @@ export const useScriptStore = defineStore('scr', {
             valIn.map((m) =>
                 (m.collateral)? l.push({
                     source: shortenUtxO(m.utxo),
-                    target: "Collateral",
+                    target: shortenUnit(m.unit),
                     value: calcPrice(m.unit, m.quantity)
                 },{
-                    source: shortenUtxO(m.utxo),
-                    target: shortenUnit(m.unit),
+                    source: shortenUnit(m.unit),
+                    target: "Collateral",
                     value: calcPrice(m.unit, m.quantity)
                 }):l.push({
                     source: shortenUtxO(m.utxo),
@@ -198,13 +216,12 @@ export const useScriptStore = defineStore('scr', {
                     source: shortenUnit(m.unit),
                     target: shortenUtxO(m.utxo),
                     value: calcPrice(m.unit, m.quantity)
-                }))
-            valOut.map((m)=>
-                l.push({
+                },{
                     source: shortenUtxO(m.utxo),
                     target: shortenAddr(m.addr),
                     value: calcPrice(m.unit, m.quantity)
                 }))
+            
             const n = [... new Set(l.map((m) => m.source)), ... new Set(l.map((m) => m.target))]
             this.GraphList.push({
                 id: CurTx,
