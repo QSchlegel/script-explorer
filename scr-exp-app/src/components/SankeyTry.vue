@@ -32,8 +32,8 @@ onMounted(() => {
     format: (f => d => `${f(d)}`)(d3.format(",.1~f")),
     width: (isLS)?1500:800, 
     height: 700,
-    nodeGroups: ['Ada'    ,'Unit'     ,'b'       ,'UtxO'      ,'m'        ,'c'        ,'Addr'],
-    colors:     ["#0130a7","#d8b88f"  ,"#f72922" ,"#87a4ed"   ,"#86d865"  ,"#f86300"  ,"#f7bc42", "#7f7f7f", "#bcbd22", "#17becf"]
+    nodeGroups: ['Ada'    ,'Unit'     ,'b'       ,'inUtxO'      ,'m'        ,'c'        ,'inAddr','outUtxO','outAddr'],
+    colors:     ["#4b855e","#d8b88f"  ,"#f72922" ,"#87a4ed"   ,"#07fc03"  ,"#fcf803"  ,"#0130a7", "#f75e5e", "#f70202", "#17becf"]
   })
 
   d3.select("#Sankey").append(() => chart);

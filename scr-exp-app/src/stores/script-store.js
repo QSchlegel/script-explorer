@@ -188,14 +188,14 @@ export const useScriptStore = defineStore('scr', {
             //Inputs
             valIn.map((m)=>
                 l.push({
-                    source: shortenAddr(m.addr),
-                    target: shortenUtxO(m.utxo),
+                    source: "in"+shortenAddr(m.addr),
+                    target: "in"+shortenUtxO(m.utxo),
                     value: calcPrice(m.unit, m.quantity)
                 }))
             //Input utxo to values
             valIn.map((m) =>
                 (m.collateral)? l.push({
-                    source: shortenUtxO(m.utxo),
+                    source: "in"+shortenUtxO(m.utxo),
                     target: shortenUnit(m.unit),
                     value: calcPrice(m.unit, m.quantity)
                 },{
@@ -203,7 +203,7 @@ export const useScriptStore = defineStore('scr', {
                     target: "c_Collateral",
                     value: calcPrice(m.unit, m.quantity)
                 }):l.push({
-                    source: shortenUtxO(m.utxo),
+                    source: "in"+shortenUtxO(m.utxo),
                     target: shortenUnit(m.unit),
                     value: calcPrice(m.unit, m.quantity)
                 }))
@@ -214,11 +214,11 @@ export const useScriptStore = defineStore('scr', {
             valOut.map((m) =>
                 l.push({
                     source: shortenUnit(m.unit),
-                    target: shortenUtxO(m.utxo),
+                    target: "out"+shortenUtxO(m.utxo),
                     value: calcPrice(m.unit, m.quantity)
                 },{
-                    source: shortenUtxO(m.utxo),
-                    target: shortenAddr(m.addr),
+                    source: "out"+shortenUtxO(m.utxo),
+                    target: "out"+shortenAddr(m.addr),
                     value: calcPrice(m.unit, m.quantity)
                 }))
             
