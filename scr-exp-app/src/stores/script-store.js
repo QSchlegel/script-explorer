@@ -165,8 +165,10 @@ export const useScriptStore = defineStore('scr', {
                 return "Unit_"+u.slice(0, 3) + " ... " + u.slice(u.length - 3)
             }
             const shortenUtxO = (tx) => { return "UtxO_"+tx.slice(0, 3) + " ... " + tx.slice(tx.length - 5)}
-            const shortenAddr = (a)  => { return "Addr_"+a.slice(10, 15)  + " ... " + a.slice(a.length - 6)}
+            const shortenAddr = (a)  => { return "Addr_"+a.slice(5, 15)  + " ... " + a.slice(a.length - 6)}
 
+            //ToDo Display Fees
+            
             //Detect Burns 🔥 and Mints 🔨
             valOut.map((m)=>
                 (valIn.filter((f) => f.unit === m.unit  ).length === 0 && m.unit !== "lovelace")?
