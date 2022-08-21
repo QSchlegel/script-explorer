@@ -9,10 +9,10 @@
     <div class="q-mt-sm q-mb-xs col" v-if='props.data.type == "after"'>{{ "After Slot: " + props.data.slot + " 🕰" }}</div>
 
     <div class="q-ma-md"  v-if='props.data.type == "all" || props.data.type == "any" || props.data.type == "atLeast"'>
-        <div class="text-h6" v-if='props.data.type == "atLeast"'> {{ "Requiered Conditions: " + props.data.type + " - " +
+        <div class="text-h6" v-if='props.data.type == "atLeast"'> {{ "Required Conditions: " + props.data.type + " - " +
                 props.data.required
         }}</div>
-        <div class="text-bold" v-if='props.data.type != "atLeast"'>{{ "Requiered Conditions: " + props.data.type }}</div>
+        <div class="text-bold" v-if='props.data.type != "atLeast"'>{{ "Required Conditions: " + props.data.type }}</div>
 
         <q-list bordered v-for='j, index in props.data.scripts' :key="index">
             

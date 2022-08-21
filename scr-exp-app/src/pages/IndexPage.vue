@@ -39,39 +39,54 @@
     <q-card class="col-12 col-sm-6 q-ma-md" v-if="!store.LoggedIn">
       <q-card-section>
         <q-card-section class="text-h5 q-pt-md q-pl-md q-pb-none row">
-          <div class="col-auto q-ma-xs">How to use the Script Explorer ?</div>
           <div class="col-auto">
-            <q-btn flat round icon="chevron_left" @click="infoToggle = !infoToggle" v-if="!infoToggle" />
+            <q-btn flat round icon="chevron_right" @click="infoToggle = !infoToggle" v-if="!infoToggle" />
             <q-btn flat round icon="keyboard_arrow_down" @click="infoToggle = !infoToggle" v-if="infoToggle" />
           </div>
-
+          <div class="col-10 q-ma-xs">How to use the Script Explorer ?</div>
         </q-card-section>
+
         <q-card-section v-if="infoToggle">
           <ol>
-            <li>Setup <a href="https://blockfrost.io" target="_blank">Blockfrost</a> Project</li>
-            <li>Setup <a href="https://blockfrost.io" target="_blank">Blockfrost</a> Project</li>
+            <li>Create a <a href="https://blockfrost.io" target="_blank">Blockfrost</a> Account</li>
+            <li>Setup a <a href="https://blockfrost.io" target="_blank">Blockfrost</a> Project</li>
+            <li>Find the Project ID on the <a href="https://blockfrost.io" target="_blank">Blockfrost</a> Dashboard.
+            </li>
             <li>Enter the Project ID in the Field above.</li>
-            <li>Load or Find Scripts to look at.</li>
+            <li>Load Scripts from the Scriptlist or Find Scripts with the searchbar.</li>
           </ol>
-          <q-card-section class="text-h5 q-pt-md q-pl-md">
-            How does the Script Explorer work?
-          </q-card-section>
-          <q-card-section>
-            The Script Explorer is a Frontend and requires a Backend, which provides data.<br />
-            The Script Explorer does not have its own Backend. <br />
-            Instead it uses the <a href="https://blockfrost.io" target="_blank">Blockfrost</a> Backend (REST API).
-            <br />
-            That is why you have to setup a free Blockfrost Account and a Project. <br /> <br />
-            Once you give the project ID to the Script Explorer, it can fetch data from the Backend on your behalf.
-            <br />
-            The Script Explorer currently saves no data persistently. <br />
-            Also the Script Explorer is still under development, so please excuse some rough Edges. <br />
-            None the less have fun exploring.
-          </q-card-section>
 
           <q-card bordered class="q-ma-xl">
             <q-video :ratio="18 / 9" class="q-ma-md" src="https://www.youtube.com/embed/6L0f7zNanY8" />
           </q-card>
+        </q-card-section>
+      </q-card-section>
+
+    </q-card>
+    <q-card class="col-12 col-sm-6 q-ma-md" v-if="!store.LoggedIn">
+      <q-card-section>
+        <q-card-section class="text-h5 q-pt-md q-pl-md q-pb-none row">
+          <div class="col-auto">
+            <q-btn flat round icon="chevron_right" @click="infoToggle2 = !infoToggle2" v-if="!infoToggle2" />
+            <q-btn flat round icon="keyboard_arrow_down" @click="infoToggle2 = !infoToggle2" v-if="infoToggle2" />
+          </div>
+          <div class="col-10 q-ma-xs">Nice to know! ℹ️</div>
+        </q-card-section>
+
+        <q-card-section v-if="infoToggle2" >
+          The Script Explorer is a Frontend and requires a Backend, which provides data.<br />
+          The Script Explorer does not have its own Backend. <br />
+          Instead it uses the <a href="https://blockfrost.io" target="_blank">Blockfrost</a> Backend.
+          <br />
+          That is why you have to setup at least a free Blockfrost Account and a Project, which gives you a Project ID
+          <br /> <br />
+          Once you give the Project ID to the Script Explorer, it can fetch data from the Backend on your behalf.
+          <br />
+          The Script Explorer only saves your Project ID in local storage as a cookie. 🍪<br />
+          Also the Script Explorer is still under development, so please excuse some rough Edges. <br />
+          None the less have fun exploring.<br /> <br />
+          If you have specific feature requests, questions or something seems wrong.<br />
+          Feel free to contact me: <a href="mailto:quirin.schlegel@icloud.com">quirin.schlegel@icloud.com</a>
         </q-card-section>
 
 
@@ -115,6 +130,7 @@ const store = useScriptStore();
 const pID = ref('')
 const searchScript = ref('')
 const infoToggle = ref(false)
+const infoToggle2 = ref(false)
 
 const cTC = function () {
   const textToCopy = store.CurScript
