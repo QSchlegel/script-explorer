@@ -90,58 +90,13 @@
 
       </q-card-section>
 
-      <!--ToDo build Timelock Script Component-->
+      <!--Timelock Script-->
 
       <q-card-section v-if='variant == "timelock"'>
-        <q-separator />
-        <q-list bordered padding class="rounded-borders">
-
-          <q-item>
-            <q-item-section avatar>
-              <q-icon name="lock_outline" />
-            </q-item-section>
-            <q-item-section>
-              {{ store.ScrJson.type }}
-            </q-item-section>
-
-            <q-item-section v-if='store.ScrJson.type == "atLeast"'>
-              {{ store.ScrJson.required }}
-            </q-item-section>
-          </q-item>
-
-          <div v-if='store.ScrJson.type == "sig"'>
-            <q-separator spaced />
-            <q-item v-if='store.ScrJson.type == "sig"'>
-              {{ store.ScrJson.keyHash }}
-              <q-icon name="key" />
-            </q-item>
-          </div>
-
-          <div v-if='store.ScrJson.type != "sig"'>
-            <div v-for="s, index in store.ScrJson.scripts" :key="index">
-
-              <q-separator spaced />
-
-              <q-item v-if='s.type == "sig"'>
-                {{ s.keyHash }}
-                <q-icon name="key" />
-              </q-item>
-
-              <q-item v-if='s.type == "before"'>
-                <q-icon name="last_page" /> {{ s.slot }}
-                <q-icon name="schedule" />
-              </q-item>
-
-              <q-item v-if='s.type == "after"'>
-                {{ s.slot }}
-                <q-icon name="schedule" />
-                <q-icon name="first_page" />
-              </q-item>
-            </div>
-          </div>
-        </q-list>
+        <JsonView :data='store.ScrJson'></JsonView>
       </q-card-section>
-      <!--Plutus Scripts-->
+
+      <!--Plutus Script-->
       <RedeemerView v-if='variant == "plutus" && rLoaded' />
       <q-linear-progress query track-color="primary" color="accent" class="q-mt-sm"
         v-if='variant == "plutus" && !rLoaded' />
@@ -153,6 +108,7 @@
 import { computed, ref } from 'vue';
 import { useScriptStore } from 'src/stores/script-store';
 import RedeemerView from 'src/components/RedeemerView.vue';
+import JsonView from 'src/components/JsonView.vue';
 
 const store = useScriptStore();
 
