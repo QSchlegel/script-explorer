@@ -57,7 +57,7 @@
           </ol>
 
           <q-card bordered class="q-ma-xl">
-            <q-video :ratio="18 / 9" class="q-ma-md" src="https://www.youtube.com/embed/6L0f7zNanY8" />
+            <q-video :ratio="18 / 9" class="q-ma-md" src="https://www.youtube.com/embed/Cv7FvPRRES0" />
           </q-card>
         </q-card-section>
       </q-card-section>
