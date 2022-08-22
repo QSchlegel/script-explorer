@@ -7,7 +7,7 @@
 
             <div class="row">
 
-                <div class="q-pa-sm q-pl-xl text-center col-12 col-sm-6 col-md-3 row">
+                <div class="q-pa-sm q-pl-xl text-center col-12 col-sm-6 col-lg-3 row">
                     <div class="">
                         <q-btn flat round icon="chevron_right" @click="store.CurTx = tx.tx_hash; store.CurTxIndex = tx.tx_index"
                             v-if="(store.CurTx !== tx.tx_hash || store.CurTx === tx.tx_hash && store.CurTxIndex !== tx.tx_index)" :disabled="!store.LoggedIn"/>
@@ -20,13 +20,14 @@
                     </div>
                     <div class=" q-pa-sm popover__title popover__wrapper">
                         <q-icon name="library_books" />
-                        <p class="popover__content">Transaction: Hash-Index</p>
+                        <div class="popover__content text-left">
+                            <p class="text-h6">Transaction</p>
+                            <p style="font-size:x-small">A Transaction consists of a Tx hash and a Tx index, which are denoted in the following way: hash-index</p>
+                        </div>
 
                     </div>
-                </div>
-                
-
-                <div class="q-pa-sm text-center col-12 col-sm-6 col-md-2 row">
+                </div>                
+                <div class="q-pa-sm text-center col-12 col-sm-6 col-lg-1 row">
                     <div class="q-pt-sm col text-right">
                         {{ tx.purpose }}
                     </div>
@@ -36,39 +37,8 @@
                             Transactiontype
                         </p>
                     </div>
-
-
                 </div>
-
-                <div class="q-pa-sm text-center col-12 col-sm-4 col-md-2 row">
-                    <div class="q-pt-sm col text-right">
-                        {{ tx.unit_mem }}
-                    </div>
-                    <div class="q-pa-sm popover__title popover__wrapper col text-left">
-                        <q-icon name="storage" />
-                        <p class="popover__content">
-                            Memory
-                        </p>
-                    </div>
-
-                </div>
-
-
-                <div class="q-pa-sm text-center col-12 col-sm-4 col-md-2 row">
-                    <div class="q-pt-sm col text-right">
-                        {{ tx.unit_steps }}
-                    </div>
-                    <div class="q-pa-sm popover__title popover__wrapper col text-left">
-                        <q-icon name="memory" />
-                        <p class="popover__content">
-                            Computingsteps
-                        </p>
-                    </div>
-
-                </div>
-
-
-                <div class="q-pa-sm text-center col-12 col-sm-4 col-md-2 row">
+                <div class="q-pa-sm text-center col-12 col-sm-4 col-lg-2 row">
                     <div class="q-pt-sm col text-right">
                         ₳ {{ tx.fee / 1000000 }}
                     </div>
@@ -78,8 +48,31 @@
                             Transactionfee
                         </p>
                     </div>
-
                 </div>
+                <div class="q-pa-sm text-center col-12 col-sm-4 col-lg-3 row">
+                    <div class="q-pt-sm col text-right">
+                        {{ tx.unit_mem /1000000 +" MB" }}
+                    </div>
+                    <div class="q-pa-sm popover__title popover__wrapper col text-left">
+                        <q-icon name="storage"/>
+                        <div class="popover__content">
+                            <p class="text-h6">Memoryconsumption</p>
+                            <p style="font-size:x-small">The number of memory units that the script uses: this represents the number of bytes that the script allocates. Typical scripts should consume less than 1,000,000 memory units (1MB of memory allocation).</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="q-pa-sm text-center col-12 col-sm-4 col-lg-3 row">
+                    <div class="q-pt-sm col text-right">
+                        {{ tx.unit_steps /1000000000+" ms" }}
+                    </div>
+                    <div class="q-pa-sm popover__title popover__wrapper col text-left">
+                        <q-icon name="memory" />
+                        <div class="popover__content">
+                            <p class="text-h6">Computingsteps</p>
+                            <p style="font-size:x-small">The number of computational (CPU) steps that the script uses: each step represents 1 picosecond of execution time on a benchmark machine. Typical scripts should consume less than 1,000,000,000 (1 millisecond).</p>
+                        </div>
+                    </div>
+                </div>                
             </div>
 
             <q-linear-progress query track-color="primary" color="accent" class="q-mt-sm"
