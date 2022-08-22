@@ -43,7 +43,7 @@
             <q-btn flat round icon="chevron_right" @click="infoToggle = !infoToggle" v-if="!infoToggle" />
             <q-btn flat round icon="keyboard_arrow_down" @click="infoToggle = !infoToggle" v-if="infoToggle" />
           </div>
-          <div class="col-10 q-ma-xs">How to use the Script Explorer ?</div>
+          <div class="col-10 q-ma-xs">How to use the Script Explorer ? </div>
         </q-card-section>
 
         <q-card-section v-if="infoToggle">
