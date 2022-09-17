@@ -27,7 +27,7 @@ onMounted(() => {
   }, {
     nodeGroup: d => d.id.split('_')[0],
     nodeLabel: d => d.id.split('_').pop(),
-    align:"right", 
+    align:"justify", 
     linkColor:"source-target",
     format: (f => d => `${f(d)}`)(d3.format(",.1~f")),
     width: (isLS)?1500:800, 

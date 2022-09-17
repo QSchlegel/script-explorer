@@ -35,9 +35,18 @@ export const useScriptStore = defineStore('scr', {
         async setApi(pID) {
             //Check API Credentials
             this.ApiDetails = {
-                url: (pID.slice(0, 7) === "mainnet") ? 'https://cardano-mainnet.blockfrost.io/api/v0/' : 'https://cardano-testnet.blockfrost.io/api/v0/',
+                url: '',
                 pid: pID
             }
+            switch(pID.slice(0,7)){
+                case 'mainnet': this.ApiDetails.url = 'https://cardano-mainnet.blockfrost.io/api/v0/'; break;
+                case 'testnet': this.ApiDetails.url = 'https://cardano-testnet.blockfrost.io/api/v0/'; break;
+                case 'preprod': this.ApiDetails.url = 'https://cardano-preprod.blockfrost.io/api/v0/'; break;
+                case 'preview': this.ApiDetails.url = 'https://cardano-preview.blockfrost.io/api/v0/'; break;
+                default:
+                    
+            }
+            
             try {
                 const data = await axios.get(this.ApiDetails.url, {
                     headers: {
