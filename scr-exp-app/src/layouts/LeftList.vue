@@ -1,28 +1,32 @@
-<template> 
+<script setup>
+import { useScrStore } from 'src/stores/scr-store';
+import { useNetStore } from 'src/stores/net-store';
+import { useAddrStore } from 'src/stores/addr-store';
+
+const netStore = useNetStore();
+const scrStore = useScrStore();
+const addrStore = useAddrStore();
+
+</script>
+<template>
     <q-list>
-        <q-item   v-for="s, index in store.ScriptList" :key="index">
+        <q-item v-for="s, index in scrStore.scriptList" :key="index">
             <q-item-section>
-                <q-btn  :style='{"background-color": (store.CurScript == s)? "lightgrey": "white"}' 
-                        @click="store.CurScript = s; store.loadScriptData()"
-                        :disabled="!store.LoggedIn">
-                    {{s.slice(0,10)+ " ... " + s.slice(s.length-10)}}
+                <q-btn :style='{ "background-color": (scrStore.currentScript == s) ? "lightgrey" : "white" }'
+                    @click="scrStore.currentScript = s; addrStore.currentAddress = ''" :disabled="!netStore.LoggedIn">
+                    {{ s.slice(0, 10) + " ... " + s.slice(s.length - 10) }}
                 </q-btn>
-                
+
             </q-item-section>
         </q-item>
-        <q-linear-progress query track-color="primary" color="accent" class="q-mt-sm" v-if='store.SLLoading' />
+        <q-linear-progress query track-color="primary" color="accent" class="q-mt-sm" v-if='scrStore.slLoading' />
         <q-item>
             <q-item-section>
-                <q-btn class="q-mb-xl" color="accent" text-color="white" @click="store.loadMoreScripts" :disabled="!store.LoggedIn">
+                <q-btn class="q-mb-xl" color="accent" text-color="white" @click="scrStore.loadMoreScripts"
+                    :disabled="!netStore.LoggedIn">
                     Load Scripts
                 </q-btn>
             </q-item-section>
         </q-item>
     </q-list>
 </template>
-<script setup> 
-    import { useScriptStore } from 'src/stores/script-store';
-    
-    const store = useScriptStore();
-
-</script>

@@ -10,7 +10,7 @@
           
         </q-toolbar-title>
 
-        <q-btn no-caps flat rounded class="q-mt-none q-mb-none" style="font-size:smaller" color="accent" :label="pidDisplay" v-if="store.LoggedIn" @click="store.clearApi"/>
+        <q-btn no-caps flat rounded class="q-mt-none q-mb-none" style="font-size:smaller" color="accent" :label="pidDisplay" v-if="netStore.LoggedIn" @click="netStore.clearApi"/>
 
         <!--- <q-btn dense flat round icon="menu" @click="toggleRightDrawer" />-->
       </q-toolbar>
@@ -35,16 +35,15 @@
 <script setup>
 import { ref, computed } from 'vue'
 import LeftList from './LeftList.vue';
-//import RightList from './RightList.vue';
-import { useScriptStore } from '../stores/script-store'
+import { useNetStore } from 'src/stores/net-store';
 
-const store = useScriptStore();
+const netStore = useNetStore();
 
 const leftDrawerOpen = ref(false)
 //const rightDrawerOpen = ref(false)
 
 const pidDisplay = computed(() => {
-  return store.ApiDetails.pid.slice(0, 7) + " - " + store.ApiDetails.pid.slice(7,14)+ "..."+ store.ApiDetails.pid.slice(store.ApiDetails.pid.length-7)
+  return netStore.ApiDetails.pid.slice(0, 7) + " - " + netStore.ApiDetails.pid.slice(7,14)+ "..."+ netStore.ApiDetails.pid.slice(netStore.ApiDetails.pid.length-7)
 })
 
 const toggleLeftDrawer = () => {

@@ -176,12 +176,17 @@ export const useScriptStore = defineStore('scr', {
             const shortenUtxO = (tx) => { return "UtxO_"+tx.slice(0, 3) + " ... " + tx.slice(tx.length - 5)}
             const shortenAddr = (a)  => { return "Addr_"+a.slice(5, 15)  + " ... " + a.slice(a.length - 6)}
 
-            //ToDo Display Fees
+            //ToDo Display Fees,
             
             //Detect Burns 🔥 and Mints 🔨
             valOut.map((m)=>
                 (valIn.filter((f) => f.unit === m.unit  ).length === 0 && m.unit !== "lovelace")?
-                    l.push({
+                    l.push(
+                        {
+                            source: "Util",
+                            target: "m_Mint 🔨",
+                            value: calcPrice(m.unit, m.quantity)
+                        },{
                         source: "m_Mint 🔨",
                         target: shortenUnit(m.unit),
                         value: calcPrice(m.unit, m.quantity)
@@ -192,6 +197,10 @@ export const useScriptStore = defineStore('scr', {
                     l.push({
                         source: shortenUnit(m.unit),
                         target: "b_Burn 🔥",
+                        value: calcPrice(m.unit, m.quantity)
+                    },{
+                        source: "b_Burn 🔥",
+                        target: "Util",
                         value: calcPrice(m.unit, m.quantity)
                     }):m
             )
@@ -232,11 +241,16 @@ export const useScriptStore = defineStore('scr', {
                     target: "out"+shortenAddr(m.addr),
                     value: calcPrice(m.unit, m.quantity)
                 }))
+            l.push({
+                source: shortenUnit('lovelace'),
+                target: "Fee",
+                value: this.ScrRList.filter((f)=> f.script_hash === this.CurScript)[0].data[0].fee/100000
+            })
             
-            const n = [... new Set(l.map((m) => m.source)), ... new Set(l.map((m) => m.target))]
+            //const n = [... new Set(l.map((m) => m.source)), ... new Set(l.map((m) => m.target))]
             this.GraphList.push({
                 id: CurTx,
-                nodes: n,
+               
                 links: l,
             })
         }
