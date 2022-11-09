@@ -17,6 +17,7 @@ const props = defineProps({
     graphId: String
 })
 
+
 const makeLabel = (d) => {
     const type = d.id.split('_')[0]
     const str = d.id.split('_').pop()
@@ -34,13 +35,13 @@ const sankeyGraphId = computed(() => {
         if (props.graphtype === 'address') {
             Id = props.graphId;
             graphStore.createAddressGraph(Id);
-            if (graphStore.gLoading) return Id
+            //if (graphStore.gLoading) skId = Id
             graph = graphStore.addressGraphList.filter((f) => f.address === Id)[0];
         }
         if (props.graphtype === 'tx') {
             Id = props.graphId;
             graphStore.createTxGraph(Id);
-            if (graphStore.gLoading) return Id
+            //if (graphStore.gLoading) skId = Id
             graph = graphStore.txGraphList.filter((f) => f.id === Id)[0];
         }
         if (graph !== undefined && graph.links !== undefined && graph.links.length > 0) {
@@ -61,7 +62,7 @@ const sankeyGraphId = computed(() => {
             d3.select('#sk' + Id).append(() => chart);
         }
     }
-    return Id
+    return 'sankey'
 })
 
 const SankeyChart = ({
@@ -219,6 +220,6 @@ const SankeyChart = ({
 
 <template>
 
-    <div :id="'sk'+sankeyGraphId"></div>
+    <div :id="'sk'+props.graphId" :key="sankeyGraphId"></div>
 
 </template>
