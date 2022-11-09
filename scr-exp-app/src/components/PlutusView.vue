@@ -15,7 +15,7 @@ const txStore = useTxStore();
     <div v-for="tx, index in scrStore.plutusList.filter((f) => f.script_hash === scrStore.currentScript).map((m) => m.data)[0]"
         :key="index">
 
-        <q-card class="q-ma-md bg-primary">
+        <q-card flat bordered class="q-ma-md bg-primary">
 
             <div class="row">
 
@@ -23,7 +23,9 @@ const txStore = useTxStore();
                     <div class="">
                         <q-btn flat round icon="chevron_right" 
                             @click="txStore.currentTx = tx.tx_hash; txStore.currentTxIndex = tx.tx_index"
-                            v-if="(txStore.currentTx !== tx.tx_hash)"/>
+                            v-if="( txStore.currentTx !== tx.tx_hash && txStore.currentTxIndex === tx.tx_index 
+                                    ||txStore.currentTx === tx.tx_hash && txStore.currentTxIndex !== tx.tx_index 
+                                    || txStore.currentTx !== tx.tx_hash && txStore.currentTxIndex !== tx.tx_index)"/>
                         <q-btn flat round icon="keyboard_arrow_down" 
                             @click="txStore.currentTx = ''; txStore.currentTxIndex = ''"
                             v-if="txStore.currentTx === tx.tx_hash && txStore.currentTxIndex === tx.tx_index"/>

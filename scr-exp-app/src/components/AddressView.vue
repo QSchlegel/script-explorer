@@ -43,36 +43,76 @@ const calcQuantity = (quantity, decimals) => {
     <div class="q-pa-md" v-if="loadingAddr === false && addrObject.info !== undefined && addrObject !== 'empty'">
         <q-card-section>
             {{ graphStore.createAddressGraph(addrStore.currentAddress) }}
-            <div class="text-subtitle2 text-center">{{ addrObject.info.address }}</div>
+            <div class="q-mb-xl text-subtitle2 text-center">{{ addrObject.info.address }}</div>
+            <div class="row">
+                <div class="col-8">
+                    <SankeyView :graphtype="'address'" :graphId="addrObject.info.address" />
+                </div>
+                <div class="col-4 q-pl-md q-pt-sm">
+                    <!--Address Balance-->
+                    <q-markup-table flat bordered>
+                        <thead>
+                            <tr>
+                                <th class="text-left">Amount</th>
+                                <th class="text-left">Unit</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="a, index in addrObject.info.amount" :key="index">
+                                <td class="text-left">{{ calcQuantity(a.quantity, a.decimals) }}</td>
+                                <td class="text-left" v-if="a.unit === 'lovelace'">₳</td>
+                                <td class="text-left" v-else>{{ a.unit.slice(0, 5) + '...' + a.unit.slice(a.unit.length
+                                        - 5)
+                                }}</td>
+                                <!--Placeholder for clickable AssetView-->
+                            </tr>
+                        </tbody>
+                    </q-markup-table>
+                </div>
 
-            <!--Consolidated Sankey addr to utxos to assets  -->
-            <SankeyView :graphtype="'address'" />
+            </div>
 
-            <!--Address Balance-->
-            <p>Balance:</p>
-            <div v-for="a, index in addrObject.info.amount" :key="index">
-                <div class="row" :key="index">
-                    <div class="col-2">{{ calcQuantity(a.quantity, a.decimals) }}</div>
-                    <div class="col-10" v-if="a.unit === 'lovelace'">₳</div>
-                    <div class="col-10" v-else>{{ a.unit }}</div>
-                    <!--Placeholder for clickable AssetView-->
+            <div class="row">
+                <div class="col-12 col-lg-6">
+                    <q-markup-table class="q-my-md q-mx-sm" flat bordered>
+                        <thead>
+                            <tr>
+                                <th class="text-left">UTxO</th>
+                                <th class="text-left">Index</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="utxo, index in addrStore.addressUTxOList.filter((f) => f.address === addrStore.currentAddress).map((m) => m.data)[0]"
+                                :key="index">
+                                <td class="text-left">{{ utxo.tx_hash }}</td>
+                                <td class="text-left">{{ utxo.tx_index }}</td>
+                            </tr>
+                        </tbody>
+                    </q-markup-table>
+                </div>
+                <div class="col-12 col-lg-6">
+                    <q-markup-table class="q-my-md q-mx-sm" flat bordered>
+                        <thead>
+                            <tr>
+                                <th class="text-left">Tx</th>
+                                <th class="text-left">Index</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="tx, index in addrStore.addressTxList.filter((f) => f.address === addrStore.currentAddress).map((m) => m.data)[0]"
+                                :key="index">
+                                <td class="text-left">{{ tx.tx_hash }}</td>
+                                <td class="text-left">{{ tx.tx_index }}</td>
+                            </tr>
+                        </tbody>
+                    </q-markup-table>
                 </div>
             </div>
-            <p>utxo</p>
-            <!--Address UTxOs-->
-            <div v-for="utxo, index in addrStore.addressUTxOList.filter((f) => f.address === addrStore.currentAddress).map((m) => m.data)[0]"
-                :key="index">
-                <div>{{ utxo.tx_hash + ' - ' + utxo.tx_index }}</div>
-            </div>
 
 
 
-            <p>Tx</p>
-            <!--Address Txs-->
-            <div v-for="tx, index in addrStore.addressTxList.filter((f) => f.address === addrStore.currentAddress).map((m) => m.data)[0]"
-                :key="index">
-                <div>{{ tx.tx_hash + ' - ' + tx.tx_index }}</div>
-            </div>
+
+
         </q-card-section>
 
 

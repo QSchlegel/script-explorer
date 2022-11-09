@@ -34,6 +34,7 @@ const cTC = function (txt) {
 <template>
     <q-card
       v-if="scrStore.currentScript != ''"
+      flat
       bordered
       class="q-ma-md"
     >

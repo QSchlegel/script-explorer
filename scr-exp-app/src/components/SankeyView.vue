@@ -3,13 +3,9 @@
 import * as d3 from "d3"
 import * as d3Sankey from "d3-sankey"
 import { useGraphStore } from 'stores/graph-store';
-import { useAddrStore } from 'stores/addr-store';
-import { useTxStore } from 'stores/tx-store';
 import { computed } from "vue";
 
 const graphStore = useGraphStore();
-const addrStore = useAddrStore();
-const txStore = useTxStore();
 
 //color groups
 const cg = [['ada',"#4b855e"],          ['unit',"#ded09e"],     ['inaddr', "#0130a7"],  ['inutxo', "#87a4ed"], 
@@ -17,7 +13,8 @@ const cg = [['ada',"#4b855e"],          ['unit',"#ded09e"],     ['inaddr', "#013
             ['collateral', "#9022f7"],  ['fee', "#f72274"],     ['iutil', "#b5dde8"],   ['outil', "#b5dde8"]]
 
 const props = defineProps({
-    graphtype: String
+    graphtype: String,
+    graphId: String
 })
 
 const makeLabel = (d) => {
@@ -34,22 +31,19 @@ const sankeyGraphId = computed(() => {
     var Id = ''
     if (props.graphtype !== null) {
         var graph = []
-
         if (props.graphtype === 'address') {
-            Id = addrStore.currentAddress;
+            Id = props.graphId;
             graphStore.createAddressGraph(Id);
             if (graphStore.gLoading) return Id
             graph = graphStore.addressGraphList.filter((f) => f.address === Id)[0];
         }
-
         if (props.graphtype === 'tx') {
-            Id = txStore.currentTx;
+            Id = props.graphId;
             graphStore.createTxGraph(Id);
             if (graphStore.gLoading) return Id
             graph = graphStore.txGraphList.filter((f) => f.id === Id)[0];
         }
-
-        if (graph !== undefined && graph.links !== undefined) {
+        if (graph !== undefined && graph.links !== undefined && graph.links.length > 0) {
             const chart = SankeyChart({
                 links: graph.links
             }, {
@@ -67,7 +61,6 @@ const sankeyGraphId = computed(() => {
             d3.select('#sk' + Id).append(() => chart);
         }
     }
-
     return Id
 })
 

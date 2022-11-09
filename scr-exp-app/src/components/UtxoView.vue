@@ -26,7 +26,7 @@ const props = defineProps({
             <div v-for='i, index  in txStore.utxosList.filter((f) => f.script_hash == scrStore.currentScript).map((m) => (put == "inputs") ? m.data.inputs : m.data.outputs)[0]'
                 :key="index">
                 <div class="q-px-sm q-py-xs">
-                    <q-card :class='(i.collateral) ? "bg-warning" : ""'>
+                    <q-card flat bordered :class='(i.collateral) ? "bg-warning" : ""'>
                         <div class="q-pa-sm flex flex-center">
                             <div class=" q-pa-sm popover__title popover__wrapper">
                                 📍
@@ -81,7 +81,7 @@ const props = defineProps({
 
                                 </div>
                                 <div class="q-pa-xs" v-if="assetStore.currentAsset === j.unit">
-                                    <q-card bordered>
+                                    <q-card flat bordered>
                                         {{ assetStore.assetList.filter((f) => f.asset == assetStore.currentAsset) }}
                                     </q-card>
 

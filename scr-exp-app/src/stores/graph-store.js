@@ -52,20 +52,13 @@ export const useGraphStore = defineStore('graph-store', {
                 if (txObject === undefined) return;
                 const links = []
                 const valueIn = txObject.inputs.map((m) => m.amount.map((n) => Object.assign(n, { utxo: m.tx_hash + "-" + m.output_index, addr: m.address, collateral: m.collateral }))).flat()
-                //var sumIn = 0
-                const valueOut = txObject.outputs.map((m) => m.amount.map((n) => Object.assign(n, { utxo: tx + "-" + m.output_index, addr: m.address + " " }))).flat()
-                //var sumOut = 0
+                const valueOut = txObject.outputs.map((m) => m.amount.map((n) => Object.assign(n, { utxo: tx + "-" + m.output_index, addr: m.address, collateral: m.collateral }))).flat()
 
-
-                //Fix collateral and fee calculation 😬
-                //sort Links to order graph
                 //take care of reference inputs
                 //Inputs
-
-                //const collateral = []
                 //Input utxo to values
                 valueIn.map((m) =>
-                    (m.collateral) ? links.push({
+                    (m.collateral === false) ? links.push({
                         source: "inaddr_" + m.addr,
                         target: "inutxo_" + m.utxo,
                         value: m.quantity
@@ -73,30 +66,12 @@ export const useGraphStore = defineStore('graph-store', {
                         source: "inutxo_" + m.utxo,
                         target: (m.unit === 'lovelace') ? "ada_" + m.unit : "unit_" + m.unit,
                         value: m.quantity
-                    }, {
-                        source: (m.unit === 'lovelace') ? "ada_" + m.unit : "unit_" + m.unit,
-                        target: "collateral_Collateral",
-                        value: m.quantity
-                    }, {
-                        source: "collateral_Collateral",
-                        target: "outil_Out Util",
-                        value: m.quantity
                     }) :
-                        links.push({
-                            source: "inaddr_" + m.addr,
-                            target: "inutxo_" + m.utxo,
-                            value: m.quantity
-                        }, {
-                            source: "inutxo_" + m.utxo,
-                            target: (m.unit === 'lovelace') ? "ada_" + m.unit : "unit_" + m.unit,
-                            value: m.quantity
-                        }))
-
-
+                        '')
                 //Outputs
                 //values to output utxo
                 valueOut.map((m) =>
-                    links.push({
+                    (m.collateral === false) ? links.push({
                         source: (m.unit === 'lovelace') ? "ada_" + m.unit : "unit_" + m.unit,
                         target: "oututxo_" + m.utxo,
                         value: m.quantity
@@ -104,16 +79,15 @@ export const useGraphStore = defineStore('graph-store', {
                         source: "oututxo_" + m.utxo,
                         target: "outaddr_" + m.addr,
                         value: m.quantity
-                    }))
+                    }) : '')
                 //Detect Burns 🔥 and Mints 🔨
                 valueOut.map((m) =>
                     (valueIn.filter((f) => f.unit === m.unit).length === 0 && m.unit !== "lovelace") ?
-                        links.push(
-                            {
-                                source: "iutil_In Util",
-                                target: "mint_Mint 🔨",
-                                value: m.quantity
-                            }, {
+                        links.push({
+                            source: "iutil_In Util",
+                            target: "mint_Mint 🔨",
+                            value: m.quantity
+                        }, {
                             source: "mint_Mint 🔨",
                             target: "unit_" + m.unit,
                             value: m.quantity
@@ -122,20 +96,20 @@ export const useGraphStore = defineStore('graph-store', {
                 valueIn.map((m) =>
                     (valueOut.filter((f) => f.unit === m.unit).length === 0 && m.unit !== "lovelace") ?
                         links.push({
-                            source: m.unit,
+                            source: "unit_" + m.unit,
                             target: "burn_Burn 🔥",
-                            value: m.unit
+                            value: m.quantity
                         }, {
                             source: "burn_Burn 🔥",
                             target: "outil_Out Util",
                             value: m.quantity
                         }) : m
                 )
+                //calculate Fees
                 const baseFee = scrStore.plutusList.filter((f) => f.script_hash === scrStore.currentScript).map((m) => m.data)[0].filter((f) => f.tx_hash === tx)[0].fee
                 const inSum = links.filter((f) => f.target === 'ada_lovelace').map((m) => parseInt(m.value)).reduce((x, y) => x + y)
                 const outSum = links.filter((f) => f.source === 'ada_lovelace').map((m) => parseInt(m.value)).reduce((x, y) => x + y)
                 const sumDifferential = inSum - outSum - baseFee
-
                 links.push({
                     source: 'ada_lovelace',
                     target: "fee_Base Fee",

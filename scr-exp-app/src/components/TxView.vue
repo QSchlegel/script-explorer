@@ -15,8 +15,8 @@ const txHash = computed(() => {
 </script>
 
 <template>
-    <div class="q-pa-sm" v-if="txHash !== ''">
-        <SankeyView :graphtype="'tx'" />
+    <div class="q-pa-sm" v-if="txHash !== undefined">
+        <SankeyView :graphtype="'tx'" :graph-id="txHash" />
     </div>
 
     
