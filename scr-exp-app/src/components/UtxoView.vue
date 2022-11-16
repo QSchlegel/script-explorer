@@ -1,15 +1,13 @@
 <script setup>
 import { useTxStore } from 'stores/tx-store';
-import { useScrStore } from 'stores/scr-store';
 import { useAssetStore } from 'stores/asset-store';
 
 const txStore = useTxStore();
-const scrStore = useScrStore();
 const assetStore = useAssetStore();
 
 const props = defineProps({
     put: String,
-    tx_hash: String
+    txHash: String
 })
 
 </script>
@@ -18,12 +16,12 @@ const props = defineProps({
 
 
     <div :style='{ "background-color": "white", "border": (props.put == "inputs") ? "1px solid blue" : "1px solid red" }'
-        v-if="txStore.utxosList.filter((f) => f.script_hash == scrStore.currentScript).length >0">
+        v-if="txStore.utxosList.filter((f) => f.txHash == props.txHash).length >0">
         <q-list>
             <q-item class="text-h6 flex flex-center">{{ props.put }}</q-item>
             <!--ToDo: Group by Address-->
             <!--Individual UtxOs-->
-            <div v-for='i, index  in txStore.utxosList.filter((f) => f.script_hash == scrStore.currentScript).map((m) => (put == "inputs") ? m.data.inputs : m.data.outputs)[0]'
+            <div v-for='i, index  in txStore.utxosList.filter((f) => f.txHash == props.txHash).map((m) => (put == "inputs") ? m.data.inputs : m.data.outputs)[0]'
                 :key="index">
                 <div class="q-px-sm q-py-xs">
                     <q-card flat bordered :class='(i.collateral) ? "bg-warning" : ""'>
@@ -46,7 +44,7 @@ const props = defineProps({
                                 }}
                             </div>
                             <div v-if='props.put == "outputs"'>
-                                {{ tx_hash.slice(0, 5) + " ... " + tx_hash.slice(tx_hash.length - 5) + " - " + i.output_index
+                                {{ props.txHash.slice(0, 5) + " ... " + props.txHash.slice(props.txHash.length - 5) + " - " + i.output_index
                                 }}
                             </div>
 

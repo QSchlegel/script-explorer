@@ -3,13 +3,11 @@ import { ref } from 'vue'
 import { useNetStore } from 'src/stores/net-store'
 import { useScrStore } from 'src/stores/scr-store'
 
-import ScriptView from 'src/components/ScriptView.vue';
-
 const netStore = useNetStore()
 const scrStore = useScrStore()
 
 const pID = ref('')
-const searchScript = ref('')
+const searchText = ref('')
 const infoToggle = ref(false)
 const infoToggle2 = ref(false)
 
@@ -46,19 +44,19 @@ const infoToggle2 = ref(false)
         </template>
       </q-input>
     </div>
-    <!--Search Field-->
+    <!--Search Field ToDo make a component-->
     <div v-if="netStore.LoggedIn" class="q-pa-md">
-      <q-input v-model="searchScript" text spellcheck="off" bottom-slots label="Find a Script">
+      <q-input v-model="searchText" text spellcheck="off" bottom-slots label="Find a Script">
         <template #append>
-          <q-btn flat round icon="search" @click="scrStore.currentScript = searchScript;" />
+            <q-btn flat round icon="search" 
+              @click="scrStore.currentScript = searchText;" 
+              :to="'scripts/' + searchText"/>
         </template>
         <template #before>
-          <q-icon v-if="searchScript !== ''" name="close" class="cursor-pointer" @click="searchScript = ''" />
+          <q-icon v-if="searchText !== ''" name="close" class="cursor-pointer" @click="searchText = ''" />
         </template>
       </q-input>
     </div>
-    <!--Scriptitem-->
-    <ScriptView />
     <!--Explainer-->
     <q-card v-if="!netStore.LoggedIn" flat class="col-12 col-sm-6 q-ma-md">
       <q-card-section>
