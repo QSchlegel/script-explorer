@@ -7,12 +7,15 @@ import TxView from './TxView.vue';
 const scrStore = useScrStore();
 const txStore = useTxStore();
 
+const props = defineProps({
+    scriptHash: String
+})
 
 </script>
 
 <template>
     
-    <div v-for="tx, index in scrStore.plutusList.filter((f) => f.script_hash === scrStore.currentScript).map((m) => m.data)[0]"
+    <div v-for="tx, index in scrStore.plutusList.filter((f) => f.scriptHash === props.scriptHash).map((m) => m.data)[0]"
         :key="index">
 
         <q-card flat bordered class="q-ma-md bg-primary">
@@ -98,10 +101,10 @@ const txStore = useTxStore();
                 </div>                
             </div>
 
-            <q-linear-progress query track-color="primary" color="accent" class="q-mt-sm"
-                v-if='scrStore.CurTx == tx.tx_hash && scrStore.CurTxIndex === tx.tx_index && !utxLoaded' />
-
-            <TxView  v-if="txStore.currentTx === tx.tx_hash && txStore.currentTxIndex === tx.tx_index" />
+            <TxView  v-if="txStore.currentTx === tx.tx_hash && txStore.currentTxIndex === tx.tx_index"
+                :tx-hash="tx.tx_hash"
+                :tx-index="tx.tx_index"
+                :script-hash="props.scriptHash"/>
         </q-card>
     </div>
 

@@ -13,7 +13,7 @@ const addrStore = useAddrStore();
         <q-item v-for="s, index in scrStore.scriptList" :key="index">
             <q-item-section>
                 <q-btn :style='{ "background-color": (scrStore.currentScript == s) ? "lightgrey" : "white" }'
-                    @click="scrStore.currentScript = s; addrStore.currentAddress = ''" :disabled="!netStore.LoggedIn">
+                    :to="'/scripts/' + s" @click="scrStore.currentScript = s; addrStore.currentAddress = ''">
                     {{ s.slice(0, 10) + " ... " + s.slice(s.length - 10) }}
                 </q-btn>
 

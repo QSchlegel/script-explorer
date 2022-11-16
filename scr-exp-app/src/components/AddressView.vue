@@ -1,28 +1,34 @@
 <script setup>
-import { useAddrStore } from 'stores/addr-store';
-import { computed } from "vue";
-import { useScrStore } from 'stores/scr-store';
+import { useAddrStore } from 'src/stores/addr-store';
+import { computed, onUpdated, onMounted } from "vue";
 import { useGraphStore } from 'stores/graph-store';
 import SankeyView from './SankeyView.vue';
 
 const addrStore = useAddrStore();
-const scrStore = useScrStore();
 const graphStore = useGraphStore();
 
-const loadingAddr = computed(() => {
-    if (scrStore.loadAddress === true) {
-        addrStore.loadAddress()
-        scrStore.toggleLoadAddrOff()
-    }
-    return scrStore.loadAddress
+const props = defineProps({
+    input: String,
+    isAddress: Boolean
+})
+
+onMounted(()=>{
+    if(!addrStore.addressInfoList.filter(
+        (f)=> props.input === (props.isAddress)? f.address: f.scriptHash).length > 0)
+    addrStore.loadAddress(props.input, props.isAddress)
+})
+onUpdated(()=>{
+    if(!addrStore.addressInfoList.filter(
+        (f)=> props.input === (props.isAddress)? f.address: f.scriptHash).length > 0)
+    addrStore.loadAddress(props.input, props.isAddress)
 })
 
 const addrObject = computed(() => {
     const addrList = addrStore.addressInfoList.filter((f) => f.address === addrStore.currentAddress)
     const txList = addrStore.addressTxList.filter((f) => f.address === addrStore.currentAddress)
     const uxtoList = addrStore.addressUTxOList.filter((f) => f.address === addrStore.currentAddress)
-    if (addrList !== [] && txList !== [] && uxtoList !== []) return {
-        info: addrList[0],
+    if (addrList !== [] && addrList[0] !== undefined && txList !== [] && uxtoList !== []) return {
+        info: addrList[0].data,
         tx: txList[0],
         utxo: uxtoList[0]
     }
@@ -34,21 +40,21 @@ const calcQuantity = (quantity, decimals) => {
         return quantity / Math.pow(10, decimals)
     } else return quantity
 }
-//Todo convert to event listeners window.height
+//Todo create event listeners window height and width to make sankey adaptable
 
 
 </script>
 
 <template>
-    <div class="q-pa-md" v-if="loadingAddr === false && addrObject.info !== undefined && addrObject !== 'empty'">
+    <div class="q-pa-md" v-if="addrObject.info !== undefined && addrObject !== 'empty'">
         <q-card-section>
             {{ graphStore.createAddressGraph(addrStore.currentAddress) }}
             <div class="q-mb-xl text-subtitle2 text-center">{{ addrObject.info.address }}</div>
             <div class="row">
-                <div class="col-8">
+                <div class="col-12 col-md-8">
                     <SankeyView :graphtype="'address'" :graphId="addrObject.info.address" />
                 </div>
-                <div class="col-4 q-pl-md q-pt-sm">
+                <div class="col-12 col-md-4 q-pl-md q-pt-sm">
                     <!--Address Balance-->
                     <q-markup-table flat bordered>
                         <thead>

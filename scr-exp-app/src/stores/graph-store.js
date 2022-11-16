@@ -50,6 +50,7 @@ export const useGraphStore = defineStore('graph-store', {
             if (tx !== '' && this.txGraphList.filter((f) => f.id === tx).length === 0) {
                 const txObject = txStore.utxosList.filter((f) => f.txHash === tx)[0]
                 if (txObject === undefined) return;
+                const scriptHash = txObject.scriptHash
                 const links = []
                 const valueIn = txObject.inputs.map((m) => m.amount.map((n) => Object.assign(n, { utxo: m.tx_hash + "-" + m.output_index, addr: m.address, collateral: m.collateral }))).flat()
                 const valueOut = txObject.outputs.map((m) => m.amount.map((n) => Object.assign(n, { utxo: tx + "-" + m.output_index, addr: m.address, collateral: m.collateral }))).flat()
@@ -106,7 +107,7 @@ export const useGraphStore = defineStore('graph-store', {
                         }) : m
                 )
                 //calculate Fees
-                const baseFee = scrStore.plutusList.filter((f) => f.script_hash === scrStore.currentScript).map((m) => m.data)[0].filter((f) => f.tx_hash === tx)[0].fee
+                const baseFee = scrStore.plutusList.filter((f) => f.scriptHash === scriptHash).map((m) => m.data)[0].filter((f) => f.tx_hash === tx)[0].fee
                 const inSum = links.filter((f) => f.target === 'ada_lovelace').map((m) => parseInt(m.value)).reduce((x, y) => x + y)
                 const outSum = links.filter((f) => f.source === 'ada_lovelace').map((m) => parseInt(m.value)).reduce((x, y) => x + y)
                 const sumDifferential = inSum - outSum - baseFee
@@ -127,7 +128,6 @@ export const useGraphStore = defineStore('graph-store', {
                     target: "outil_Out Util",
                     value: sumDifferential
                 })
-
                 this.txGraphList.push({
                     id: tx,
                     links: links,
@@ -135,7 +135,6 @@ export const useGraphStore = defineStore('graph-store', {
                     height: 800
                 })
             }
-
             this.gLoading = false
         }
     }
