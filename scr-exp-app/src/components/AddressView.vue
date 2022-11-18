@@ -3,6 +3,7 @@ import { useAddrStore } from 'src/stores/addr-store';
 import { ref, onUpdated, onMounted } from "vue";
 import { useGraphStore } from 'stores/graph-store';
 import SankeyView from './SankeyView.vue';
+import CopyToClipboard from './Util/CopyToClipboard.vue';
 
 const addrStore = useAddrStore();
 const graphStore = useGraphStore();
@@ -12,8 +13,8 @@ const props = defineProps({
     isAddress: Boolean
 })
 
-onMounted(async()=> mountloader())
-onUpdated(async()=> {if (props.input !== ((props.isAddress)? addrObject.value.info.address  : addrObject.value.info.scriptHash) ) addrObject.value = makeAddrObject() })
+onMounted(async () => mountloader())
+onUpdated(async () => { if (props.input !== ((props.isAddress) ? addrObject.value.info.address : addrObject.value.info.scriptHash)) addrObject.value = makeAddrObject() })
 
 const addrObject = ref({})
 
@@ -22,7 +23,7 @@ const emptyPredicate = (f) => {
 }
 
 // ToDo This works, but is in need of Refactoring 
-const mountloader = async() =>{
+const mountloader = async () => {
     if (addrStore.addressInfoList.filter((f) => emptyPredicate(f)).length === 0) {
         const xy = await addrStore.loadAddress(props.input, props.isAddress)
         if (xy === 'xyz') addrObject.value = makeAddrObject()
@@ -53,10 +54,17 @@ const calcQuantity = (quantity, decimals) => {
 </script>
 
 <template>
-    <div class="q-pa-md" v-if="addrObject.info !== undefined && addrObject !== 'empty'">
-        <q-card-section>
+    <div class="q-px-md" v-if="addrObject.info !== undefined && addrObject !== 'empty'">
+        <q-card-section class="q-pt-none" >
             {{ graphStore.createAddressGraph(addrObject.info.address) }}
-            <div class="q-mb-xl text-subtitle2 text-center">{{ addrObject.info.address }}</div>
+
+            <div class="row q-px-md">
+                <q-icon class="col-auto q-pt-lg" size="sm" name="sym_o_wallet" />
+                <CopyToClipboard class="text-h6 col-auto q-pt-xs" :content="addrObject.info.address" 
+                    :startOffset="15" :endOffset="15" :btnSize="'sm'" />
+            </div>
+
+
             <div class="row">
                 <div class="col-12 col-md-8 q-pl-md q-pt-sm" v-if="addrObject.utxo.data.length > 0">
                     <SankeyView :graphtype="'address'" :graphId="addrObject.info.address" />
@@ -82,23 +90,6 @@ const calcQuantity = (quantity, decimals) => {
                         </tbody>
                     </q-markup-table>
                 </div>
-
-                <div class="col-12 col-lg-6 q-pl-md q-pt-sm" v-if="addrObject.utxo.data.length > 0">
-                    <q-markup-table flat bordered>
-                        <thead>
-                            <tr>
-                                <th class="text-left">UTxO</th>
-                                <th class="text-left">Index</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="utxo, index in addrObject.utxo.data" :key="index">
-                                <td class="text-left">{{ utxo.tx_hash }}</td>
-                                <td class="text-left">{{ utxo.tx_index }}</td>
-                            </tr>
-                        </tbody>
-                    </q-markup-table>
-                </div>
                 <div class="col-12 col-lg-6 q-pl-md q-pt-sm">
                     <q-markup-table flat bordered>
                         <thead>
@@ -111,6 +102,22 @@ const calcQuantity = (quantity, decimals) => {
                             <tr v-for="tx, index in addrObject.tx.data" :key="index">
                                 <td class="text-left">{{ tx.tx_hash }}</td>
                                 <td class="text-left">{{ tx.tx_index }}</td>
+                            </tr>
+                        </tbody>
+                    </q-markup-table>
+                </div>
+                <div class="col-12 col-lg-6 q-pl-md q-pt-sm" v-if="addrObject.utxo.data.length > 0">
+                    <q-markup-table flat bordered>
+                        <thead>
+                            <tr>
+                                <th class="text-left">UTxO</th>
+                                <th class="text-left">Index</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="utxo, index in addrObject.utxo.data" :key="index">
+                                <td class="text-left">{{ utxo.tx_hash }}</td>
+                                <td class="text-left">{{ utxo.tx_index }}</td>
                             </tr>
                         </tbody>
                     </q-markup-table>
