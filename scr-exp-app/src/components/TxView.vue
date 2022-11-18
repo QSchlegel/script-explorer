@@ -13,16 +13,18 @@ const props = defineProps({
 })
 
 onMounted(()=>{
-    txStore.loadUtxos(props.txHash, props.scriptHash)
+    if(txStore.utxosList.filter((f) => f.txHash === props.txHash).length === 0)
+        txStore.loadUtxos(props.txHash, props.scriptHash)
 })
 onUpdated(()=>{
-    txStore.loadUtxos(props.txHash, props.scriptHash)
+    if(txStore.utxosList.filter((f) => f.txHash === props.txHash).length === 0)
+        txStore.loadUtxos(props.txHash, props.scriptHash)
 })
 
 </script>
 
 <template>
-    <div class="q-pa-sm" v-if="props.txHash !== undefined">
+    <div class="q-pa-sm" v-if="props.txHash !== undefined && txStore.utxosList.filter((f) => f.txHash === props.txHash).length >0">
         <SankeyView :graphtype="'tx'" :graph-id="props.txHash" />
     </div>
 

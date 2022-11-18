@@ -1,9 +1,9 @@
 <script setup>
 import { useTxStore } from 'stores/tx-store';
-import { useAssetStore } from 'stores/asset-store';
+//import { useAssetStore } from 'stores/asset-store';
 
 const txStore = useTxStore();
-const assetStore = useAssetStore();
+//const assetStore = useAssetStore();
 
 const props = defineProps({
     put: String,
@@ -17,12 +17,44 @@ const props = defineProps({
 
     <div :style='{ "background-color": "white", "border": (props.put == "inputs") ? "1px solid blue" : "1px solid red" }'
         v-if="txStore.utxosList.filter((f) => f.txHash == props.txHash).length >0">
+
         <q-list>
             <q-item class="text-h6 flex flex-center">{{ props.put }}</q-item>
+
+
+
+
+
             <!--ToDo: Group by Address-->
             <!--Individual UtxOs-->
-            <div v-for='i, index  in txStore.utxosList.filter((f) => f.txHash == props.txHash).map((m) => (put == "inputs") ? m.data.inputs : m.data.outputs)[0]'
-                :key="index">
+            <div v-for='addr, index  in new Set(txStore.utxosList.filter((f) => f.txHash == props.txHash).map((m) => (put == "inputs") ? m.data.inputs : m.data.outputs)[0]
+            .map((m) => m.amount.map((n) => n.addr)).flatMap((m) => m))' :key="index">
+
+                <p class="q-pa-sm q-pt-lg">{{ addr }}</p>
+                <div v-for='utxo, jndex in txStore.utxosList.filter((f) => f.txHash == props.txHash).map((m) => (put == "inputs") ? m.data.inputs : m.data.outputs)[0]
+                .map((m) => m.amount
+                    .filter((f) => f.addr === addr))
+                .filter((f) => f.length > 0)' :key="jndex">
+                    <div class="q-pa-lg">
+                        <p>{{utxo[0].utxo}}</p>
+                        <q-markup-table separator="vertical" flat bordered>
+                            <thead>
+                                <tr>
+                                    <th class="text-left">Amount</th>
+                                    <th class="text-left">Unit</th>                              
+                                </tr>
+                            </thead>
+                            <tbody v-for="unit, kndex in utxo" :key="kndex">
+                                <tr>
+                                    <td class="text-left">{{ unit.quantity }}</td>
+                                    <td class="text-left">{{ unit.unit }}</td>
+                                </tr>
+                            </tbody>
+                        </q-markup-table>
+                    </div>
+                    <q-separator/>
+                </div>
+                <!--
                 <div class="q-px-sm q-py-xs">
                     <q-card flat bordered :class='(i.collateral) ? "bg-warning" : ""'>
                         <div class="q-pa-sm flex flex-center">
@@ -47,11 +79,7 @@ const props = defineProps({
                                 {{ props.txHash.slice(0, 5) + " ... " + props.txHash.slice(props.txHash.length - 5) + " - " + i.output_index
                                 }}
                             </div>
-
-
-
                         </div>
-
                         <div class="q-pa-xs ">
                             <q-list bordered separator v-for="j, jndex in i.amount" :key="jndex">
                                 <div class="row q-pa-sm bg-white" v-if="j.unit == 'lovelace'">
@@ -87,7 +115,8 @@ const props = defineProps({
                             </q-list>
                         </div>
                     </q-card>
-                </div>
+                </div>-->
+
             </div>
         </q-list>
     </div>
