@@ -30,8 +30,8 @@ onUpdated(()=>{
 
     
     <div class="row" :key="props.txHash">
-        <UtxoView class="col-12 col-sm-6" :put='"inputs"' :tx-hash="props.txHash" />
-        <UtxoView class="col-12 col-sm-6" :put='"outputs"' :tx-hash="props.txHash" />
+        <UtxoView class="col-12 col-md-6" :put='"inputs"' :tx-hash="props.txHash" />
+        <UtxoView class="col-12 col-md-6" :put='"outputs"' :tx-hash="props.txHash" />
     </div>
 
 </template>

@@ -4,6 +4,8 @@ import { useScrStore } from 'stores/scr-store';
 import AddressView from './AddressView.vue';
 import TimelockView from "./TimelockView.vue";
 import PlutusView from "./PlutusView.vue";
+import CopyToClipboard from "./Util/CopyToClipboard.vue";
+import HoverIcon from "./Util/HoverIcon.vue";
 
 const scrStore = useScrStore();
 
@@ -35,29 +37,31 @@ const scriptPurpose = computed(() => {
   } else return 'empty'
 })
 
-//Auslagern in eigenen datei zur wiederverwendung
-const copyToClipboard = function (txt) {
-  return navigator.clipboard.writeText(txt)
-}
-
 </script>
 <template>
   <q-card v-if="props.scriptHash != undefined" flat bordered class="q-ma-md">
 
-    <q-card-section class="row">
-      <div class="text-h6 q-mt-sm q-mb-xs col-11 text-center" style="word-wrap:break-word">
-        {{ (scriptType == 'timelock') ? '⏳' : '📜' }} {{ props.scriptHash }}
-        <q-btn class="col-1" flat round icon="content_copy" @click="copyToClipboard(scrStore.currentScript)" />
-      </div>
+    <q-card-section class="row q-px-xl q-pb-none">
+      <HoverIcon class="col-auto q-pt-lg"
+      :icon-name="'sym_o_integration_instructions'"
+      :icon-size="'sm'"
+      :headline="'Scripthash'"
+      :content="'This is a Scripthash'"
+      />
+      <CopyToClipboard class="text-h6 col-auto q-pt-xs" :content="props.scriptHash" 
+          :start-offset="15" :end-offset="15" :btn-size="'sm'"/>
     </q-card-section>
 
-    <q-linear-progress query track-color="primary" color="accent" class="q-mt-sm" v-if='scrStore.dLoading' />
+    
+    
 
     <AddressView v-if="scriptType.includes('plutus') && scriptPurpose.includes('spend')" :input="props.scriptHash" :is-address="false" />
 
     <PlutusView v-if="scriptType.includes('plutus')" :script-hash="props.scriptHash"/>
 
     <TimelockView v-if="scriptType === 'timelock'" :data="scrStore.timelock" />
+
+    <q-linear-progress query track-color="primary" color="accent" class="q-mt-sm" v-if='scrStore.dLoading' />
 
   </q-card>
 

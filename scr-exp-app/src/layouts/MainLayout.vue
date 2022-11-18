@@ -21,7 +21,8 @@ const toggleLeftDrawer = () => {
 
     <q-header elevated class="bg-primary text-black">
       <q-toolbar>
-        <q-btn dense flat round icon="menu" @click="toggleLeftDrawer" />
+        <q-btn dense flat round icon="sym_o_menu" @click="toggleLeftDrawer" v-if="!leftDrawerOpen" />
+        <q-btn dense flat round icon="sym_o_clear_all" @click="toggleLeftDrawer" v-if="leftDrawerOpen" />
 
         <q-toolbar-title style="font-size:small">
           <router-link class="text-black" style="text-decoration: none;" to="/" >Script-Explorer</router-link>
