@@ -3,7 +3,7 @@
 import * as d3 from "d3"
 import * as d3Sankey from "d3-sankey"
 import { useGraphStore } from 'stores/graph-store';
-import { computed } from "vue";
+import { onMounted, onUpdated } from "vue";
 
 const graphStore = useGraphStore();
 
@@ -17,6 +17,14 @@ const props = defineProps({
     graphId: String
 })
 
+onMounted(()=>{
+    sankeyGraphId()
+})
+
+onUpdated(()=>{
+    sankeyGraphId()
+})
+
 const makeLabel = (d) => {
     const type = d.id.split('_')[0]
     const str = d.id.split('_').pop()
@@ -27,21 +35,16 @@ const makeLabel = (d) => {
     return d.id.split('_').pop()
 }
 
-const sankeyGraphId = computed(() => {
-    var Id = ''
+const sankeyGraphId = () => {
     if (props.graphtype !== null) {
         var graph = []
         if (props.graphtype === 'address') {
-            Id = props.graphId;
-            graphStore.createAddressGraph(Id);
-            //if (graphStore.gLoading) return Id
-            graph = graphStore.addressGraphList.filter((f) => f.address === Id)[0];
+            graphStore.createAddressGraph(props.graphId);
+            graph = graphStore.addressGraphList.filter((f) => f.address === props.graphId)[0];
         }
         if (props.graphtype === 'tx') {
-            Id = props.graphId;
-            graphStore.createTxGraph(Id);
-            //if (graphStore.gLoading) return Id
-            graph = graphStore.txGraphList.filter((f) => f.id === Id)[0];
+            graphStore.createTxGraph(props.graphId);
+            graph = graphStore.txGraphList.filter((f) => f.id === props.graphId)[0];
         }
         if (graph !== undefined && graph.links !== undefined && graph.links.length > 0) {
             const chart = SankeyChart({
@@ -57,12 +60,11 @@ const sankeyGraphId = computed(() => {
                 nodeGroups: cg.map((m)=> m[0]),
                 colors: cg.map((m)=> m[1])
             })
-            d3.select('#sk' + Id).select('svg').remove()
-            d3.select('#sk' + Id).append(() => chart);
+            d3.select('#sk' + props.graphId).select('svg').remove()
+            d3.select('#sk' + props.graphId).append(() => chart);
         }
     }
-    return 'Id'
-})
+}
 
 const SankeyChart = ({
     nodes, // an iterable of node objects (typically [{id}, …]); implied by links if missing
@@ -219,6 +221,6 @@ const SankeyChart = ({
 
 <template>
 
-    <div :id="'sk'+props.graphId" :key="sankeyGraphId"></div>
+    <div :id="'sk'+props.graphId"></div>
 
 </template>

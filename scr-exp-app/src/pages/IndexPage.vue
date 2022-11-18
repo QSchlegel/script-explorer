@@ -18,22 +18,9 @@ const infoToggle2 = ref(false)
 <template>
   <q-page>
     <!--Title-->
-    <div v-if="scrStore.currentScript == ''" class="row q-py-xl">
-      <h2 class="col-7 col-sm-4 text-right q-mt-none q-mb-none">
-        Script
-      </h2>
-      <div v-if="scrStore.currentScript == ''" class="col-auto popover__title popover__wrapper">
-        <h2 class="text-center q-mt-none q-mb-none">
-          -
-        </h2>
-
-        <p class="q-mt-xl q-mb-none popover__content" style="font-size:10px;">
-          by Quirin_Schlegel
-        </p>
-      </div>
-      <p class="col-5 col-sm-auto" />
-      <h2 class="col-4 text-left q-mt-none q-mb-none">
-        Explorer
+    <div v-if="scrStore.currentScript == ''">
+      <h2 class="text-center q-mt-xl q-mb-none">
+        Script-Explorer
       </h2>
     </div>
     <!--Loggin-->

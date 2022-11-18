@@ -12,7 +12,7 @@ const addrStore = useAddrStore();
     <q-list>
         <q-item v-for="s, index in scrStore.scriptList" :key="index">
             <q-item-section>
-                <q-btn :style='{ "background-color": (scrStore.currentScript == s) ? "lightgrey" : "white" }'
+                <q-btn :style='{ "background-color": ($route.params.scriptHash !== undefined && $route.params.scriptHash == s) ? "lightgrey" : "white" }'
                     :to="'/scripts/' + s" @click="scrStore.currentScript = s; addrStore.currentAddress = ''">
                     {{ s.slice(0, 10) + " ... " + s.slice(s.length - 10) }}
                 </q-btn>
