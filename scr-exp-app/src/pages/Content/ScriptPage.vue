@@ -1,5 +1,5 @@
 <script setup>
-import ScriptView from 'src/components/ScriptView.vue';
+import ScriptView from 'src/components/Content/ScriptView.vue';
 
 </script>
 

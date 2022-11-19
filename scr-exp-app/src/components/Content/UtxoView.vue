@@ -1,7 +1,7 @@
 <script setup>
 import { useTxStore } from 'stores/tx-store';
-import CopyToClipboard from './Util/CopyToClipboard.vue';
-import HoverIcon from './Util/HoverIcon.vue';
+import CopyToClipboard from '../Util/CopyToClipboard.vue';
+import HoverIcon from '../Util/HoverIcon.vue';
 //import { useAssetStore } from 'stores/asset-store';
 
 const txStore = useTxStore();

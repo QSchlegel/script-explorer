@@ -4,8 +4,9 @@ import { useScrStore } from 'stores/scr-store';
 import AddressView from './AddressView.vue';
 import TimelockView from "./TimelockView.vue";
 import PlutusView from "./PlutusView.vue";
-import CopyToClipboard from "./Util/CopyToClipboard.vue";
-import HoverIcon from "./Util/HoverIcon.vue";
+import CopyToClipboard from "../Util/CopyToClipboard.vue";
+import HoverIcon from "../Util/HoverIcon.vue";
+import FooterView from "../Util/FooterView.vue";
 
 const scrStore = useScrStore();
 
@@ -65,5 +66,6 @@ const scriptPurpose = computed(() => {
 
   </q-card>
 
+  <FooterView />
 
 </template>

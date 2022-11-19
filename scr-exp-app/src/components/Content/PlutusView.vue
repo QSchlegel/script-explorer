@@ -2,7 +2,7 @@
 import { useScrStore } from 'stores/scr-store';
 import { useTxStore } from 'stores/tx-store';
 import TxView from './TxView.vue';
-import HoverIcon from './Util/HoverIcon.vue';
+import HoverIcon from '../Util/HoverIcon.vue';
 //import UtxoView from './UtxoView.vue';
 
 const scrStore = useScrStore();
