@@ -3,7 +3,7 @@ import { useAddrStore } from 'src/stores/addr-store';
 import { ref, onUpdated, onMounted } from "vue";
 import { useGraphStore } from 'stores/graph-store';
 import SankeyView from './SankeyView.vue';
-import CopyToClipboard from './Util/CopyToClipboard.vue';
+import CopyToClipboard from '../Util/CopyToClipboard.vue';
 
 const addrStore = useAddrStore();
 const graphStore = useGraphStore();

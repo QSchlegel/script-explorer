@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import { useNetStore } from 'src/stores/net-store'
 import { useScrStore } from 'src/stores/scr-store'
+import FooterView from 'src/components/Util/FooterView.vue';
 
 const netStore = useNetStore()
 const scrStore = useScrStore()
@@ -97,5 +98,7 @@ const infoToggle2 = ref(false)
         </q-card-section>
       </q-card-section>
     </q-card>
+
+    <FooterView />
   </q-page>
 </template>
