@@ -43,13 +43,13 @@ const routes = [
     path: '/about',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '', component: () => import('src/pages/Util/ErrorNotFound.vue') }
+      { path: '', component: () => import('src/pages/Util/AboutPage.vue') }
     ]
   },{
     path: '/donate',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '', component: () => import('src/pages/Util/ErrorNotFound.vue') }
+      { path: '', component: () => import('src/pages/Util/DonatePage.vue') }
     ]
   },
 

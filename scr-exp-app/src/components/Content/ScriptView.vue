@@ -6,7 +6,6 @@ import TimelockView from "./TimelockView.vue";
 import PlutusView from "./PlutusView.vue";
 import CopyToClipboard from "../Util/CopyToClipboard.vue";
 import HoverIcon from "../Util/HoverIcon.vue";
-import FooterView from "../Util/FooterView.vue";
 
 const scrStore = useScrStore();
 
@@ -65,7 +64,5 @@ const scriptPurpose = computed(() => {
     <q-linear-progress query track-color="primary" color="accent" class="q-mt-sm" v-if='scrStore.dLoading' />
 
   </q-card>
-
-  <FooterView />
 
 </template>
