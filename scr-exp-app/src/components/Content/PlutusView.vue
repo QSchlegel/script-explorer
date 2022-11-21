@@ -24,21 +24,21 @@ const props = defineProps({
             <div class="row">
 
                 <div class="q-pa-sm q-pl-xl text-center col-12 col-sm-6 col-lg-3 row">
-                    <div class="">
-                        <q-btn flat round icon="sym_o_chevron_right" size="sm"
+                    <div class="col text-right">
+                        <q-btn class="q-pt-sm" flat round icon="sym_o_chevron_right" size="sm"
                             @click="txStore.currentTx = tx.tx_hash; txStore.currentTxIndex = tx.tx_index"
                             v-if="( txStore.currentTx !== tx.tx_hash && txStore.currentTxIndex === tx.tx_index 
                                     ||txStore.currentTx === tx.tx_hash && txStore.currentTxIndex !== tx.tx_index 
                                     || txStore.currentTx !== tx.tx_hash && txStore.currentTxIndex !== tx.tx_index)"/>
-                        <q-btn flat round icon="keyboard_arrow_down" 
+                        <q-btn flat round icon="sym_o_keyboard_arrow_down" 
                             @click="txStore.currentTx = ''; txStore.currentTxIndex = ''"
                             v-if="txStore.currentTx === tx.tx_hash && txStore.currentTxIndex === tx.tx_index"/>
                     </div>
-                    <div class="q-pt-sm">
+                    <div class="q-pt-sm col-auto text-right">
                         {{tx.tx_hash.slice(0, 7) + " ... " + tx.tx_hash.slice(tx.tx_hash.length - 7) + " - " + tx.tx_index}}
                     </div>
-                    <HoverIcon class="q-pa-sm"
-                        :icon-name="'sym_o_library_books'"
+                    <HoverIcon class="q-pa-sm col text-left"
+                        :icon-name="'sym_o_input'"
                         :icon-size="'sm'"
                         :headline="'Transaction'"
                         :content="'A Transaction consists of a Tx hash and a Tx index, which are denoted in the following way: hash-index'" />
@@ -47,7 +47,7 @@ const props = defineProps({
                     <div class="q-pt-sm col text-right">
                         {{ tx.purpose }}
                     </div>
-                    <HoverIcon class="q-pa-sm col-auto"
+                    <HoverIcon class="q-pa-sm col text-left"
                         :icon-name="'sym_o_build'"
                         :icon-size="'sm'"
                         :headline="'Transactiontype'"
@@ -58,7 +58,7 @@ const props = defineProps({
                     <div class="q-pt-sm col text-right">
                         ₳ {{ tx.fee / 1000000 }}
                     </div>
-                    <HoverIcon class="q-pa-sm col-auto text-left"
+                    <HoverIcon class="q-pa-sm col text-left"
                         :icon-name="'sym_o_payments'"
                         :icon-size="'sm'"
                         :headline="'Transactionfee'"
@@ -91,7 +91,6 @@ const props = defineProps({
 
             <TxView  v-if="txStore.currentTx === tx.tx_hash && txStore.currentTxIndex === tx.tx_index"
                 :tx-hash="tx.tx_hash"
-                :tx-index="tx.tx_index"
                 :script-hash="props.scriptHash"/>
         </q-card>
     </div>

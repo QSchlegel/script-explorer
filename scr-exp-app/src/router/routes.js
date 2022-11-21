@@ -9,14 +9,15 @@ const routes = [
     path: '/scripts',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '', component: () => import('src/pages/Content/ScriptPage.vue') },
+      { path: '', component: () => import('src/pages/Util/ErrorNotFound.vue') },
       { path: ':scriptHash', component: () => import('src/pages/Content/ScriptPage.vue') }
     ]
   },{
-    path: '/address',
+    path: '/addresses',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '', component: () => import('src/pages/Util/ErrorNotFound.vue') }
+      { path: '', component: () => import('src/pages/Util/ErrorNotFound.vue') },
+      { path: ':input', component: () => import('src/pages/Content/AddressPage.vue') }
     ]
   },{
     path: '/asset',
@@ -28,10 +29,11 @@ const routes = [
       // assetId = policyId + assetName(hexencoded)---> Todo HexedcoderFkt
     ]
   },{
-    path: '/tx',
+    path: '/txs',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '', component: () => import('src/pages/Util/ErrorNotFound.vue') }
+      { path: '', component: () => import('src/pages/Util/ErrorNotFound.vue') },
+      { path: ':txHash', component: () => import('src/pages/Content/TxPage.vue') }
     ]
   },{
     path: '/utxo',
