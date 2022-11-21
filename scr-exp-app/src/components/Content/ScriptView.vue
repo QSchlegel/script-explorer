@@ -41,15 +41,15 @@ const scriptPurpose = computed(() => {
 <template>
   <q-card v-if="props.scriptHash != undefined" flat bordered class="q-ma-md">
 
-    <q-card-section class="row q-px-xl q-pb-none">
+    <q-card-section class="row q-px-md q-pb-none">
       <HoverIcon class="col-auto q-pt-lg"
-      :icon-name="'sym_o_integration_instructions'"
+      :icon-name="'sym_o_code'"
       :icon-size="'sm'"
       :headline="'Scripthash'"
       :content="'This is a Scripthash'"
       />
-      <CopyToClipboard class="text-h6 col-auto q-pt-xs" :content="props.scriptHash" 
-          :start-offset="15" :end-offset="15" :btn-size="'sm'"/>
+      <CopyToClipboard class="text-overline col-auto q-pt-xs" :content="props.scriptHash" 
+          :start-offset="10" :end-offset="10" :btn-size="'xs'"/>
     </q-card-section>
 
     

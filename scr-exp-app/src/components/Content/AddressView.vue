@@ -4,6 +4,7 @@ import { ref, onUpdated, onMounted } from "vue";
 import { useGraphStore } from 'stores/graph-store';
 import SankeyView from './SankeyView.vue';
 import CopyToClipboard from '../Util/CopyToClipboard.vue';
+import HoverIcon from '../Util/HoverIcon.vue';
 
 const addrStore = useAddrStore();
 const graphStore = useGraphStore();
@@ -54,14 +55,14 @@ const calcQuantity = (quantity, decimals) => {
 </script>
 
 <template>
-    <div class="q-px-md" v-if="addrObject.info !== undefined && addrObject !== 'empty'">
+    <div class="" v-if="addrObject.info !== undefined && addrObject !== 'empty'">
         <q-card-section class="q-pt-none" >
             {{ graphStore.createAddressGraph(addrObject.info.address) }}
 
-            <div class="row q-px-md">
-                <q-icon class="col-auto q-pt-lg" size="sm" name="sym_o_wallet" />
-                <CopyToClipboard class="text-h6 col-auto q-pt-xs" :content="addrObject.info.address" 
-                    :startOffset="15" :endOffset="15" :btnSize="'sm'" />
+            <div class="row ">
+                <HoverIcon class="col-auto q-pt-lg" :icon-name="'sym_o_wallet'" :icon-size="'sm'" :headline="'Address'" :content="''" />
+                <CopyToClipboard class="text-overline col-auto q-pt-xs" :content="addrObject.info.address" 
+                    :startOffset="15" :endOffset="8" :btnSize="'xs'" />
             </div>
 
 

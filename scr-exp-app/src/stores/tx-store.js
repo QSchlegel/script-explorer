@@ -19,7 +19,7 @@ export const useTxStore = defineStore('tx-store', {
             if (tx!== '' && this.txList.filter((f) => f.hash === tx).length === 0) {
                 try {
                     const data = await axios.get(
-                        netStore.ApiDetails.url + 'txs/' + this.currentTx + '/utxos', {
+                        netStore.ApiDetails.url + 'txs/' + tx + '/utxos', {
                         headers: { project_id: netStore.ApiDetails.pid }
                     })
                     this.utxosList = this.utxosList.concat({

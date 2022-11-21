@@ -1,9 +1,7 @@
 import { defineStore } from 'pinia';
-import { useScrStore } from './scr-store';
 import { useAddrStore } from './addr-store';
 import { useTxStore } from './tx-store';
 
-const scrStore = useScrStore();
 const addrStore = useAddrStore();
 const txStore = useTxStore();
 
@@ -50,7 +48,6 @@ export const useGraphStore = defineStore('graph-store', {
             if (tx !== '' && this.txGraphList.filter((f) => f.id === tx).length === 0) {
                 const txObject = txStore.utxosList.filter((f) => f.txHash === tx)[0]
                 if (txObject === undefined) return;
-                const scriptHash = txObject.scriptHash
                 const links = []
                 const valueIn = txObject.inputs.map((m) => m.amount.map((n) => Object.assign(n, { utxo: m.tx_hash + "-" + m.output_index, addr: m.address, collateral: m.collateral }))).flat()
                 const valueOut = txObject.outputs.map((m) => m.amount.map((n) => Object.assign(n, { utxo: tx + "-" + m.output_index, addr: m.address, collateral: m.collateral }))).flat()
@@ -107,24 +104,15 @@ export const useGraphStore = defineStore('graph-store', {
                         }) : m
                 )
                 //calculate Fees
-                const baseFee = scrStore.plutusList.filter((f) => f.scriptHash === scriptHash).map((m) => m.data)[0].filter((f) => f.tx_hash === tx)[0].fee
                 const inSum = links.filter((f) => f.target === 'ada_lovelace').map((m) => parseInt(m.value)).reduce((x, y) => x + y)
                 const outSum = links.filter((f) => f.source === 'ada_lovelace').map((m) => parseInt(m.value)).reduce((x, y) => x + y)
-                const sumDifferential = inSum - outSum - baseFee
+                const sumDifferential = inSum - outSum
                 links.push({
                     source: 'ada_lovelace',
-                    target: "fee_Base Fee",
-                    value: baseFee
-                }, {
-                    source: 'fee_Base Fee',
-                    target: "outil_Out Util",
-                    value: baseFee
-                }, {
-                    source: 'ada_lovelace',
-                    target: "fee_Added Fee",
+                    target: "fee_Fee",
                     value: sumDifferential
                 }, {
-                    source: 'fee_Added Fee',
+                    source: 'fee_Fee',
                     target: "outil_Out Util",
                     value: sumDifferential
                 })
@@ -132,7 +120,7 @@ export const useGraphStore = defineStore('graph-store', {
                     id: tx,
                     links: links,
                     width: 1500,
-                    height: 800
+                    height: 500
                 })
             }
             this.gLoading = false
