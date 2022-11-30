@@ -15,7 +15,9 @@ const props = defineProps({
 })
 
 onMounted(async () => mountloader())
-onUpdated(async () => { if (props.input !== ((props.isAddress) ? addrObject.value.info.address : addrObject.value.info.scriptHash)) addrObject.value = makeAddrObject() })
+onUpdated(async () => { 
+    if (props.input !== ((props.isAddress) ? 
+    addrObject.value.info.address : addrObject.value.info.scriptHash)) addrObject.value = makeAddrObject() })
 
 const addrObject = ref({})
 
@@ -25,10 +27,14 @@ const emptyPredicate = (f) => {
 
 // ToDo This works, but is in need of Refactoring 
 const mountloader = async () => {
+
     if (addrStore.addressInfoList.filter((f) => emptyPredicate(f)).length === 0) {
         const xy = await addrStore.loadAddress(props.input, props.isAddress)
         if (xy === 'xyz') addrObject.value = makeAddrObject()
+    }else {
+        addrObject.value = makeAddrObject()
     }
+
 }
 const makeAddrObject = () => {
     const addrList = addrStore.addressInfoList.filter((f) => emptyPredicate(f))

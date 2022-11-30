@@ -31,7 +31,7 @@ const props = defineProps({
                 .flatMap((m) => m))' :key="index">
 
                 <div class="row q-pl-md">
-                    <HoverIcon class="col-auto q-pt-md" :icon-name="'sym_o_wallet'" :icon-size="'sm'"
+                    <HoverIcon class="col-auto q-pt-lg" :icon-name="'sym_o_wallet'" :icon-size="'sm'"
                         :headline="'Address'" :content="''" />
                     <CopyToClipboard class="col-auto" :content="addr" 
                         :start-offset="15" :end-offset="10"
@@ -44,22 +44,22 @@ const props = defineProps({
                     
                 ' :key="jndex">
                     <div class="row q-pl-md">
-                        <HoverIcon class="col-auto q-pt-md" :icon-name="'sym_o_receipt_long'" :icon-size="'sm'"
+                        <HoverIcon class="col-auto q-pt-lg" :icon-name="'sym_o_receipt_long'" :icon-size="'sm'"
                             :headline="'UTxO'" :content="''" />
 
-                        <HoverIcon class="col-auto q-pt-md" v-if="utxo.collateral"
+                        <HoverIcon class="col-auto q-pt-lg" v-if="utxo.collateral"
                             :icon-name="'sym_o_balance'" :icon-size="'sm'" :headline="'Collateral'" :content="''" />
 
-                        <HoverIcon class="col-auto q-pt-md"  :icon-name="'sym_o_cable'" v-if="utxo.reference"
+                        <HoverIcon class="col-auto q-pt-lg"  :icon-name="'sym_o_cable'" v-if="utxo.reference"
                             :icon-size="'sm'" :headline="'Reference'" :content="''" />
 
-                        <HoverIcon class="col-auto q-pt-md"  :icon-name="'sym_o_satellite_alt'" v-if="utxo.reference_script_hash"
+                        <HoverIcon class="col-auto q-pt-lg"  :icon-name="'sym_o_satellite_alt'" v-if="utxo.reference_script_hash"
                             :icon-size="'sm'" :headline="'Reference Scripthash'" :content="utxo.reference_script_hash" />
 
-                        <HoverIcon class="col-auto q-pt-md"  :icon-name="'sym_o_data_object'" v-if="utxo.data_hash"
+                        <HoverIcon class="col-auto q-pt-lg"  :icon-name="'sym_o_data_object'" v-if="utxo.data_hash"
                             :icon-size="'sm'" :headline="'Datum'" :content="utxo.data_hash" />
 
-                        <HoverIcon class="col-auto q-pt-md"  :icon-name="'sym_o_topic'" v-if="utxo.inline_datum"
+                        <HoverIcon class="col-auto q-pt-lg"  :icon-name="'sym_o_topic'" v-if="utxo.inline_datum"
                             :icon-size="'sm'" :headline="'Inline Datum'" :content="utxo.inline_datum" />
 
                         <CopyToClipboard class="col-auto" 
