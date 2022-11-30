@@ -1,6 +1,3 @@
-<script setup>
-import FooterView from 'src/components/Util/FooterView.vue';
-</script>
 <template>
     <q-page>
         <h2 class="text-center">Script-Explorer</h2>
@@ -28,6 +25,5 @@ import FooterView from 'src/components/Util/FooterView.vue';
             
             <div class="col-auto col-sm-2 col-md-4 col-lg-5"/>
         </div>
-        <FooterView />
     </q-page>
 </template>

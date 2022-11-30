@@ -1,7 +1,5 @@
 <script setup>
-import LoginView from 'src/components/Util/LoginView.vue';
 import SearchView from 'src/components/Util/SearchView.vue';
-import FooterView from 'src/components/Util/FooterView.vue';
 
 </script>
 
@@ -13,11 +11,6 @@ import FooterView from 'src/components/Util/FooterView.vue';
         Script-Explorer
       </h2>
     </div>
-
-    <LoginView />
-
     <SearchView />
-    
-    <FooterView />
   </q-page>
 </template>

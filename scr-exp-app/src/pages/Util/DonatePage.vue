@@ -1,6 +1,5 @@
 <script setup>
 import CopyToClipboard from 'src/components/Util/CopyToClipboard.vue';
-import FooterView from 'src/components/Util/FooterView.vue';
 </script>
 <template>
     <q-page>
@@ -18,6 +17,5 @@ import FooterView from 'src/components/Util/FooterView.vue';
             </div>
             <div class="col-auto col-sm-2 col-md-4 col-lg-5"/>
         </div>
-        <FooterView />
     </q-page>
 </template>

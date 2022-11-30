@@ -20,7 +20,7 @@ const routes = [
       { path: ':input', component: () => import('src/pages/Content/AddressPage.vue') }
     ]
   },{
-    path: '/asset',
+    path: '/assets',
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: '', component: () => import('src/pages/Util/ErrorNotFound.vue') },
@@ -36,7 +36,7 @@ const routes = [
       { path: ':txHash', component: () => import('src/pages/Content/TxPage.vue') }
     ]
   },{
-    path: '/utxo',
+    path: '/utxos',
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: '', component: () => import('src/pages/Util/ErrorNotFound.vue') }
@@ -53,7 +53,15 @@ const routes = [
     children: [
       { path: '', component: () => import('src/pages/Util/DonatePage.vue') }
     ]
+  },{
+    path: '/glossary',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '', component: () => import('src/pages/Util/ErrorNotFound.vue') },
+      { path: ':item', component: () => import('src/pages/Util/ErrorNotFound.vue') }
+    ]
   },
+
 
   // Always leave this as last one,
   // but you can also remove it

@@ -33,8 +33,9 @@ const props = defineProps({
                 <div class="row q-pl-md">
                     <HoverIcon class="col-auto q-pt-md" :icon-name="'sym_o_wallet'" :icon-size="'sm'"
                         :headline="'Address'" :content="''" />
-                    <CopyToClipboard class="col-auto" :content="addr" :start-offset="15" :end-offset="10"
-                        :btn-size="'xs'" />
+                    <CopyToClipboard class="col-auto" :content="addr" 
+                        :start-offset="15" :end-offset="10"
+                        :btn-size="'xs'" :link="'addresses'"/>
                 </div>
 
                 <div class="q-px-sm q-pb-xl" v-for='utxo, jndex in txStore.utxosList
@@ -53,7 +54,7 @@ const props = defineProps({
                             :icon-size="'sm'" :headline="'Reference'" :content="''" />
 
                         <HoverIcon class="col-auto q-pt-md"  :icon-name="'sym_o_satellite_alt'" v-if="utxo.reference_script_hash"
-                            :icon-size="'sm'" :headline="'Reference Script'" :content="utxo.reference_script_hash" />
+                            :icon-size="'sm'" :headline="'Reference Scripthash'" :content="utxo.reference_script_hash" />
 
                         <HoverIcon class="col-auto q-pt-md"  :icon-name="'sym_o_data_object'" v-if="utxo.data_hash"
                             :icon-size="'sm'" :headline="'Datum'" :content="utxo.data_hash" />
@@ -61,8 +62,10 @@ const props = defineProps({
                         <HoverIcon class="col-auto q-pt-md"  :icon-name="'sym_o_topic'" v-if="utxo.inline_datum"
                             :icon-size="'sm'" :headline="'Inline Datum'" :content="utxo.inline_datum" />
 
-                        <CopyToClipboard class="col-auto" :content="((props.put == 'inputs') ?utxo.tx_hash : props.txHash)+'-'+utxo.output_index " :start-offset="10" :end-offset="10"
-                            :btn-size="'xs'" />
+                        <CopyToClipboard class="col-auto" 
+                            :content="((props.put == 'inputs') ?utxo.tx_hash : props.txHash)+'-'+utxo.output_index " 
+                            :start-offset="10" :end-offset="10"
+                            :btn-size="'xs'" :link="'utxos'"/>
                     </div>
 
                     <q-markup-table class="q-mx-xl" separator="vertical" flat bordered dense>
@@ -80,10 +83,10 @@ const props = defineProps({
                                 </td>
                                 <td class="text-left" v-if="'lovelace' !== unit.unit">
                                     <div class="row">
-                                        <HoverIcon class="col-auto q-pt-sm q-mt-xs" :icon-name="'sym_o_token'"
+                                        <HoverIcon class="col-auto q-pt-md q-mt-xs" :icon-name="'sym_o_token'"
                                             :icon-size="'sm'" :headline="'Asset'" :content="''" />
                                         <CopyToClipboard class="col-auto" :content="unit.unit" :start-offset="4"
-                                            :end-offset="4" :btn-size="'xs'" />
+                                            :end-offset="4" :btn-size="'xs'" :link="'assets'"/>
                                     </div>
 
                                 </td>

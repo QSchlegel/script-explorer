@@ -28,13 +28,20 @@ onUpdated(() => {
 <template>
     <div class="row q-px-md">
         <HoverIcon class="col-auto q-pt-lg" :icon-name="'sym_o_input'" :icon-size="'sm'" :headline="'Transaction'" :content="''" />
-        <CopyToClipboard class="col q-pt-xs text-overline" :content="props.txHash" :start-offset="8" :end-offset="8" :btn-size="'xs'" />
+        <CopyToClipboard class="col q-pt-xs text-overline" :content="props.txHash" 
+            :start-offset="8" :end-offset="8" 
+            :btn-size="'xs'" :link="'txs'"/>
 
     </div>
 
     <div class="q-pa-sm"
         v-if="props.txHash !== undefined && txStore.utxosList.filter((f) => f.txHash === props.txHash).length > 0">
-        <SankeyView :graphtype="'tx'" :graph-id="props.txHash" />
+        <div class="row" >
+            <div class="col-auto col-lg"/>
+            <SankeyView class="col-11" :graphtype="'tx'" :graph-id="props.txHash" />
+            <div class="col-auto col-lg"/>
+        </div>
+        
     </div>
 
 
