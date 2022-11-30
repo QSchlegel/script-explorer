@@ -2,6 +2,8 @@
 import { ref, computed } from 'vue'
 import LeftList from './LeftList.vue';
 import { useNetStore } from 'src/stores/net-store';
+import LoginView from 'src/components/Util/LoginView.vue';
+import FooterView from 'src/components/Util/FooterView.vue';
 
 const netStore = useNetStore();
 
@@ -36,9 +38,15 @@ const toggleLeftDrawer = () => {
       <LeftList />
     </q-drawer>
 
+    
+
     <q-page-container>
+      <LoginView />
       <router-view />
+      <FooterView />
     </q-page-container>
+
+    
 
   </q-layout>
 </template>
