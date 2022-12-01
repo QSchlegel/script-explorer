@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted, onUpdated } from "vue";
 import { useTxStore } from 'stores/tx-store';
-import UtxoView from './UtxoView.vue';
+import UtxosView from './UtxosView.vue';
 import SankeyView from "./SankeyView.vue";
 import CopyToClipboard from "../Util/CopyToClipboard.vue";
 import HoverIcon from "../Util/HoverIcon.vue";
@@ -46,8 +46,8 @@ onUpdated(() => {
 
 
     <div class="row" :key="props.txHash">
-        <UtxoView class="col-12 col-md-6" :put='"inputs"' :tx-hash="props.txHash" />
-        <UtxoView class="col-12 col-md-6" :put='"outputs"' :tx-hash="props.txHash" />
+        <UtxosView class="col-12 col-md-6" :put='"inputs"' :tx-hash="props.txHash" />
+        <UtxosView class="col-12 col-md-6" :put='"outputs"' :tx-hash="props.txHash" />
     </div>
 
 </template>

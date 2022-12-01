@@ -97,22 +97,6 @@ const calcQuantity = (quantity, decimals) => {
                         </tbody>
                     </q-markup-table>
                 </div>
-                <div class="col-12 col-lg-6 q-pl-md q-pt-sm">
-                    <q-markup-table flat bordered>
-                        <thead>
-                            <tr>
-                                <th class="text-left">Tx</th>
-                                <th class="text-left">Index</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="tx, index in addrObject.tx.data" :key="index">
-                                <td class="text-left">{{ tx.tx_hash }}</td>
-                                <td class="text-left">{{ tx.tx_index }}</td>
-                            </tr>
-                        </tbody>
-                    </q-markup-table>
-                </div>
                 <div class="col-12 col-lg-6 q-pl-md q-pt-sm" v-if="addrObject.utxo.data.length > 0">
                     <q-markup-table flat bordered>
                         <thead>
@@ -123,12 +107,43 @@ const calcQuantity = (quantity, decimals) => {
                         </thead>
                         <tbody>
                             <tr v-for="utxo, index in addrObject.utxo.data" :key="index">
-                                <td class="text-left">{{ utxo.tx_hash }}</td>
+                                <td class="text-left">
+                                    <router-link 
+                                        :to="'/utxos/'+utxo.tx_hash+'-'+utxo.tx_index" 
+                                        class="text-indigo-9" 
+                                        style="text-decoration: none">
+                                        {{ utxo.tx_hash }}
+                                    </router-link>
+                                </td>
                                 <td class="text-left">{{ utxo.tx_index }}</td>
                             </tr>
                         </tbody>
                     </q-markup-table>
                 </div>
+                <div class="col-12 col-lg-6 q-pl-md q-pt-sm">
+                    <q-markup-table flat bordered>
+                        <thead>
+                            <tr>
+                                <th class="text-left">Tx</th>
+                                <th class="text-left">Index</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="tx, index in addrObject.tx.data" :key="index">
+                                <td class="text-left">
+                                    <router-link 
+                                        :to="'/txs/'+tx.tx_hash" 
+                                        class="text-indigo-9" 
+                                        style="text-decoration: none">
+                                        {{ tx.tx_hash }}
+                                    </router-link>
+                                </td>
+                                <td class="text-left">{{ tx.tx_index }}</td>
+                            </tr>
+                        </tbody>
+                    </q-markup-table>
+                </div>
+                
             </div>
         </q-card-section>
     </div>

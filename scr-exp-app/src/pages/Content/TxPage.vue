@@ -5,6 +5,8 @@ import SearchView from 'src/components/Util/SearchView.vue';
 <template>
     <q-page>
         <SearchView/>
+        <q-card class="q-ma-md" flat bordered>
         <TxView :tx-hash="$route.params.txHash" :script-hash="''"/>
+        </q-card>
     </q-page>
 </template>

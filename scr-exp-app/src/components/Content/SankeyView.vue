@@ -8,27 +8,27 @@ import { onMounted, onUpdated } from "vue";
 const graphStore = useGraphStore();
 
 //color groups
-const cg = [['ada',"#4b855e"],          ['unit',"#ded09e"],     ['inaddr', "#0130a7"],  ['inutxo', "#87a4ed"], 
-            ['oututxo', "#f5e1e7"],     ['outaddr', "#eb7a89"], ['burn', "#f70202"],    ['mint', "#07fc03"], 
-            ['collateral', "#9022f7"],  ['fee', "#f72274"],     ['iutil', "#b5dde8"],   ['outil', "#b5dde8"]]
+const cg = [['ada', "#4b855e"], ['unit', "#ded09e"], ['inaddr', "#0130a7"], ['inutxo', "#87a4ed"],
+['oututxo', "#f5e1e7"], ['outaddr', "#eb7a89"], ['burn', "#f70202"], ['mint', "#07fc03"],
+['collateral', "#9022f7"], ['fee', "#f72274"], ['iutil', "#b5dde8"], ['outil', "#b5dde8"]]
 
 const props = defineProps({
     graphtype: String,
     graphId: String
 })
 
-onMounted(()=>{
+onMounted(() => {
     sankeyGraphId()
 })
 
-onUpdated(()=>{
+onUpdated(() => {
     sankeyGraphId()
 })
 
 const makeLabel = (d) => {
     const type = d.id.split('_')[0]
     const str = d.id.split('_').pop()
-    if (type === 'inaddr' || type === 'outaddr' ) return str.slice(0, 14) + '...' + str.slice(str.length - 5);
+    if (type === 'inaddr' || type === 'outaddr') return str.slice(0, 14) + '...' + str.slice(str.length - 5);
     if (type === 'inutxo' || type === 'oututxo') return str.slice(0, 5) + '...' + str.slice(str.length - 8);
     if (type === 'ada') return '₳'
     if (type === 'unit') return str.slice(0, 5) + '...' + str.slice(str.length - 5)
@@ -41,6 +41,10 @@ const sankeyGraphId = () => {
         if (props.graphtype === 'address') {
             graphStore.createAddressGraph(props.graphId);
             graph = graphStore.addressGraphList.filter((f) => f.address === props.graphId)[0];
+        }
+        if (props.graphtype === 'utxo') {
+            graphStore.createUtxoGraph(props.graphId);
+            graph = graphStore.utxoGraphList.filter((f) => f.utxo === props.graphId)[0]
         }
         if (props.graphtype === 'tx') {
             graphStore.createTxGraph(props.graphId);
@@ -57,8 +61,8 @@ const sankeyGraphId = () => {
                 format: (f => d => `${f(d)}`)(d3.format(",.1~f")),
                 width: graph.width,
                 height: graph.height,
-                nodeGroups: cg.map((m)=> m[0]),
-                colors: cg.map((m)=> m[1])
+                nodeGroups: cg.map((m) => m[0]),
+                colors: cg.map((m) => m[1])
             })
             d3.select('#sk' + props.graphId).select('svg').remove()
             d3.select('#sk' + props.graphId).append(() => chart);
@@ -221,6 +225,6 @@ const SankeyChart = ({
 
 <template>
 
-    <div :id="'sk'+props.graphId"></div>
+    <div :id="'sk' + props.graphId"></div>
 
 </template>

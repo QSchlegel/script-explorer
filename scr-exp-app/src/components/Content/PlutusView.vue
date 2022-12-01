@@ -19,15 +19,15 @@ const props = defineProps({
     <div v-for="tx, index in scrStore.plutusList.filter((f) => f.scriptHash === props.scriptHash).map((m) => m.data)[0]"
         :key="index">
 
-        <q-card flat bordered class="q-ma-md bg-primary">
+        <q-card flat bordered class="q-ma-md">
 
             <div class="row">
                 <div class="col-2 col-sm-1 col-lg-auto ">
-                    <q-btn class="q-pa-md" flat round icon="sym_o_chevron_right" size="md"
+                    <q-btn class="q-pa-sm q-ma-sm" flat round icon="sym_o_chevron_right" size="md"
                         @click="txStore.currentTx = tx.tx_hash; txStore.currentTxIndex = tx.tx_index" v-if="(txStore.currentTx !== tx.tx_hash && txStore.currentTxIndex === tx.tx_index
                         || txStore.currentTx === tx.tx_hash && txStore.currentTxIndex !== tx.tx_index
                         || txStore.currentTx !== tx.tx_hash && txStore.currentTxIndex !== tx.tx_index)" />
-                    <q-btn class="q-pa-md" flat round icon="sym_o_keyboard_arrow_down" size="md"
+                    <q-btn class="q-pa-sm q-ma-sm" flat round icon="sym_o_keyboard_arrow_down" size="md"
                         @click="txStore.currentTx = ''; txStore.currentTxIndex = ''"
                         v-if="txStore.currentTx === tx.tx_hash && txStore.currentTxIndex === tx.tx_index" />
                 </div>

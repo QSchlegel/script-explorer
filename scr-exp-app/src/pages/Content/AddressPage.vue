@@ -5,6 +5,9 @@ import SearchView from 'src/components/Util/SearchView.vue';
 <template>
     <q-page>
         <SearchView/>
-        <AddressView :input="$route.params.input" :is-address="true"/>
+        <q-card class="q-ma-md" flat bordered>
+            <AddressView :input="$route.params.input" :is-address="true"/>
+        </q-card>
+        
     </q-page>
 </template>
