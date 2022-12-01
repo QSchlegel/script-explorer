@@ -8,8 +8,6 @@ const txStore = useTxStore();
 export const useGraphStore = defineStore('graph-store', {
     state: () => ({
         graphList: [],
-
-        graphType: 'address',
         addressGraphList: [],
         txGraphList: [],
         utxoGraphList: [],
@@ -40,7 +38,30 @@ export const useGraphStore = defineStore('graph-store', {
             this.gLoading = false
         },
 
-        createUtxoGraph(utxo) { },
+        createUtxoGraph(utxo) {
+            this.gLoading = true
+            if(utxo !== '' && this.utxoGraphList.filter((f)=> f.utxo === utxo).length === 0){
+                const links = []
+                const utxoObj = txStore.utxosList
+                    .filter((f)=> f.txHash === utxo.split('-')[0])[0]
+                    .outputs
+                    .filter((f)=> f.output_index === parseInt(utxo.split('-')[1]))[0]
+                if (utxoObj.amount.length >0){
+                    utxoObj.amount.map((m)=> links.push({
+                        source  : 'inutxo_' + utxo,
+                        target  : (m.unit === 'lovelace') ? 'ada_₳' : 'unit_' + m.unit,
+                        value   : m.quantity
+                    }))
+                    this.utxoGraphList.push({
+                        utxo: utxo,
+                        links: links,
+                        width:1000,
+                        height: 400
+                    })
+                }
+            }
+            this.gLoading = false
+        },
 
         //combine tx and redeemer creator
         createTxGraph(tx) {

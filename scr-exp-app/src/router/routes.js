@@ -39,7 +39,8 @@ const routes = [
     path: '/utxos',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '', component: () => import('src/pages/Util/ErrorNotFound.vue') }
+      { path: '', component: () => import('src/pages/Content/UtxoPage.vue') },
+      { path: ':txHash', component: () => import('src/pages/Content/UtxoPage.vue') }
     ]
   },{
     path: '/about',

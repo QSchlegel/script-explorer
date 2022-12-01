@@ -39,8 +39,7 @@ const scriptPurpose = computed(() => {
 
 </script>
 <template>
-  <q-card v-if="props.scriptHash != undefined" flat bordered class="q-ma-md">
-
+  <q-card v-if="props.scriptHash != undefined" flat >
     <q-card-section class="row q-px-md q-pb-none">
       <HoverIcon class="col-auto q-pt-lg"
       :icon-name="'sym_o_code'"
@@ -52,16 +51,11 @@ const scriptPurpose = computed(() => {
           :start-offset="10" :end-offset="10" :btn-size="'xs'"/>
     </q-card-section>
 
-    
-    
-
     <AddressView v-if="scriptType.includes('plutus') && scriptPurpose.includes('spend')" :input="props.scriptHash" :is-address="false" />
 
     <PlutusView v-if="scriptType.includes('plutus')" :script-hash="props.scriptHash"/>
 
     <TimelockView v-if="scriptType === 'timelock'" :data="scrStore.timelock" />
-
-    <q-linear-progress query track-color="primary" color="accent" class="q-mt-sm" v-if='scrStore.dLoading' />
 
   </q-card>
 
