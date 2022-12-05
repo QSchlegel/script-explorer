@@ -1,8 +1,3 @@
-<script setup>
-import SearchView from 'src/components/Util/SearchView.vue';
-
-</script>
-
 <template>
   <q-page>
     <!--Title-->
@@ -11,6 +6,5 @@ import SearchView from 'src/components/Util/SearchView.vue';
         Script-Explorer
       </h2>
     </div>
-    <SearchView />
   </q-page>
 </template>

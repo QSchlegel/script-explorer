@@ -49,6 +49,7 @@ const scriptPurpose = computed(() => {
       />
       <CopyToClipboard class="text-overline col-auto q-pt-xs" :content="props.scriptHash" 
           :start-offset="10" :end-offset="10" :btn-size="'xs'"/>
+      
     </q-card-section>
 
     <AddressView v-if="scriptType.includes('plutus') && scriptPurpose.includes('spend')" :input="props.scriptHash" :is-address="false" />

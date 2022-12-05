@@ -2,15 +2,13 @@
 import { ref } from 'vue'
 import { useNetStore } from 'src/stores/net-store'
 
-
 const netStore = useNetStore()
-
 const pID = ref('')
 const infoToggle = ref(false)
 </script>
 
 <template>
-    <div v-if="!netStore.LoggedIn" class="q-pa-md">
+    <div class="q-pa-md">
         <q-input v-model="pID" text spellcheck="off" bottom-slots label="Enter Project ID">
             <template #append>
                 <q-btn flat round icon="login" @click="netStore.setApi(pID); pID = ''" />
@@ -18,13 +16,13 @@ const infoToggle = ref(false)
         </q-input>
     </div>
 
-    <q-card v-if="!netStore.LoggedIn" flat class="col-12 col-sm-6 q-ma-md">
+    <q-card  flat class="col-12 col-sm-6 q-ma-md">
         <q-card-section>
             <q-card-section class="text-h5 q-pt-md q-pl-md q-pb-none row">
                 <div class="col-auto">
-                    <q-btn v-if="!infoToggle" flat bordered round icon="chevron_right"
+                    <q-btn v-if="!infoToggle" flat bordered round icon="sym_o_chevron_right"
                         @click="infoToggle = !infoToggle" />
-                    <q-btn v-if="infoToggle" flat round icon="keyboard_arrow_down" @click="infoToggle = !infoToggle" />
+                    <q-btn v-if="infoToggle" flat round icon="sym_o_keyboard_arrow_down" @click="infoToggle = !infoToggle" />
                 </div>
                 <div class="col-10 q-ma-xs">
                     How to use the Script Explorer ?

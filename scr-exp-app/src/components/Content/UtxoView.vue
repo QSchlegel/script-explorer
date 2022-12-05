@@ -4,6 +4,7 @@ import { onMounted, ref, computed } from 'vue';
 import CopyToClipboard from '../Util/CopyToClipboard.vue';
 import HoverIcon from '../Util/HoverIcon.vue';
 import SankeyView from './SankeyView.vue';
+
 const txStore = useTxStore()
 
 const props = defineProps({
@@ -32,6 +33,7 @@ const utxo = computed(() => {
                 :content="''" />
             <CopyToClipboard class="col-auto" :content="utxo.address" :start-offset="15" :end-offset="10"
                 :btn-size="'xs'" :link="'addresses'" />
+            
         </div>
         <div class="row q-pl-xl">
             <HoverIcon class="col-auto q-pt-lg" :icon-name="'sym_o_receipt_long'" :icon-size="'sm'" :headline="'UTxO'"
