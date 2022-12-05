@@ -5,6 +5,7 @@ import { useGraphStore } from 'stores/graph-store';
 import SankeyView from './SankeyView.vue';
 import CopyToClipboard from '../Util/CopyToClipboard.vue';
 import HoverIcon from '../Util/HoverIcon.vue';
+import GridToggleView from "../Util/GridToggleView.vue";
 
 const addrStore = useAddrStore();
 const graphStore = useGraphStore();
@@ -42,12 +43,15 @@ const makeAddrObject = () => {
     const utxoList = addrStore.addressUTxOList.filter((f) => emptyPredicate(f))
     if (addrList !== [] && addrList[0] !== undefined &&
         txList !== [] && txList[0] !== undefined &&
-        utxoList !== [] && utxoList[0] !== undefined)
+        utxoList !== [] && utxoList[0] !== undefined){
+        graphStore.createAddressGraph(addrList[0].address)
         return {
             info: addrList[0],
             tx: txList[0],
             utxo: utxoList[0]
         }
+        }
+        
     return 'empty'
 }
 
@@ -63,12 +67,15 @@ const calcQuantity = (quantity, decimals) => {
 <template>
     <div class="" v-if="addrObject.info !== undefined && addrObject !== 'empty'">
         <q-card-section class="q-pt-none" >
-            {{ graphStore.createAddressGraph(addrObject.info.address) }}
-
             <div class="row ">
-                <HoverIcon class="col-auto q-pt-lg" :icon-name="'sym_o_wallet'" :icon-size="'sm'" :headline="'Address'" :content="''" />
+
+                <q-icon name="sym_o_chevron_left" size="sm" class="col-auto q-pt-lg" v-if="addrObject.info.data.script" />
+                <HoverIcon class="col-auto q-pt-lg" :icon-name="'sym_o_wallet'" :icon-size="'sm'" :headline="(addrObject.info.data.script)?'Scriptaddress':'Address'" :content="''" />
+                <q-icon name="sym_o_chevron_right" size="sm" class="col-auto q-pt-lg" v-if="addrObject.info.data.script" />
                 <CopyToClipboard class="text-overline col-auto q-pt-xs" :content="addrObject.info.address" 
                     :startOffset="15" :endOffset="8" :btnSize="'xs'" />
+                <div class="col" />
+                <GridToggleView class="col-auto q-pt-lg" :grid-id="addrObject.info.address" :grid-type="'address'" />
             </div>
 
 

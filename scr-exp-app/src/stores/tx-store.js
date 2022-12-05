@@ -16,7 +16,7 @@ export const useTxStore = defineStore('tx-store', {
     actions: {
         async loadTx(){},
         async loadUtxos(tx, scriptHash='') {
-            if (tx!== '' && this.utxosList.filter((f) => f.txHash === tx).length === 0) {
+            if (tx !== '' && this.utxosList.filter((f) => f.txHash === tx).length === 0) {
                 try {
                     const data = await axios.get(
                         netStore.ApiDetails.url + 'txs/' + tx + '/utxos', {

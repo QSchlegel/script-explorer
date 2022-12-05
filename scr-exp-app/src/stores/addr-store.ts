@@ -10,7 +10,6 @@ export const useAddrStore = defineStore('addr-store', {
         addressList: [],
         loadInfo: false,
         addressInfoList: [],
-
         addressTxList: [],
         addressUTxOList: [],
 
