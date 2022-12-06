@@ -17,8 +17,8 @@ export const useGridStore = defineStore('grid-store', {
             switch (gridType) {
                 case 'address': if (this.addrList.filter((f) => f.id === gridId).length === 0) {
                     this.addrList.push({ id: gridId });
-                     await this.loadAddressItems(gridId)
-                     this.generateGraph()
+                    await this.loadAddressItems(gridId)
+                    setTimeout(() => {  this.generateGraph() }, 2000);
                 } break
                 case 'tx': if (this.txList.filter((f) => f.id === gridId).length === 0) {
                     this.txList.push({ id: gridId });
@@ -60,8 +60,8 @@ export const useGridStore = defineStore('grid-store', {
                         inAddr: AddrIn,
                         outAddr: AddrOut
                     }
-                })
-                this.addrList = this.addrList.map((m) => (m.id === addr) ? { id: addr, txs: txList } : m)
+                });
+                this.addrList = this.addrList.map((m) => (m.id === addr) ? { id: addr, txs: txList } : m);
             }
         },
         async loadTxItems(tx) {
