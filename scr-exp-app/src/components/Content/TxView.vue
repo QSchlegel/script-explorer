@@ -28,12 +28,13 @@ onUpdated(() => {
 
 <template>
     <div class="row q-px-md">
+        <GridToggleView class="col-auto q-pt-md" :grid-id="props.txHash" :grid-type="'tx'" />
         <HoverIcon class="col-auto q-pt-lg" :icon-name="'sym_o_input'" :icon-size="'sm'" :headline="'Transaction'"
             :content="''" />
         <CopyToClipboard class="col q-pt-xs text-overline" :content="props.txHash" :start-offset="8" :end-offset="8"
             :btn-size="'xs'" :link="'txs'" />
         <div class="col" />
-        <GridToggleView class="col-auto q-pt-lg" :grid-id="props.txHash" :grid-type="'tx'" />
+        
     </div>
 
     <div class="q-pa-sm"

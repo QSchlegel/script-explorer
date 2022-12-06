@@ -68,14 +68,14 @@ const calcQuantity = (quantity, decimals) => {
     <div class="" v-if="addrObject.info !== undefined && addrObject !== 'empty'">
         <q-card-section class="q-pt-none" >
             <div class="row ">
-
+                <GridToggleView class="col-auto q-pt-md" :grid-id="addrObject.info.address" :grid-type="'address'" />
                 <q-icon name="sym_o_chevron_left" size="sm" class="col-auto q-pt-lg" v-if="addrObject.info.data.script" />
                 <HoverIcon class="col-auto q-pt-lg" :icon-name="'sym_o_wallet'" :icon-size="'sm'" :headline="(addrObject.info.data.script)?'Scriptaddress':'Address'" :content="''" />
                 <q-icon name="sym_o_chevron_right" size="sm" class="col-auto q-pt-lg" v-if="addrObject.info.data.script" />
                 <CopyToClipboard class="text-overline col-auto q-pt-xs" :content="addrObject.info.address" 
                     :startOffset="15" :endOffset="8" :btnSize="'xs'" />
                 <div class="col" />
-                <GridToggleView class="col-auto q-pt-lg" :grid-id="addrObject.info.address" :grid-type="'address'" />
+                
             </div>
 
 
