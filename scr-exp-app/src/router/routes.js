@@ -24,7 +24,7 @@ const routes = [
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: '', component: () => import('src/pages/Util/ErrorNotFound.vue') },
-      { path: ':assetId', component: () => import('src/pages/Util/ErrorNotFound.vue') }
+      { path: ':assetId', component: () => import('src/pages/Content/AssetPage.vue') }
       // { path: 'policy/:policyId', component: () => import('pages/ErrorNotFound.vue') }
       // assetId = policyId + assetName(hexencoded)---> Todo HexedcoderFkt
     ]

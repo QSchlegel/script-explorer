@@ -1,6 +1,6 @@
 <script setup>
 import * as d3 from 'd3'
-import { onMounted, onUnmounted, onUpdated, ref, watch } from 'vue';
+import { onMounted, onUnmounted, ref, watch } from 'vue';
 import {useRouter} from 'vue-router';
 import { useGridStore } from 'src/stores/grid-store';
 
@@ -13,9 +13,6 @@ onMounted(() => {
     watch( gridStore ,
     () => { getViewport(); },
     { deep:true, immediate: true })
-})
-onUpdated(() => {
-    getViewport()
 })
 onUnmounted(() => {
     window.removeEventListener('resize', getViewport());

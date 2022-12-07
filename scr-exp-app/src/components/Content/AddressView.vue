@@ -16,9 +16,10 @@ const props = defineProps({
 })
 
 onMounted(async () => mountloader())
-onUpdated(async () => { 
-    if (props.input !== ((props.isAddress) ? 
-    addrObject.value.info.address : addrObject.value.info.scriptHash)) addrObject.value = makeAddrObject() })
+onUpdated(async () => {
+    if (props.input !== ((props.isAddress) ?
+        addrObject.value.info.address : addrObject.value.info.scriptHash)) addrObject.value = makeAddrObject()
+})
 
 const addrObject = ref({})
 
@@ -32,7 +33,7 @@ const mountloader = async () => {
     if (addrStore.addressInfoList.filter((f) => emptyPredicate(f)).length === 0) {
         const xy = await addrStore.loadAddress(props.input, props.isAddress)
         if (xy === 'xyz') addrObject.value = makeAddrObject()
-    }else {
+    } else {
         addrObject.value = makeAddrObject()
     }
 
@@ -43,15 +44,15 @@ const makeAddrObject = () => {
     const utxoList = addrStore.addressUTxOList.filter((f) => emptyPredicate(f))
     if (addrList !== [] && addrList[0] !== undefined &&
         txList !== [] && txList[0] !== undefined &&
-        utxoList !== [] && utxoList[0] !== undefined){
+        utxoList !== [] && utxoList[0] !== undefined) {
         graphStore.createAddressGraph(addrList[0].address)
         return {
             info: addrList[0],
             tx: txList[0],
             utxo: utxoList[0]
         }
-        }
-        
+    }
+
     return 'empty'
 }
 
@@ -66,16 +67,19 @@ const calcQuantity = (quantity, decimals) => {
 
 <template>
     <div class="" v-if="addrObject.info !== undefined && addrObject !== 'empty'">
-        <q-card-section class="q-pt-none" >
+        <q-card-section class="q-pt-none">
             <div class="row ">
                 <GridToggleView class="col-auto q-pt-md" :grid-id="addrObject.info.address" :grid-type="'address'" />
-                <q-icon name="sym_o_chevron_left" size="sm" class="col-auto q-pt-lg" v-if="addrObject.info.data.script" />
-                <HoverIcon class="col-auto q-pt-lg" :icon-name="'sym_o_wallet'" :icon-size="'sm'" :headline="(addrObject.info.data.script)?'Scriptaddress':'Address'" :content="''" />
-                <q-icon name="sym_o_chevron_right" size="sm" class="col-auto q-pt-lg" v-if="addrObject.info.data.script" />
-                <CopyToClipboard class="text-overline col-auto q-pt-xs" :content="addrObject.info.address" 
+                <q-icon name="sym_o_chevron_left" size="sm" class="col-auto q-pt-lg"
+                    v-if="addrObject.info.data.script" />
+                <HoverIcon class="col-auto q-pt-lg" :icon-name="'sym_o_wallet'" :icon-size="'sm'"
+                    :headline="(addrObject.info.data.script) ? 'Scriptaddress' : 'Address'" :content="''" />
+                <q-icon name="sym_o_chevron_right" size="sm" class="col-auto q-pt-lg"
+                    v-if="addrObject.info.data.script" />
+                <CopyToClipboard class="text-overline col-auto q-pt-xs" :content="addrObject.info.address"
                     :startOffset="15" :endOffset="8" :btnSize="'xs'" />
                 <div class="col" />
-                
+
             </div>
 
 
@@ -96,9 +100,12 @@ const calcQuantity = (quantity, decimals) => {
                             <tr v-for="a, index in addrObject.info.data.amount" :key="index">
                                 <td class="text-left">{{ calcQuantity(a.quantity, a.decimals) }}</td>
                                 <td class="text-left" v-if="a.unit === 'lovelace'">₳</td>
-                                <td class="text-left" v-else>{{ a.unit.slice(0, 5) + '...' + a.unit.slice(a.unit.length
-                                        - 5)
-                                }}</td>
+                                <td class="text-left" v-else>
+                                    <router-link :to="'/assets/' + a.unit" class="col-auto text-indigo-9"
+                                        style="text-decoration: none">
+                                        {{ a.unit.slice(0, 5) + '...' + a.unit.slice(a.unit.length- 5) }}
+                                    </router-link>
+                                </td>
                                 <!--Placeholder for clickable AssetView-->
                             </tr>
                         </tbody>
@@ -115,9 +122,7 @@ const calcQuantity = (quantity, decimals) => {
                         <tbody>
                             <tr v-for="utxo, index in addrObject.utxo.data" :key="index">
                                 <td class="text-left">
-                                    <router-link 
-                                        :to="'/utxos/'+utxo.tx_hash+'-'+utxo.tx_index" 
-                                        class="text-indigo-9" 
+                                    <router-link :to="'/utxos/' + utxo.tx_hash + '-' + utxo.tx_index" class="text-indigo-9"
                                         style="text-decoration: none">
                                         {{ utxo.tx_hash }}
                                     </router-link>
@@ -138,9 +143,7 @@ const calcQuantity = (quantity, decimals) => {
                         <tbody>
                             <tr v-for="tx, index in addrObject.tx.data" :key="index">
                                 <td class="text-left">
-                                    <router-link 
-                                        :to="'/txs/'+tx.tx_hash" 
-                                        class="text-indigo-9" 
+                                    <router-link :to="'/txs/' + tx.tx_hash" class="text-indigo-9"
                                         style="text-decoration: none">
                                         {{ tx.tx_hash }}
                                     </router-link>
@@ -150,7 +153,7 @@ const calcQuantity = (quantity, decimals) => {
                         </tbody>
                     </q-markup-table>
                 </div>
-                
+
             </div>
         </q-card-section>
     </div>
