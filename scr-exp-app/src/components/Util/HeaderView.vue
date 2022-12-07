@@ -15,9 +15,9 @@ const netStore = useNetStore()
 
     <div class="row q-pa-md" v-if="netStore.LoggedIn" >
         <div class="col-auto q-pt-sm">
-                    <q-btn flat bordered round icon="sym_o_grain"
+                    <q-btn flat bordered round icon="sym_o_apps"
                         @click="gridStore.gridSwitch = true" to="/grid" />
-                    <q-btn flat round icon="sym_o_hub"
+                    <q-btn flat round icon="sym_o_map"
                          @click="gridStore.gridSwitch = false" to="/grid"/>
         </div>
         <SearchView class="col"/>
