@@ -11,9 +11,7 @@ export const useAddrStore = defineStore('addr-store', {
         loadInfo: false,
         addressInfoList: [],
         addressTxList: [],
-        addressUTxOList: [],
-
-        currentAddress: ''
+        addressUTxOList: []
 
     }),
     actions: {
@@ -21,8 +19,6 @@ export const useAddrStore = defineStore('addr-store', {
             try {
                 const address = (isAddress) ? input :
                     (await axios.get('https://europe-central2-canvas-joy-368008.cloudfunctions.net/function-1?mode=' + netStore.mode + '&address=' + input)).data
-
-                this.currentAddress = address
                 return Promise.all([
                     this.loadAddressInfo(address, (!isAddress) ? input : ''),
                     this.loadAddressTransactions(address, (!isAddress) ? input : ''),
@@ -31,6 +27,7 @@ export const useAddrStore = defineStore('addr-store', {
                 
             } catch (err) {
                 console.log(err)
+                return false
             }
         },
         async loadAddressInfo(address, scriptHash) {
