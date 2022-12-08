@@ -6,6 +6,7 @@ import TimelockView from "./TimelockView.vue";
 import PlutusView from "./PlutusView.vue";
 import CopyToClipboard from "../Util/CopyToClipboard.vue";
 import HoverIcon from "../Util/HoverIcon.vue";
+import PolicyView from "./PolicyView.vue";
 
 const scrStore = useScrStore();
 
@@ -48,15 +49,15 @@ const scriptPurpose = computed(() => {
       :content="'This is a Scripthash'"
       />
       <CopyToClipboard class="text-overline col-auto q-pt-xs" :content="props.scriptHash" 
-          :start-offset="10" :end-offset="10" :btn-size="'xs'"/>
+          :start-offset="10" :end-offset="10" :btn-size="'xs'" :link="'scripts'"/>
       
     </q-card-section>
 
     <AddressView v-if="scriptType.includes('plutus') && scriptPurpose.includes('spend')" :input="props.scriptHash" :is-address="false" />
-
     <PlutusView v-if="scriptType.includes('plutus')" :script-hash="props.scriptHash"/>
 
     <TimelockView v-if="scriptType === 'timelock'" :data="scrStore.timelock" />
+    <PolicyView class="q-ma-md" v-if="scriptType === 'timelock'||scriptType.includes('plutus') && scriptPurpose.includes('mint')" :policy-id="props.scriptHash" />
 
   </q-card>
 

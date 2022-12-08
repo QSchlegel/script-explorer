@@ -9,7 +9,8 @@ export const useAssetStore = defineStore('asset-store', {
 
         assetList: [],
         assetAddrList: [],
-        assetTxList: []
+        assetTxList: [],
+        policyList:[]
 
     }),
     actions: {
@@ -23,11 +24,14 @@ export const useAssetStore = defineStore('asset-store', {
                         }
                     })
                     this.assetList = this.assetList.concat(data.data)
+                    return true
                     
                 } catch (err) {
                     console.log(err)
+                    return false
                 }
             }
+            return true
         },
         async loadAssetAddr(asset) {
             if (this.assetAddrList.filter((f) => f.asset === asset).length === 0) {
@@ -62,6 +66,26 @@ export const useAssetStore = defineStore('asset-store', {
                     console.log(err)
                 }
             }
+        },
+        async loadPolicy(policyId){
+            if(this.policyList.filter((f)=> f.policyId === policyId).length===0){
+                try{
+                    const data = await axios.get( netStore.ApiDetails.url + '/assets/policy/' + policyId, {
+                        headers: {
+                            project_id: netStore.ApiDetails.pid
+                        }
+                    })
+                    this.policyList.push({
+                        policyId: policyId,
+                        assets: data.data
+                    })
+                    return true;
+                } catch (err){
+                    console.log(err)
+                    return false;
+                }
+            }
+            return true;
         }
     }
 })
