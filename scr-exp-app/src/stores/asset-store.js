@@ -18,7 +18,7 @@ export const useAssetStore = defineStore('asset-store', {
             if (this.assetList.filter((f) => f.asset === asset).length === 0) {
                 try {
                     const data = await axios.get(
-                        netStore.ApiDetails.url + '/assets/' + asset, {
+                        netStore.ApiDetails.url + 'assets/' + asset, {
                         headers: {
                             project_id: netStore.ApiDetails.pid
                         }
@@ -31,13 +31,13 @@ export const useAssetStore = defineStore('asset-store', {
                     return false
                 }
             }
-            return true
+            return false
         },
         async loadAssetAddr(asset) {
             if (this.assetAddrList.filter((f) => f.asset === asset).length === 0) {
                 try {
                     const data = await axios.get(
-                        netStore.ApiDetails.url + '/assets/' + asset +'/addresses', {
+                        netStore.ApiDetails.url + 'assets/' + asset +'/addresses', {
                         headers: {
                             project_id: netStore.ApiDetails.pid
                         }
@@ -54,7 +54,7 @@ export const useAssetStore = defineStore('asset-store', {
             if (this.assetTxList.filter((f) => f.asset === asset).length === 0) {
                 try {
                     const data = await axios.get(
-                        netStore.ApiDetails.url + '/assets/' + asset +'/transactions', {
+                        netStore.ApiDetails.url + 'assets/' + asset +'/transactions', {
                         headers: {
                             project_id: netStore.ApiDetails.pid
                         }
@@ -70,7 +70,7 @@ export const useAssetStore = defineStore('asset-store', {
         async loadPolicy(policyId){
             if(this.policyList.filter((f)=> f.policyId === policyId).length===0){
                 try{
-                    const data = await axios.get( netStore.ApiDetails.url + '/assets/policy/' + policyId, {
+                    const data = await axios.get( netStore.ApiDetails.url + 'assets/policy/' + policyId, {
                         headers: {
                             project_id: netStore.ApiDetails.pid
                         }
@@ -85,7 +85,7 @@ export const useAssetStore = defineStore('asset-store', {
                     return false;
                 }
             }
-            return true;
+            return false;
         }
     }
 })
