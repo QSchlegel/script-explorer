@@ -1,5 +1,5 @@
 <script setup>
-import AssetView from 'src/components/Content/AssetView.vue';
+import PolicyView from 'src/components/Content/PolicyView.vue';
 
     
 </script>
@@ -7,7 +7,7 @@ import AssetView from 'src/components/Content/AssetView.vue';
 <template>
     <q-page>
         <q-card  class="q-ma-md q-pa-md" flat bordered>
-            <AssetView :asset-id="$route.params.assetId" />
+            <PolicyView :policy-id="$route.params.policyId" />
         </q-card>
         
     </q-page>
