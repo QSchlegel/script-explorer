@@ -53,7 +53,9 @@ const generateGraph = () => {
         .data(links)
         .join("path")
         .attr("stroke", d => color(d.type))
-        .attr("marker-end", d => `url(${new URL(`#arrow-${d.type}`, location)})`);
+        .attr("marker-end", d => `url(${new URL(`#arrow-${d.type}`, location)})`)
+        .attr("source", d =>  d.source.id)
+        .attr("target", d =>  d.target.id);
 
     const colorizeNode = (id) => {
         var tmp = "#b0c1d1"
@@ -63,10 +65,16 @@ const generateGraph = () => {
         return tmp
     }
     const nodeHoverIn = (d, i) => {
-        d3.select(d.target.parentNode).attr("fill", "green");
+        d3.select(d.target.parentNode)
+        .attr("fill", "green");
+        d3.selectAll("[source='"+ d.target.parentNode.id +"'],[target='"+ d.target.parentNode.id +"']")
+        .attr("stroke-width", 3)
     }
     const nodeHoverOut = (d, i) => {
-        d3.select(d.target.parentNode).attr("fill", (d) => colorizeNode(d.id));
+        d3.select(d.target.parentNode)
+        .attr("fill", (d) => colorizeNode(d.id));
+        d3.selectAll("[source='"+ d.target.parentNode.id +"'],[target='"+ d.target.parentNode.id +"']")
+        .attr("stroke-width", 1)
     }
     const nodeClick = (d, i) => {
         const tmp = d3.select(d.target.parentNode).data()[0].id
@@ -79,6 +87,7 @@ const generateGraph = () => {
         .data(nodes)
         .join("g")
         .attr("fill", (d) => colorizeNode(d.id))
+        .attr("id", d => d.id)
         .on("mouseover", nodeHoverIn)
         .on("mouseout", nodeHoverOut)
         .on("click", nodeClick)
