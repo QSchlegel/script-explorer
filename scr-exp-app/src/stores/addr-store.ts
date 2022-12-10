@@ -23,16 +23,17 @@ export const useAddrStore = defineStore('addr-store', {
                     this.loadAddressInfo(address, (!isAddress) ? input : ''),
                     this.loadAddressTransactions(address, (!isAddress) ? input : ''),
                     this.loadAddressUTxOs(address, (!isAddress) ? input : '')
-                ]).then(([a,b,c])=> a+b+c )
-                
+                ]).then(([a, b, c]) => a && b && c)
+
             } catch (err) {
                 console.log(err)
                 return false
             }
         },
         async loadAddressInfo(address, scriptHash) {
-            try {
-                if (this.addressInfoList.filter((f) => f.address === address).length === 0) {
+            if (this.addressInfoList.filter((f) => f.address === address).length === 0) {
+                try {
+
                     this.loadInfo = true
                     const data = await axios.get(netStore.ApiDetails.url + 'addresses/' + address + '/extended', {
                         headers: { project_id: netStore.ApiDetails.pid }
@@ -44,16 +45,19 @@ export const useAddrStore = defineStore('addr-store', {
 
                     })
                     this.loadInfo = false
-                    return 'x'
-                }
+                    return true
 
-            } catch (err) {
-                console.log(err)
-            }
+
+                } catch (err) {
+                    console.log(err)
+                    return false
+                }
+            } return true
         },
         async loadAddressTransactions(address, scriptHash) {
-            try {
-                if (this.addressTxList.filter((f) => f.address === address).length === 0) {
+            if (this.addressTxList.filter((f) => f.address === address).length === 0) {
+                try {
+
                     const txData = await axios.get(netStore.ApiDetails.url + 'addresses/' + address + '/transactions', {
                         headers: { project_id: netStore.ApiDetails.pid }
                     })
@@ -62,16 +66,19 @@ export const useAddrStore = defineStore('addr-store', {
                         scriptHash: scriptHash,
                         data: txData.data
                     })
-                }
-                return 'y'
 
-            } catch (err) {
-                console.log(err)
-            }
+                    return true
+
+                } catch (err) {
+                    console.log(err)
+                    return false
+                }
+            } return true
         },
         async loadAddressUTxOs(address, scriptHash) {
-            try {
-                if (this.addressUTxOList.filter((f) => f.address === address).length === 0) {
+            if (this.addressUTxOList.filter((f) => f.address === address).length === 0) {
+                try {
+
                     const utxoData = await axios.get(netStore.ApiDetails.url + 'addresses/' + address + '/utxos', {
                         headers: { project_id: netStore.ApiDetails.pid }
                     })
@@ -80,12 +87,14 @@ export const useAddrStore = defineStore('addr-store', {
                         scriptHash: scriptHash,
                         data: utxoData.data
                     })
-                }
-                return 'z'
 
-            } catch (err) {
-                console.log(err)
-            }
+                    return true
+
+                } catch (err) {
+                    console.log(err)
+                    return false
+                }
+            } return true
         }
     }
 })

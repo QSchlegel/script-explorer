@@ -15,7 +15,7 @@ const gridStore = useGridStore();
         <!-- Addresses -->
         <div class="col-12 col-md-6">
             <p class="text-overline q-pl-md">Addresses:</p>
-            <div class="row" v-for="addr, index in gridStore.addrList" :key="index">
+            <div class="row" v-for="addr, index in gridStore.addrListMem" :key="index">
                 <div class="col-12">
                     <q-card flat bordered class="q-ma-sm">
                         <div class="row">
@@ -32,7 +32,7 @@ const gridStore = useGridStore();
         <!-- Txs -->
         <div class="col-12 col-md-6">
             <p class="text-overline q-pl-md">Transactions:</p>
-            <div class="row " v-for="tx, index in gridStore.txList" :key="index">
+            <div class="row " v-for="tx, index in gridStore.txListMem" :key="index">
                 <div class="col-12">
                     <q-card flat bordered class="q-ma-sm">
                         <div class="row">

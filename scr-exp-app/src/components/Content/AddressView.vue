@@ -31,8 +31,8 @@ const emptyPredicate = (f) => {
 const mountloader = async () => {
 
     if (addrStore.addressInfoList.filter((f) => emptyPredicate(f)).length === 0) {
-        const xy = await addrStore.loadAddress(props.input, props.isAddress)
-        if (xy === 'xyz') addrObject.value = makeAddrObject()
+        const x = await addrStore.loadAddress(props.input, props.isAddress)
+        if (x) addrObject.value = makeAddrObject()
     } else {
         addrObject.value = makeAddrObject()
     }
