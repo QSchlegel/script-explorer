@@ -1,18 +1,26 @@
 <script setup>
 import * as d3 from 'd3'
 import { onMounted, onUnmounted, ref, watch } from 'vue';
-import {useRouter} from 'vue-router';
+import { useRouter } from 'vue-router';
 import { useGridStore } from 'src/stores/grid-store';
 
 const gridStore = useGridStore();
 const router = useRouter();
 
-onMounted(() => {
+onMounted(async () => {
+    if (gridStore.graph.length === 0) {
+        const addrs = gridStore.addrListMem.map(m => gridStore.loadItem(m.id, 'address'))
+        const txs = gridStore.txListMem.map(m => gridStore.loadItem(m.id, 'tx'))
+        await Promise.all([addrs, txs]).then(setTimeout(() => { gridStore.generateGraph() }, 3000))
+    }
+
     window.addEventListener('resize', getViewport);
     getViewport()
-    watch( gridStore ,
-    () => { getViewport(); },
-    { deep:true, immediate: true })
+    watch(gridStore,
+        () => { getViewport(); },
+        { deep: true, immediate: true })
+
+
 })
 onUnmounted(() => {
     window.removeEventListener('resize', getViewport());
@@ -29,7 +37,7 @@ const getViewport = async () => {
 }
 
 const generateGraph = () => {
-    if (gridStore.graph===[]) return
+    if (gridStore.graph === []) return
     const links = gridStore.graph.map(d => Object.create(d));
     const nodes = Array.from(new Set(gridStore.graph.flatMap(l => [l.source, l.target])), id => ({ id })).map(d => Object.create(d));
     const w = document.documentElement.clientWidth,
@@ -44,7 +52,33 @@ const generateGraph = () => {
 
     const svg = d3.create("svg")
         .attr("viewBox", [-w * 2, -h * 2, w * 4, h * 4 - r * 20])
-        .style("font", "36px sans-serif");
+        .style("font", "42px sans-serif");
+
+        // create a list of keys
+        var keys = ["Input", "Output", "Adderss", "Transaction", "Grid Selection"]
+
+        var colorL = d3.scaleOrdinal(keys, ["blue", "red", "#e8aa38", "#b0c1d1", "black"])
+
+        svg.selectAll("mydots")
+            .data(keys)
+            .enter()
+            .append("circle")
+            .attr("cx", -(w*2)+30)
+            .attr("cy", function (d, i) { return -(h*2)+50 + i * 40 }) // 100 is where the first dot appears. 25 is the distance between dots
+            .attr("r", 7)
+            .style("fill", function (d) { return colorL(d) })
+
+        // Add one dot in the legend for each name.
+        svg.selectAll("mylabels")
+            .data(keys)
+            .enter()
+            .append("text")
+            .attr("x", -(w*2)+50)
+            .attr("y", function (d, i) { return -(h*2) + 50 + i * 40 }) // 100 is where the first dot appears. 25 is the distance between dots
+            .style("fill", function (d) { return colorL(d) })
+            .text(function (d) { return d })
+            .attr("text-anchor", "left")
+            .style("alignment-baseline", "middle")
 
     const link = svg.append("g")
         .attr("fill", "none")
@@ -54,8 +88,8 @@ const generateGraph = () => {
         .join("path")
         .attr("stroke", d => color(d.type))
         .attr("marker-end", d => `url(${new URL(`#arrow-${d.type}`, location)})`)
-        .attr("source", d =>  d.source.id)
-        .attr("target", d =>  d.target.id);
+        .attr("source", d => d.source.id)
+        .attr("target", d => d.target.id);
 
     const colorizeNode = (id) => {
         var tmp = "#b0c1d1"
@@ -66,19 +100,21 @@ const generateGraph = () => {
     }
     const nodeHoverIn = (d, i) => {
         d3.select(d.target.parentNode)
-        .attr("fill", "green");
-        d3.selectAll("[source='"+ d.target.parentNode.id +"'],[target='"+ d.target.parentNode.id +"']")
-        .attr("stroke-width", 3)
+            .attr("fill", "green")
+            .style("font", "58px sans-serif");
+        d3.selectAll("[source='" + d.target.parentNode.id + "'],[target='" + d.target.parentNode.id + "']")
+            .attr("stroke-width", 4)
     }
     const nodeHoverOut = (d, i) => {
         d3.select(d.target.parentNode)
-        .attr("fill", (d) => colorizeNode(d.id));
-        d3.selectAll("[source='"+ d.target.parentNode.id +"'],[target='"+ d.target.parentNode.id +"']")
-        .attr("stroke-width", 1)
+            .attr("fill", (d) => colorizeNode(d.id))
+            .style("font", "36px sans-serif");
+        d3.selectAll("[source='" + d.target.parentNode.id + "'],[target='" + d.target.parentNode.id + "']")
+            .attr("stroke-width", 1)
     }
     const nodeClick = (d, i) => {
         const tmp = d3.select(d.target.parentNode).data()[0].id
-        router.push((tmp.slice(0,4) === 'addr')? '/addresses/'+tmp : '/txs/'+tmp )
+        router.push((tmp.slice(0, 4) === 'addr') ? '/addresses/' + tmp : '/txs/' + tmp)
     }
     const node = svg.append("g")
         .attr("stroke-linecap", "round")
@@ -128,6 +164,8 @@ const generateGraph = () => {
         node.attr("transform", d => `translate(${d.x},${d.y})`)
             .attr("cx", (d) => { d.x = Math.min(w * 1.9 - r, Math.max(-w * 1.9, d.x)); })
             .attr("cy", (d) => { d.y = Math.min(h * 1.9 - r * 20, Math.max(-h * 1.9, d.y)); });
+
+        
     });
     return svg.node();
 }
@@ -139,8 +177,8 @@ const color = d3.scaleOrdinal(types, ["red", "blue"])
 const linkArc = (d) => {
     const r = Math.hypot(d.target.x - d.source.x, d.target.y - d.source.y);
     return `
-    M${d.source.x},${d.source.y}
-    A${r},${r} 0 0,1 ${d.target.x},${d.target.y}
+    M${d.target.x},${d.target.y}
+    A${r},${r} 0 0,1 ${d.source.x},${d.source.y}
   `;
 }
 const drag = (simulation) => {
@@ -166,9 +204,6 @@ const drag = (simulation) => {
 </script>
 
 <template>
-    <q-card class="q-ma-md q-pa-sm" flat bordered>
-        Please be aware, that the Map is still in an early developement state! ⚠️
-    </q-card>
     <q-card class="q-ma-md" flat bordered>
         <div id="grid"></div>
     </q-card>

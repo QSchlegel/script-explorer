@@ -8,6 +8,8 @@ const gridStore = useGridStore();
 
 <template>
     <q-page>
+
+        <q-linear-progress query track-color="primary" color="accent" class="q-mt-sm" v-if='!gridStore.gridSwitch && gridStore.graph.length === 0' />
         <GridView v-if="gridStore.gridSwitch"/>
         <MapView  v-if="!gridStore.gridSwitch"/>
     </q-page>

@@ -9,8 +9,8 @@ const props = defineProps({
     gridType: String
 })
 const toggleOn = computed(() => {
-    return ((props.gridType === 'address') ? gridStore.addrList :
-        (props.gridType === 'tx') ? gridStore.txList : []
+    return ((props.gridType === 'address') ? gridStore.addrListMem :
+        (props.gridType === 'tx') ? gridStore.txListMem : []
     ).filter((f) => f.id === props.gridId).length > 0
 })
 </script>
