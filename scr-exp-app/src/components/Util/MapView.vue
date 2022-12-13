@@ -52,7 +52,7 @@ const generateGraph = () => {
 
     const svg = d3.create("svg")
         .attr("viewBox", [-w * 2, -h * 2, w * 4, h * 4 - r * 20])
-        .style("font", "42px sans-serif");
+        .style("font", "35px sans-serif");
 
         // create a list of keys
         var keys = ["Input", "Output", "Adderss", "Transaction", "Grid Selection"]
@@ -64,7 +64,7 @@ const generateGraph = () => {
             .enter()
             .append("circle")
             .attr("cx", -(w*2)+30)
-            .attr("cy", function (d, i) { return -(h*2)+50 + i * 40 }) // 100 is where the first dot appears. 25 is the distance between dots
+            .attr("cy", function (d, i) { return -(h*2)+50 + i * 50 }) // 100 is where the first dot appears. 25 is the distance between dots
             .attr("r", 7)
             .style("fill", function (d) { return colorL(d) })
 
@@ -74,11 +74,12 @@ const generateGraph = () => {
             .enter()
             .append("text")
             .attr("x", -(w*2)+50)
-            .attr("y", function (d, i) { return -(h*2) + 50 + i * 40 }) // 100 is where the first dot appears. 25 is the distance between dots
+            .attr("y", function (d, i) { return -(h*2) + 50 + i * 50 }) // 100 is where the first dot appears. 25 is the distance between dots
             .style("fill", function (d) { return colorL(d) })
             .text(function (d) { return d })
             .attr("text-anchor", "left")
             .style("alignment-baseline", "middle")
+            .style("font", "50px sans-serif");
 
     const link = svg.append("g")
         .attr("fill", "none")
@@ -108,7 +109,7 @@ const generateGraph = () => {
     const nodeHoverOut = (d, i) => {
         d3.select(d.target.parentNode)
             .attr("fill", (d) => colorizeNode(d.id))
-            .style("font", "36px sans-serif");
+            .style("font", "35px sans-serif");
         d3.selectAll("[source='" + d.target.parentNode.id + "'],[target='" + d.target.parentNode.id + "']")
             .attr("stroke-width", 1)
     }

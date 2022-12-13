@@ -1,5 +1,6 @@
 <script setup>
 import { useGridStore } from 'src/stores/grid-store'
+import ChordView from '../Content/ChordView.vue';
 import CopyToClipboard from './CopyToClipboard.vue';
 import GridToggle from './GridToggleView.vue';
 
@@ -32,13 +33,19 @@ const gridStore = useGridStore();
         <!-- Txs -->
         <div class="col-12 col-md-6">
             <p class="text-overline q-pl-md">Transactions:</p>
-            <div class="row " v-for="tx, index in gridStore.txListMem" :key="index">
+            <div class="row " v-for="tx, index in gridStore.txList" :key="index">
                 <div class="col-12">
                     <q-card flat bordered class="q-ma-sm">
                         <div class="row">
-                             <GridToggle class="col-auto q-mt-xs" :grid-id="tx.id" :grid-type="'tx'" />
-                             <CopyToClipboard class="col-auto" :content="tx.id" :start-offset="10" :end-offset="10" :btn-size="'sm'"
-                            :link="'txs'" />
+                            <div class="col-3 q-pa-md">
+                                <ChordView :graph-id="tx.id" :graphtype="'tx'" />
+                            </div>
+                            <div class="col-9 " />
+                            <div class="col-12 row">
+                                <GridToggle class="col-auto q-mt-xs" :grid-id="tx.id" :grid-type="'tx'" />
+                                <CopyToClipboard class="col-auto" :content="tx.id" :start-offset="10" :end-offset="10"
+                                    :btn-size="'sm'" :link="'txs'" />
+                            </div>
                         </div>
                     </q-card>
                 </div>

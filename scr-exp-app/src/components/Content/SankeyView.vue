@@ -3,8 +3,10 @@
 import * as d3 from "d3"
 import * as d3Sankey from "d3-sankey"
 import { useGraphStore } from 'stores/graph-store';
+import { useTxStore } from 'stores/tx-store';
 import { onMounted, onUpdated } from "vue";
 
+const txStore = useTxStore()
 const graphStore = useGraphStore();
 
 //color groups
@@ -17,11 +19,11 @@ const props = defineProps({
     graphId: String
 })
 
-onMounted(() => {
+onMounted( async() => {
     sankeyGraphId()
 })
 
-onUpdated(() => {
+onUpdated(async () => {
     sankeyGraphId()
 })
 
@@ -35,7 +37,7 @@ const makeLabel = (d) => {
     return d.id.split('_').pop()
 }
 
-const sankeyGraphId = () => {
+const sankeyGraphId = async()  => {
     if (props.graphtype !== null) {
         var graph = []
         if (props.graphtype === 'address') {
@@ -47,6 +49,7 @@ const sankeyGraphId = () => {
             graph = graphStore.utxoGraphList.filter((f) => f.utxo === props.graphId)[0]
         }
         if (props.graphtype === 'tx') {
+            await txStore.loadUtxos(props.graphId)
             graphStore.createTxGraph(props.graphId);
             graph = graphStore.txGraphList.filter((f) => f.id === props.graphId)[0];
         }
