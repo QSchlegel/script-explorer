@@ -80,11 +80,11 @@ export const useGraphStore = defineStore('graph-store', {
                     (m.collateral === false) ? links.push({
                         source: "inaddr_" + m.addr,
                         target: "inutxo_" + m.utxo,
-                        value: m.quantity
+                        value: parseInt(m.quantity)
                     }, {
                         source: "inutxo_" + m.utxo,
                         target: (m.unit === 'lovelace') ? "ada_" + m.unit : "unit_" + m.unit,
-                        value: m.quantity
+                        value: parseInt(m.quantity)
                     }) :
                         '')
                 //Outputs
@@ -93,11 +93,11 @@ export const useGraphStore = defineStore('graph-store', {
                     (m.collateral === false) ? links.push({
                         source: (m.unit === 'lovelace') ? "ada_" + m.unit : "unit_" + m.unit,
                         target: "oututxo_" + m.utxo,
-                        value: m.quantity
+                        value: parseInt(m.quantity)
                     }, {
                         source: "oututxo_" + m.utxo,
                         target: "outaddr_" + m.addr,
-                        value: m.quantity
+                        value: parseInt(m.quantity)
                     }) : '')
                 //Detect Burns 🔥 and Mints 🔨
                 valueOut.map((m) =>
@@ -105,11 +105,11 @@ export const useGraphStore = defineStore('graph-store', {
                         links.push({
                             source: "iutil_In Util",
                             target: "mint_Mint 🔨",
-                            value: m.quantity
+                            value: parseInt(m.quantity)
                         }, {
                             source: "mint_Mint 🔨",
                             target: "unit_" + m.unit,
-                            value: m.quantity
+                            value: parseInt(m.quantity)
                         }) : m
                 )
                 valueIn.map((m) =>
@@ -117,11 +117,11 @@ export const useGraphStore = defineStore('graph-store', {
                         links.push({
                             source: "unit_" + m.unit,
                             target: "burn_Burn 🔥",
-                            value: m.quantity
+                            value: parseInt(m.quantity)
                         }, {
                             source: "burn_Burn 🔥",
                             target: "outil_Out Util",
-                            value: m.quantity
+                            value: parseInt(m.quantity)
                         }) : m
                 )
                 //calculate Fees
@@ -145,6 +145,7 @@ export const useGraphStore = defineStore('graph-store', {
                 })
             }
             this.gLoading = false
+            return
         }
     }
 })

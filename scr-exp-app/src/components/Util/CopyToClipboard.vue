@@ -17,6 +17,9 @@ const copyToClipboard = () => {
             class="text-indigo-9 col-auto q-pa-sm" 
             style="text-decoration: none;">{{props.content.slice(0, props.startOffset) + ' ... ' + props.content.slice(props.content.length - props.endOffset) }}
         </router-link>
-        <q-btn class="col-auto" flat round icon="content_copy" :size="props.btnSize" @click="copyToClipboard()" />
+        <q-gutter class="col q-pt-sm">
+            <q-btn class="col-auto" flat round icon="content_copy" :size="props.btnSize" @click="copyToClipboard()" />
+        </q-gutter>
+        
     </div>
 </template>

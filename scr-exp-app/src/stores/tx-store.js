@@ -14,7 +14,20 @@ export const useTxStore = defineStore('tx-store', {
         
     }),
     actions: {
-        async loadTx(){},
+        async loadTx(tx){
+            if (tx !== undefined && this.txList.filter((f)=> f.hash === tx).length === 0){
+                try {
+                    const data = await axios.get(
+                        netStore.ApiDetails.url + 'txs/' + tx, {
+                        headers: { project_id: netStore.ApiDetails.pid }
+                    })
+                    this.txList.push(data.data)
+                } catch (err) {
+                    console.log(err)
+                    return false 
+                }
+            }
+        },
         async loadUtxos(tx, scriptHash='') {
             if (tx !== '' && this.utxosList.filter((f) => f.txHash === tx).length === 0) {
                 try {

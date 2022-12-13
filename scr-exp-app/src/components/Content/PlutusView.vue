@@ -1,9 +1,8 @@
 <script setup>
 import { useScrStore } from 'stores/scr-store';
 import { useTxStore } from 'stores/tx-store';
-import TxView from './TxView.vue';
 import HoverIcon from '../Util/HoverIcon.vue';
-//import UtxoView from './UtxoView.vue';
+import SankeyView from './SankeyView.vue';
 
 const scrStore = useScrStore();
 const txStore = useTxStore();
@@ -33,16 +32,20 @@ const props = defineProps({
                 </div>
                 <div class="q-my-sm col-10 col-sm-5 col-lg row">
                     <HoverIcon class="q-pt-xs q-mr-md col-auto" :icon-name="'sym_o_input'" :icon-size="'sm'"
-                        :headline="'Transaction'"
-                        :content="'A Transaction consists of a Tx hash and a Tx index, which are denoted in the following way: hash-index'" />
+                        :headline="'Redeemer'"
+                        :content="'A Redeemer consists of a Tx hash and a Tx index, which are denoted in the following way: hash-index'" />
                     <div class="q-pt-sm col-auto">
-                        {{ tx.tx_hash.slice(0, 7) + " ... " + tx.tx_hash.slice(tx.tx_hash.length - 7) + " - " +
-                                tx.tx_index
-                        }}
+                        <router-link :to="'/txs/' + tx.tx_hash" class="col-auto text-indigo-9"
+                            style="text-decoration: none">
+                            {{ tx.tx_hash.slice(0, 7) + " ... " + tx.tx_hash.slice(tx.tx_hash.length - 7)
+                                    + " - " + tx.tx_index
+                            }}
+                        </router-link>
+
                     </div>
                 </div>
 
-                
+
                 <div class="col-2 col-sm-auto" />
                 <div class="q-my-sm col-10 col-sm-4 col-lg row">
                     <HoverIcon class="q-pt-xs q-mr-md col-auto" :icon-name="'sym_o_payments'" :icon-size="'sm'"
@@ -82,8 +85,8 @@ const props = defineProps({
                 </div>
             </div>
 
-            <TxView v-if="txStore.currentTx === tx.tx_hash && txStore.currentTxIndex === tx.tx_index"
-                :tx-hash="tx.tx_hash" :script-hash="props.scriptHash" />
+            <SankeyView v-if="txStore.currentTx === tx.tx_hash && txStore.currentTxIndex === tx.tx_index"
+                :graph-id="tx.tx_hash" :graphtype="'tx'" />
         </q-card>
     </div>
 
