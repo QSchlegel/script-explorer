@@ -16,7 +16,7 @@ const toggleOn = computed(() => {
 </script>
 <template>
     <div class="q-gutter-sm">
-        <q-btn v-if="!toggleOn" flat bordered round icon="sym_o_radio_button_unchecked" @click="gridStore.addItem(props.gridId, props.gridType)" />
-        <q-btn v-if="toggleOn" flat bordered round icon="sym_o_radio_button_checked" @click="gridStore.removeItem(props.gridId, props.gridType)" />
+        <q-btn v-if="!toggleOn" flat bordered round icon="sym_o_add" @click="gridStore.addItem(props.gridId, props.gridType)" />
+        <q-btn v-if="toggleOn" flat bordered round icon="sym_o_close" @click="gridStore.removeItem(props.gridId, props.gridType)" />
     </div>
 </template>

@@ -37,9 +37,14 @@ const txObj = computed(() => {
         <q-linear-progress query track-color="primary" color="accent" class="q-mt-sm"
             v-if="txObj.info === undefined && txObj.utxos === undefined" />
 
+        <div class="row">
+            <div class="col-11"></div>
+            <GridToggleView class="col-auto q-pt-md" :grid-id="props.txHash" :grid-type="'tx'" />
+        </div>
+
         <div v-if="txObj.info !== undefined && txObj.utxos !== undefined">
             <div class="row q-px-md">
-                <GridToggleView class="col-auto q-pt-md" :grid-id="props.txHash" :grid-type="'tx'" />
+
                 <HoverIcon class="col-auto q-pt-lg" :icon-name="'sym_o_input'" :icon-size="'sm'"
                     :headline="'Transaction'" :content="''" />
                 <CopyToClipboard class="col q-pt-xs text-overline" :content="props.txHash" :start-offset="8"
@@ -53,7 +58,7 @@ const txObj = computed(() => {
                 <div class="col-1 col-sm-auto"></div>
                 <!--Blockinfos-->
                 <div class="col-12 col-sm-7">
-                    <q-markup-table class="q-ma-md" flat bordered dense seperator="horizontal">
+                    <q-markup-table class="q-ma-md" flat bordered seperator="horizontal">
                         <tbody>
                             <tr>
                                 <td>
@@ -88,7 +93,7 @@ const txObj = computed(() => {
                                 </td>
                                 <td>
                                     <CopyToClipboard :content="txObj.info.block" :start-offset="10" :end-offset="10"
-                                        :btn-size="'xs'" />
+                                        :btn-size="'xs'" :link="'blocks'" />
                                 </td>
                             </tr>
                             <tr>
