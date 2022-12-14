@@ -18,6 +18,8 @@ onMounted(async () => {
 })
 
 onUpdated(async () => {
+    await txStore.loadUtxos(props.graphId)
+    generateChart()
 })
 
 const generateChart = () => {
@@ -26,6 +28,39 @@ const generateChart = () => {
 }
 
 const chart = () => {
+    const width = 5000
+    const height = width
+    const innerRadius = Math.min(width, height) * 0.5 - 300
+    const outerRadius = innerRadius + 100
+
+    const data = () => {
+        graphStore.createTxGraph(props.graphId)
+        return graphStore.txGraphList.filter((f) => f.id === props.graphId)[0];
+    }
+
+    const names = Array.from(new Set(data().links.flatMap(d => [d.source, d.target]))).sort(d3.ascending)
+
+
+    const chord = d3.chordDirected()
+        .padAngle(50 / innerRadius)
+        .sortSubgroups(d3.descending)
+        .sortChords(d3.descending);
+
+
+    const arc = d3.arc()
+        .innerRadius(innerRadius)
+        .outerRadius(outerRadius)
+
+    const ribbon = d3.ribbonArrow()
+        .radius(innerRadius - 50)
+        .padAngle(20 / innerRadius)
+        .headRadius(100)
+
+    const cg = [['ada', "#4b855e"], ['unit', "#ded09e"], ['inaddr', "#0130a7"], ['inutxo', "#87a4ed"],
+    ['oututxo', "#f5e1e7"], ['outaddr', "#eb7a89"], ['burn', "#f70202"], ['mint', "#07fc03"],
+    ['collateral', "#9022f7"], ['fee', "#f72274"], ['iutil', "#b5dde8"], ['outil', "#b5dde8"]]
+
+    const color = d3.scaleOrdinal(cg.map((m) => m[0]), cg.map((m) => m[1]))
     const svg = d3.create("svg")
         .attr("viewBox", [-width / 2, -height / 2, width, height]);
     const matrix = () => {
@@ -94,39 +129,7 @@ const chart = () => {
 
     return svg.node();
 }
-const width = 5000
-const height = width
-const innerRadius = Math.min(width, height) * 0.5 - 300
-const outerRadius = innerRadius + 100
 
-const data = () => {
-    graphStore.createTxGraph(props.graphId)
-    return graphStore.txGraphList.filter((f) => f.id === props.graphId)[0];
-}
-
-const names = Array.from(new Set(data().links.flatMap(d => [d.source, d.target]))).sort(d3.ascending)
-
-
-const chord = d3.chordDirected()
-    .padAngle(50 / innerRadius)
-    .sortSubgroups(d3.descending)
-    .sortChords(d3.descending);
-
-
-const arc = d3.arc()
-    .innerRadius(innerRadius)
-    .outerRadius(outerRadius)
-
-const ribbon = d3.ribbonArrow()
-    .radius(innerRadius - 50)
-    .padAngle(20 / innerRadius)
-    .headRadius(100)
-
-const cg = [['ada', "#4b855e"], ['unit', "#ded09e"], ['inaddr', "#0130a7"], ['inutxo', "#87a4ed"],
-['oututxo', "#f5e1e7"], ['outaddr', "#eb7a89"], ['burn', "#f70202"], ['mint', "#07fc03"],
-['collateral', "#9022f7"], ['fee', "#f72274"], ['iutil', "#b5dde8"], ['outil', "#b5dde8"]]
-
-const color = d3.scaleOrdinal(cg.map((m) => m[0]), cg.map((m) => m[1]))
 
 </script>
 

@@ -67,14 +67,18 @@ const calcQuantity = (quantity, decimals) => {
 
 <template>
     <q-card flat>
-        <q-linear-progress query track-color="primary" color="accent" class="q-mt-sm" v-if='addrObject.info === undefined && addrObject === "empty"' />
+        <q-linear-progress query track-color="primary" color="accent" class="q-mt-sm"
+            v-if='addrObject.info === undefined && addrObject === "empty"' />
+
+
 
         <div v-if="addrObject.info !== undefined && addrObject !== 'empty'">
-
+            <div class="row">
+                <div class="col-11"></div>
+                <GridToggleView class="col-auto q-pt-md" :grid-id="addrObject.info.address" :grid-type="'address'" />
+            </div>
             <q-card-section class="q-pt-none">
                 <div class="row ">
-                    <GridToggleView class="col-auto q-pt-md" :grid-id="addrObject.info.address"
-                        :grid-type="'address'" />
                     <q-icon name="sym_o_chevron_left" size="sm" class="col-auto q-pt-lg"
                         v-if="addrObject.info.data.script" />
                     <HoverIcon class="col-auto q-pt-lg" :icon-name="'sym_o_wallet'" :icon-size="'sm'"
