@@ -22,6 +22,7 @@
   },
   "devDependencies": {
     "@quasar/app-vite": "^1.0.0",
+    "@quasar/quasar-app-extension-qmarkdown": "^2.0.0-beta.7",
     "autoprefixer": "^10.4.2",
     "eslint": "^8.10.0",
     "eslint-config-standard": "^17.0.0",

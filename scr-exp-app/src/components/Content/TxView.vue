@@ -121,9 +121,9 @@ const txObj = computed(() => {
             </q-card>
 
             <div class="row">
-                <div class="col-auto col-lg" />
+                <div class="col" />
                 <SankeyView class="col-11 q-ma-md" :graphtype="'tx'" :graph-id="props.txHash" />
-                <div class="col-auto col-lg" />
+                <div class="col" />
             </div>
 
             <div class="row" :key="props.txHash">
