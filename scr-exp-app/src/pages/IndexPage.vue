@@ -1,10 +1,8 @@
 <template>
   <q-page>
     <!--Title-->
-    <div class="q-pt-xl q-mt-xl">
-      <h2 class="text-center q-mt-xl">
-        Script-Explorer
-      </h2>
-    </div>
+    <div class="q-ma-md q-pa-md">
+    <h1 class="text-white">Script-Explorer</h1>
+  </div>
   </q-page>
 </template>

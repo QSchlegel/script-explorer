@@ -20,6 +20,7 @@ onMounted(async () => {
 </script>
 
 <template>
+
     <q-card class="q-ma-md q-pa-sm" flat bordered>
         Please be aware, that the Grid is still in an early developement state! ⚠️
     </q-card>
@@ -28,7 +29,7 @@ onMounted(async () => {
         <div class="col-12 col-md-6">
             <p class="text-overline q-pl-md">Addresses:</p>
             <div class="row" >
-                <div class="col-12 col-sm-6" v-for="addr, index in gridStore.addrListMem" :key="index">
+                <div class="col-12 col-lg-6" v-for="addr, index in gridStore.addrListMem" :key="index">
                     <q-card flat bordered class="q-ma-sm">
 
                         <div class="row">
@@ -38,9 +39,11 @@ onMounted(async () => {
                             </div>
 
                             <div class="col-12 row">
-                                <HoverIcon class="q-ml-md q-mt-lg" :headline="'Address'" :content="''" :icon-name="'sym_o_wallet'" :icon-size="'sm'"/>
+                                <div class="col"/>
+                                <HoverIcon class="q-ml-sm q-mt-lg col-auto" :headline="'Address'" :content="''" :icon-name="'sym_o_wallet'" :icon-size="'sm'"/>
                                 <CopyToClipboard class="col-auto" :content="addr.id" :start-offset="15" :end-offset="10"
                                     :btn-size="'xs'" :link="'addresses'" />
+                                <div class="col"/>
                             </div>
                         </div>
                     </q-card>
@@ -65,9 +68,11 @@ onMounted(async () => {
                                 <ChordView :graph-id="tx.id" :graphtype="'tx'" />
                             </div>
                             <div class="col-12 row">
-                                <HoverIcon class="q-ml-md q-mt-lg" :headline="'Transaction'" :content="''" :icon-name="'sym_o_input'" :icon-size="'sm'"/>
+                                <div class="col"/>
+                                <HoverIcon class="q-ml-sm q-mt-lg col-auto" :headline="'Transaction'" :content="''" :icon-name="'sym_o_input'" :icon-size="'sm'"/>
                                 <CopyToClipboard class="col-auto" :content="tx.id" :start-offset="10" :end-offset="10"
                                     :btn-size="'xs'" :link="'txs'" />
+                                <div class="col"/>
                             </div>
                         </div>
                     </q-card>

@@ -56,13 +56,6 @@ const routes = [
       { path: '', component: () => import('src/pages/Util/DonatePage.vue') }
     ]
   },{
-    path: '/glossary',
-    component: () => import('layouts/MainLayout.vue'),
-    children: [
-      { path: '', component: () => import('src/pages/Util/ErrorNotFound.vue') },
-      { path: ':item', component: () => import('src/pages/Util/ErrorNotFound.vue') }
-    ]
-  },{
     path: '/grid',
     component: () => import('layouts/MainLayout.vue'),
     children: [
