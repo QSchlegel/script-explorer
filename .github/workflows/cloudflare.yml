@@ -3,10 +3,10 @@ name: cloudflare
 on:
   push:
     branches:
-      - ssr
+      - main
   pull_request:
     branches:
-      - ssr
+      - main
 
 jobs:
   ci:
