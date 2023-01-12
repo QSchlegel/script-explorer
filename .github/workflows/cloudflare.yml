@@ -10,7 +10,7 @@ on:
 
 defaults:
   run:
-    working-directory: SE-app
+    working-directory: 'SE-app'
 
 jobs:
   ci:
@@ -34,6 +34,7 @@ jobs:
         with:
           path: node_modules
           key: ${{ matrix.os }}-node-v${{ matrix.node }}-deps-${{ hashFiles(format('{0}{1}', github.workspace , '/yarn.lock')) }}
+          working-directory: 'SE-app'
 
       - name: Install Dependencies
         if: steps.cache.outputs.cache-hit != 'true'
@@ -48,4 +49,4 @@ jobs:
         uses: cloudflare/wrangler-action@2.0.0
         with:
           apiToken: ${{ secrets.CF_API_TOKEN }}
-          working-directory: SE-app
+          working-directory: 'SE-app'
