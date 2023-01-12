@@ -35,8 +35,14 @@ jobs:
         if: steps.cache.outputs.cache-hit != 'true'
         run: yarn
 
+      - name: see
+        run: ls
+
       - name: Move to directory
         run: cd SE-app
+
+      - name: CheckMove to directory
+        run: pwd
 
       - name: Build
         run: yarn build
