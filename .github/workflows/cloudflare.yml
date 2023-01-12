@@ -35,21 +35,12 @@ jobs:
         if: steps.cache.outputs.cache-hit != 'true'
         run: yarn
 
-      - name: see
-        run: ls
-
-      - name: Move to directory
-        run: cd SE-app
-
-      - name: CheckMove to directory
-        run: pwd
-
       - name: Build
-        run: yarn build
+        run: ./SE-app/yarn build
         env:
           NITRO_PRESET: cloudflare
 
       - name: Publish to Cloudflare
-        uses: cloudflare/wrangler-action@2.0.0
+        uses: ./SE-app/cloudflare/wrangler-action@2.0.0
         with:
           apiToken: ${{ secrets.CF_API_TOKEN }}
