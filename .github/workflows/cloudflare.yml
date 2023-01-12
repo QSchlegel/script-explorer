@@ -8,6 +8,10 @@ on:
     branches:
       - main
 
+defaults:
+  run:
+    working-directory: SE-app
+
 jobs:
   ci:
     runs-on: ${{ matrix.os }}
@@ -29,15 +33,13 @@ jobs:
         uses: actions/cache@v2
         with:
           path: node_modules
-          key: ${{ matrix.os }}-node-v${{ matrix.node }}-deps-${{ hashFiles(format('{0}{1}', github.workspace.SE-app , '/yarn.lock')) }}
+          key: ${{ matrix.os }}-node-v${{ matrix.node }}-deps-${{ hashFiles(format('{0}{1}', github.workspace , '/yarn.lock')) }}
 
       - name: Install Dependencies
-        working-directory: ./SE-app
         if: steps.cache.outputs.cache-hit != 'true'
         run: yarn
 
       - name: Build
-        working-directory: ./SE-app
         run: yarn build
         env:
           NITRO_PRESET: cloudflare
