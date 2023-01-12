@@ -36,11 +36,13 @@ jobs:
         run: yarn
 
       - name: Build
-        run: ./SE-app/yarn build
+        working-directory: ./SE-app
+        run: yarn build
         env:
           NITRO_PRESET: cloudflare
 
       - name: Publish to Cloudflare
-        uses: ./SE-app/cloudflare/wrangler-action@2.0.0
+        working-directory: ./SE-app
+        uses: cloudflare/wrangler-action@2.0.0
         with:
           apiToken: ${{ secrets.CF_API_TOKEN }}
