@@ -1,4 +1,4 @@
-name = "script-explorer"
+name = "app"
 main = "./.output/server/index.mjs"
 workers_dev = true
 compatibility_date = "2023-01-01"
