@@ -22,16 +22,22 @@ export const useScrStore = defineStore('scr-store', {
 
     }),
     actions: {
-        async loadMoreScripts() {
+        sDLGet(scr){return this.scriptDataList.filter((f)=> {f.script_hash === scr})[0]},
+        async loadMoreScripts(p) {
+
+            if(netStore.LoggedIn !== true){return}
             try {
                 this.slLoading = true
                 const data = await axios.get(netStore.ApiDetails.url + 'scripts', {
                     headers: { project_id: netStore.ApiDetails.pid },
-                    params: { page: this.page, order: 'desc' }
+                    params: { count: 20, page: p, order: 'desc' }
                 })
-                this.scriptList = this.scriptList.concat(data.data.map((s) => s.script_hash))
-                this.page++
+                this.page = p
+                this.scriptList = data.data.map((s) => s.script_hash)
                 this.slLoading = false
+                data.data.map((s)=>this.loadScriptData(s.script_hash))
+                
+                return
 
             } catch (err) {
                 console.log(err)
@@ -39,31 +45,21 @@ export const useScrStore = defineStore('scr-store', {
         },
 
         async loadScriptData(scriptHash) {
-            if (this.scriptDataList.filter((f) => f.script_hash === scriptHash)) {
+            const tmp = this.scriptDataList.filter((f) => f.script_hash === scriptHash)
+            if (tmp.length === 0) {
                 try {
                     this.dLoading = true
                     const data = await axios.get(netStore.ApiDetails.url + 'scripts/' + scriptHash, {
                         headers: { project_id: netStore.ApiDetails.pid }
                     })
                     this.scriptDataList = this.scriptDataList.concat(data.data)
-                    switch (data.data.type) {
-                        case 'timelock':
-                            this.loadScriptJson(scriptHash);
-                            break;
-                        case 'plutusV1':
-                            this.loadScriptRedemer(scriptHash);
-                            break;
-                        case 'plutusV2':
-                            this.loadScriptRedemer(scriptHash);
-                            break;
-                    }
-                    return true
+                    return data.data
                 } catch (err) {
                     console.log(err)
-                    return false
+                    return []
                 }
             }
-            return false
+            return tmp[0]
         },
 
         async loadScriptJson(scriptHash) {
@@ -78,9 +74,10 @@ export const useScrStore = defineStore('scr-store', {
             }
             this.dLoading = false
         },
-
-        async loadScriptRedemer(scriptHash) {
-            if (this.plutusList.filter((f) => f.scriptHash === scriptHash).length === 0) {
+        //ToDo check if empty
+        async loadScriptRedeemer(scriptHash) {
+            const tmp = this.plutusList.filter((f) => f.scriptHash === scriptHash)
+            if (tmp.length === 0) {
                 try {
                     const data = await axios.get(netStore.ApiDetails.url + '/scripts/' + scriptHash + '/redeemers', {
                         headers: { project_id: netStore.ApiDetails.pid }
@@ -89,12 +86,18 @@ export const useScrStore = defineStore('scr-store', {
                         scriptHash: scriptHash,
                         data: data.data
                     })
+                    return {
+                        scriptHash: scriptHash,
+                        data: data.data
+                    }
 
                 } catch (err) {
+                    
                     console.log(err)
                 }
             }
             this.dLoading = false
+            return tmp[0]
         },
         toggleLoadAddrOff() {
             this.loadAddress = false

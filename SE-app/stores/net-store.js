@@ -28,13 +28,13 @@ export const useNetStore = defineStore('net-store', {
 
             
             try {
-                const data = await axios.get(this.ApiDetails.url, {
+                const data = await axios.get(this.ApiDetails.url+"metrics", {
                     headers: {
                         project_id: this.ApiDetails.pid
                     }
                 })
                 
-                if (data.data.url !== '') {
+                if (data.status === 200) {
                     this.LoggedIn = true;
                     return true
                 }

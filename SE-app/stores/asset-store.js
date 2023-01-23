@@ -68,7 +68,8 @@ export const useAssetStore = defineStore('asset-store', {
             }
         },
         async loadPolicy(policyId){
-            if(this.policyList.filter((f)=> f.policyId === policyId).length===0){
+            const tmp = this.policyList.filter((f)=> f.policyId === policyId)
+            if(tmp){
                 try{
                     const data = await axios.get( netStore.ApiDetails.url + 'assets/policy/' + policyId, {
                         headers: {
@@ -80,12 +81,12 @@ export const useAssetStore = defineStore('asset-store', {
                         assets: data.data
                     })
                     return true;
+
                 } catch (err){
-                    console.log(err)
                     return false;
                 }
             }
-            return false;
+            return true;
         }
     }
 })

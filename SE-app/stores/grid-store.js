@@ -12,6 +12,7 @@ export const useGridStore = defineStore('grid-store', {
         txListMem: useStorage('txListMem', []),
         addrList: [],
         txList: [],
+        scrList: [],
         graph: [],
         gridSwitch: true
     }),
@@ -27,6 +28,9 @@ export const useGridStore = defineStore('grid-store', {
                     this.txListMem.push({ id: gridId });
                     await this.loadTxItems(gridId)
                     this.generateGraph()
+                } break
+                case 'scr': if (this.scrList.filter((f) => f.id === gridId).length === 0) {
+                    this.scrList.push({id:gridId})
                 } break
             }
         },
@@ -44,6 +48,7 @@ export const useGridStore = defineStore('grid-store', {
             switch (gridType) {
                 case 'address': this.addrList = this.addrList.filter((f) => f.id !== gridId); this.addrListMem = this.addrListMem.filter((f) => f.id !== gridId); break
                 case 'tx': this.txList = this.txList.filter((f) => f.id !== gridId); this.txListMem = this.txListMem.filter((f) => f.id !== gridId); break
+                case 'scr': this.scrList = this.scrList.filter((f) => f.id !== gridId); break
             }
             this.generateGraph()
         },

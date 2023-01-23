@@ -15,21 +15,25 @@ export const useTxStore = defineStore('tx-store', {
     }),
     actions: {
         async loadTx(tx){
-            if (tx !== undefined && this.txList.filter((f)=> f.hash === tx).length === 0){
+            const tmp = this.txList.filter((f)=> f.hash === tx)
+            if (tx !== undefined && tmp.length === 0){
                 try {
                     const data = await axios.get(
                         netStore.ApiDetails.url + 'txs/' + tx, {
                         headers: { project_id: netStore.ApiDetails.pid }
                     })
                     this.txList.push(data.data)
+                    return data.data
                 } catch (err) {
                     console.log(err)
                     return false 
                 }
             }
+            return tmp[0]
         },
         async loadUtxos(tx, scriptHash='') {
-            if (tx !== '' && this.utxosList.filter((f) => f.txHash === tx).length === 0) {
+            const tmp = this.utxosList.filter((f) => f.txHash === tx)
+            if (tx !== '' && tmp.length === 0) {
                 try {
                     const data = await axios.get(
                         netStore.ApiDetails.url + 'txs/' + tx + '/utxos', {
@@ -41,13 +45,18 @@ export const useTxStore = defineStore('tx-store', {
                         inputs      :   data.data.inputs,
                         outputs     :   data.data.outputs
                     })
-                    return true
+                    return {
+                        scriptHash  :   scriptHash,
+                        txHash      :   data.data.hash,
+                        inputs      :   data.data.inputs,
+                        outputs     :   data.data.outputs
+                    }
                 } catch (err) {
                     console.log(err)
                     return false
                 }
             }
-            return true
+            return tmp[0]
         }
     }
 })
