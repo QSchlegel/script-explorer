@@ -20,8 +20,10 @@ const route = useRoute()
 
 const scrType = ref('')
 const plutusType = ref('')
+const loaded = ref('false')
 
 const loadScript = async () => {
+    loaded.value = false
     const tmp = await scrStore.loadScriptData(route.params.id)
     if (tmp !== []) {
         if (tmp.type === 'timelock') {
@@ -41,6 +43,7 @@ const loadScript = async () => {
         scrType.value = tmp.type
     }
     scrStore.currentScript = route.params.id
+    loaded.value = true
 }
 
 // initialize components based on data attribute selectors
@@ -67,20 +70,20 @@ const shortenHash = (txt) => { return txt.slice(0, 15) + " ... " + txt.slice(txt
         <div class="flex justify-between px-4 pt-4">
 
             <div class="flex p-1.5" data-popover-target="popover-scripthash" data-popover-placement="bottom">
-                <svg v-if="scrStore.slLoading !== true && netStore.LoggedIn === true && scrType === 'timelock'"
+                <svg v-if="loaded === true && netStore.LoggedIn === true && scrType === 'timelock'"
                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                     stroke="currentColor" class="w-3 h-3 m-1.5 md:w-5 md:h-5 md:m-2.5 text-gray-900 dark:text-white">
                     <path stroke-linecap="round" stroke-linejoin="round"
                         d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
                 </svg>
-                <svg v-if="scrStore.slLoading !== true && netStore.LoggedIn === true && scrType !== 'timelock'"
+                <svg v-if="loaded === true && netStore.LoggedIn === true && scrType !== 'timelock'"
                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                     stroke="currentColor" class="w-3 h-3 m-1.5 md:w-5 md:h-5 md:m-2.5 text-gray-900 dark:text-white">
                     <path stroke-linecap="round" stroke-linejoin="round"
                         d="M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5" />
                 </svg>
-                <svg aria-hidden="true" v-if="scrStore.slLoading === true"
-                    class="w-5 h-5 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
+                <svg aria-hidden="true" v-if="loaded !== true"
+                    class="w-3 h-3 m-1.5 md:w-5 md:h-5 md:m-2.5 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
                     viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
                         d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"

@@ -30,71 +30,72 @@ export const useAddrStore = defineStore('addr-store', {
                 return false
             }
         },
-        async loadAddressInfo(address, scriptHash) {
-            if (this.addressInfoList.filter((f) => f.address === address).length === 0) {
+        async loadAddressInfo(address, scriptHash = '') {
+            const tmp = this.addressInfoList.filter((f) => f.address === address)
+            if (tmp.length === 0) {
                 try {
 
                     this.loadInfo = true
                     const data = await axios.get(netStore.ApiDetails.url + 'addresses/' + address + '/extended', {
                         headers: { project_id: netStore.ApiDetails.pid }
                     })
-                    this.addressInfoList = this.addressInfoList.concat({
+                    const res = {
                         address: data.data.address,
                         scriptHash: scriptHash,
                         data: data.data,
-
-                    })
+                    }
+                    this.addressInfoList = this.addressInfoList.concat(res)
                     this.loadInfo = false
-                    return true
-
-
+                    return res
                 } catch (err) {
                     console.log(err)
                     return false
                 }
-            } return true
+            } return tmp
         },
-        async loadAddressTransactions(address, scriptHash) {
-            if (this.addressTxList.filter((f) => f.address === address).length === 0) {
+        async loadAddressTransactions(address, scriptHash = '') {
+            const tmp = this.addressTxList.filter((f) => f.address === address)
+            if (tmp.length === 0) {
                 try {
 
                     const txData = await axios.get(netStore.ApiDetails.url + 'addresses/' + address + '/transactions', {
-                        headers: { project_id: netStore.ApiDetails.pid }
+                        headers: { project_id: netStore.ApiDetails.pid },
+                        params: { count: 20, page: 1, order: 'desc' }
                     })
-                    this.addressTxList = this.addressTxList.concat({
+                    const res = {
                         address: address,
                         scriptHash: scriptHash,
                         data: txData.data
-                    })
-
-                    return true
-
+                    }
+                    this.addressTxList = this.addressTxList.concat(res)
+                    return res
                 } catch (err) {
                     console.log(err)
                     return false
                 }
-            } return true
+            } return tmp
         },
         async loadAddressUTxOs(address, scriptHash) {
-            if (this.addressUTxOList.filter((f) => f.address === address).length === 0) {
+            const tmp = this.addressUTxOList.filter((f) => f.address === address)
+            if (tmp.length === 0) {
                 try {
 
                     const utxoData = await axios.get(netStore.ApiDetails.url + 'addresses/' + address + '/utxos', {
-                        headers: { project_id: netStore.ApiDetails.pid }
+                        headers: { project_id: netStore.ApiDetails.pid },
+                        params: { count: 100, page: 1, order: 'desc' }
                     })
-                    this.addressUTxOList = this.addressUTxOList.concat({
+                    const res = {
                         address: address,
                         scriptHash: scriptHash,
                         data: utxoData.data
-                    })
-
-                    return true
-
+                    }
+                    this.addressUTxOList = this.addressUTxOList.concat(res)
+                    return res
                 } catch (err) {
                     console.log(err)
                     return false
                 }
-            } return true
+            } return tmp
         }
     }
 })
