@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import axios from "axios";
 import { useNetStore } from './net-store';
-import { Buffer } from 'buffer/'  // note: the trailing slash is important!
+import { Buffer } from 'buffer'  // note: the trailing slash is important!
 
 const netStore = useNetStore();
 

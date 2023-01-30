@@ -1,5 +1,5 @@
 <script setup>
-import { Buffer } from 'buffer/'  // note: the trailing slash is important!
+import { Buffer } from 'buffer'  // note: the trailing slash is important!
 //CSS Framework imports
 import { initDropdowns, initPopovers } from 'flowbite'
 //Store imports
