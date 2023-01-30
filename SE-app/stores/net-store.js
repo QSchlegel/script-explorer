@@ -4,14 +4,14 @@ import { useStorage } from '@vueuse/core'
 
 export const useNetStore = defineStore('net-store', {
     state: () => ({
-//TD store as a List
-        ApiDetails: useStorage('ApiDetails',{
+        //TD store as a List
+        ApiDetails: useStorage('ApiDetails', {
             url: String,
             pid: String
         }),
         LoggedIn: useStorage('LoggedIn', Boolean),
         mode: useStorage('mode', String)
-        
+
     }),
     actions: {
         async setApi(pID) {
@@ -20,20 +20,18 @@ export const useNetStore = defineStore('net-store', {
                 url: '',
                 pid: pID
             }
+            if (pID.startsWith('mainnet')) { this.ApiDetails.url = 'https://blockfrost-proxy.script-explorer.workers.dev/'; this.mode = 'mainnet' }
 
-            if(pID.startsWith('mainnet')){this.ApiDetails.url   = 'https://cardano-mainnet.blockfrost.io/api/v0/'; this.mode='mainnet'}
-            if(pID.startsWith('testnet')){this.ApiDetails.url   = 'https://cardano-testnet.blockfrost.io/api/v0/'; this.mode='testnet'}
-            if(pID.startsWith('preprod')){this.ApiDetails.url   = 'https://cardano-preprod.blockfrost.io/api/v0/'; this.mode='testnet'}
-            if(pID.startsWith('preview')){this.ApiDetails.url   = 'https://cardano-preview.blockfrost.io/api/v0/'; this.mode='testnet'}
-
-            
             try {
-                const data = await axios.get(this.ApiDetails.url+"metrics", {
+                const data = await axios.get(this.ApiDetails.url + "metrics", {
                     headers: {
-                        project_id: this.ApiDetails.pid
+                        project_id: this.ApiDetails.pid,
+                        'Access-Control-Allow-Headers': '*',
+                        'Access-Control-Allow-Origin': '*',
+                        'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS'
                     }
                 })
-                
+
                 if (data.status === 200) {
                     this.LoggedIn = true;
                     return true
@@ -49,7 +47,7 @@ export const useNetStore = defineStore('net-store', {
             this.ApiDetails = {}
             this.LoggedIn = false
             this.mode = ''
-            
+
         }
     }
 })

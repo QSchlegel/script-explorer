@@ -9,6 +9,7 @@ import { useGridStore } from '/stores/grid-store'
 import LoginNotice from '~~/components/core/Login/LoginNotice.vue';
 import { storeToRefs } from 'pinia'
 import InOutputView from '~~/components/core/tx/InOutputView.vue'
+import TxTimeView from '~~/components/core/tx/TxTimeView.vue'
 
 //init Stores
 const netStore = useNetStore()
@@ -26,11 +27,9 @@ const loadTx = async () => {
     const txData = txStore.loadTx(route.params.id);
     const utxoData = txStore.loadUtxos(route.params.id);
     await Promise.all([txData, utxoData])
-    loaded.value = (txData !== false) && (utxoData !== false)
     dataUtxo.value = await utxoData
     dataTx.value = await txData
-
-
+    loaded.value = (txData !== false) && (utxoData !== false)
 }
 
 // initialize components based on data attribute selectors
@@ -39,8 +38,6 @@ onMounted(() => {
     initPopovers();
     if (netStore.LoggedIn === true) { loadTx(); }
 })
-
-
 watch(LoggedIn, () => {
     loadTx()
 })
@@ -52,7 +49,7 @@ const shortenHash = (txt) => { return txt.slice(0, 15) + " ... " + txt.slice(txt
 
 <template>
     <div class="grow" />
-    <div class="w-96 md:w-fit bg-white border border-gray-200 rounded-lg dark:bg-gray-800 dark:border-gray-700 md:p-3">
+    <div class="w-96 md:w-3/4 bg-white border border-gray-200 rounded-lg dark:bg-gray-800 dark:border-gray-700 md:p-3">
         <div class="flex justify-between px-4 pt-4">
             <div class="flex p-1.5" data-popover-target="popover-tx" data-popover-placement="bottom">
                 <svg v-if="loaded" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
@@ -194,6 +191,15 @@ const shortenHash = (txt) => { return txt.slice(0, 15) + " ... " + txt.slice(txt
                         <tr class="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-600">
                             <th scope="row"
                                 class="flex px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                Time
+                            </th>
+                            <td class="px-6 py-4">
+                                <TxTimeView :blockTime="dataTx.block_time" />
+                            </td>
+                        </tr>
+                        <tr class="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-600">
+                            <th scope="row"
+                                class="flex px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 Size
                             </th>
                             <td class="px-6 py-4">
@@ -289,15 +295,7 @@ const shortenHash = (txt) => { return txt.slice(0, 15) + " ... " + txt.slice(txt
                                 {{ dataTx.block_height }}
                             </td>
                         </tr>
-                        <tr class="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-600">
-                            <th scope="row"
-                                class="flex px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                Time
-                            </th>
-                            <td class="px-6 py-4">
-                                {{ dataTx.block_time }}
-                            </td>
-                        </tr>
+                        
                         <tr class="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-600">
                             <th scope="row"
                                 class="flex px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">

@@ -1,36 +1,46 @@
 <script setup>
-import { onMounted } from 'vue'
+import { Buffer } from 'buffer/'  // note: the trailing slash is important!
+//CSS Framework imports
 import { initDropdowns, initPopovers } from 'flowbite'
+//Store imports
 import { useNetStore } from '/stores/net-store'
 import { useAddrStore } from '/stores/addr-store'
 import { useGridStore } from '/stores/grid-store'
-import LoginNotice from '~~/components/core/Login/LoginNotice.vue';
 import { storeToRefs } from 'pinia'
-import InOutputView from '~~/components/core/tx/InOutputView.vue'
+//Component imports
+import LoginNotice from '~~/components/core/Login/LoginNotice.vue';
 import AmountView from '~~/components/core/tx/AmountView.vue'
 import EutxoView from '~~/components/core/tx/EutxoView.vue'
-
+import TxTimeView from '~~/components/core/tx/TxTimeView.vue'
 //init Stores
 const netStore = useNetStore()
 const addrStore = useAddrStore()
 const gridStore = useGridStore()
-
 const { LoggedIn } = storeToRefs(netStore)
-
+//init Route Params
 const route = useRoute()
+//init Component variables
 const loaded = ref(false)
 const dataInfo = ref('')
 const dataTx = ref('')
 const dataUtxo = ref('')
-
+const page = ref(1)
+const pIDAdaHandle = 'f0ff48bbb7bbe9d59a40f1ce90e9e9d0ff5002ec48f232b49ca0fb9a';
+//Component Functions
 const loadAddr = async () => {
     dataInfo.value = await addrStore.loadAddressInfo(route.params.id)
     dataTx.value = await addrStore.loadAddressTransactions(route.params.id)
     dataUtxo.value = await addrStore.loadAddressUTxOs(route.params.id)
     loaded.value = true
-
 }
-// initialize components based on data attribute selectors
+const loadMoreTx = async () => {
+    page.value = page.value + 1
+    const tmp = dataTx.value.data
+    dataTx.value = await addrStore.loadAddressTransactions(route.params.id, page.value)
+    dataTx.value.data = tmp.concat(dataTx.value.data)
+}
+const shortenHash = (txt) => { return txt.slice(0, 15) + " ... " + txt.slice(txt.length - 10) }
+
 onMounted(() => {
     initDropdowns();
     initPopovers();
@@ -39,13 +49,13 @@ onMounted(() => {
 watch(LoggedIn, () => {
     loadAddr()
 })
-const shortenHash = (txt) => { return txt.slice(0, 15) + " ... " + txt.slice(txt.length - 10) }
 </script>
 
 
 <template>
     <div class="grow" />
-    <div class="w-96 md:w-fit bg-white border border-gray-200 rounded-lg dark:bg-gray-800 dark:border-gray-700 md:p-3">
+    <div class="w-96 md:w-3/4 bg-white border border-gray-200 rounded-lg dark:bg-gray-800 dark:border-gray-700 md:p-3">
+
         <div class="flex justify-between px-4 pt-4">
             <div class="flex p-1.5 text-gray-900 dark:text-white" data-popover-target="popover-addr"
                 data-popover-placement="bottom">
@@ -65,8 +75,6 @@ const shortenHash = (txt) => { return txt.slice(0, 15) + " ... " + txt.slice(txt
                     class="w-3 h-3 my-1.5 md:w-5 md:h-5 md:my-2.5 ">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
                 </svg>
-
-
                 <svg aria-hidden="true" v-if="!loaded && netStore.LoggedIn === true"
                     class="w-3 h-3 mx-3 my-1.5 md:w-5 md:h-5 md:mx-5 md:my-2.5 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
                     viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -163,6 +171,21 @@ const shortenHash = (txt) => { return txt.slice(0, 15) + " ... " + txt.slice(txt
             </div>
             <div data-popper-arrow> </div>
         </div>
+        
+        <div v-if="netStore.LoggedIn === true && loaded && dataInfo !== ''" v-for="handle in dataInfo.data.amount
+        .filter(({ unit }) => unit.includes(pIDAdaHandle))
+        .map(({ unit }) => {
+            const hexName = unit.replace(pIDAdaHandle, '');
+            const utf8Name = Buffer.from(hexName, 'hex').toString('utf8');
+            return utf8Name;
+        })" class="flex px-10 text-lg text-gray-900 dark:text-white">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" class="w-4 h-4 mt-1.5 mx-1">
+                <path stroke-linecap="round"
+                    d="M16.5 12a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zm0 0c0 1.657 1.007 3 2.25 3S21 13.657 21 12a9 9 0 10-2.636 6.364M16.5 12V8.25" />
+            </svg>
+            <p class=""> {{ handle }}</p>
+        </div>
         <br />
 
         <LoginNotice />
@@ -182,7 +205,7 @@ const shortenHash = (txt) => { return txt.slice(0, 15) + " ... " + txt.slice(txt
         <br />
 
         <div v-if="netStore.LoggedIn === true && loaded
-        && dataUtxo !== ''" class="px-3">
+        && dataUtxo !== '' && dataUtxo.data" class="px-3">
             <div class="inline-flex items-center justify-center w-full">
                 <hr class="w-72 h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
                 <span
@@ -209,35 +232,38 @@ const shortenHash = (txt) => { return txt.slice(0, 15) + " ... " + txt.slice(txt
                 </span>
             </div>
 
-            <div class="relative overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-700">
+            <div class="relative overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-700 mx-5">
 
-                <ol class="relative mx-5 m-1 py-4 border-l border-gray-200 dark:border-gray-700">
-                    <li v-for="tx, index in dataTx.data " :key="index" class="mb-5 ml-4">
+                <ol class="relative mx-5 mt-5 pb-1 border-l border-gray-200 dark:border-gray-700">
+                    <li v-for="tx, index in dataTx.data " :key="index" class="ml-4 my-4">
                         <div
                             class="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -left-1.5 border border-white dark:border-gray-900 dark:bg-gray-700">
                         </div>
-                        <time class="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">Todo Block
-                            time</time>
-                        <NuxtLink :to="'/transactions/' + tx.tx_hash" class="flex text-gray-600 hover:text-gray-900 dark:text-gray-300 hover:dark:text-grey-50">
+                        <time class="mb-1 text-xs font-normal leading-none text-gray-400 dark:text-gray-500">
+                            <TxTimeView :blockTime="tx.block_time" />
+                        </time>
+                        <NuxtLink :to="'/transactions/' + tx.tx_hash"
+                            class="flex my-1 text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-100">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                                class="w-3 h-3 m-1 md:w-4 md:h-4 ">
+                                class="w-3 h-3 m-1 md:w-4 md:h-4">
                                 <path
                                     d="M3.478 2.405a.75.75 0 00-.926.94l2.432 7.905H13.5a.75.75 0 010 1.5H4.984l-2.432 7.905a.75.75 0 00.926.94 60.519 60.519 0 0018.445-8.986.75.75 0 000-1.218A60.517 60.517 0 003.478 2.405z" />
                             </svg>
-                            <h3 class="text-md font-semibold ">{{
+                            <h3 class="text-sm font-semibold my-0.5">{{
                                 shortenHash(tx.tx_hash)+ ' - ' + tx.tx_index
                             }}</h3>
                         </NuxtLink>
-                        <p class="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">tx infos</p>
                     </li>
-
                 </ol>
+                <div v-if="dataTx.data.length % 20 === 0"
+                    class="grid justify-items-center py-3 border-t boder-gray-200 dark:border-gray-700">
+                    <a class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
+                        @click="loadMoreTx()"> Load More </a>
+                </div>
             </div>
 
         </div>
 
     </div>
-
     <div class="grow" />
-
 </template>

@@ -37,7 +37,10 @@ export const useAddrStore = defineStore('addr-store', {
 
                     this.loadInfo = true
                     const data = await axios.get(netStore.ApiDetails.url + 'addresses/' + address + '/extended', {
-                        headers: { project_id: netStore.ApiDetails.pid }
+                        headers: { project_id: netStore.ApiDetails.pid,
+                            'Access-Control-Allow-Headers': '*',
+                            'Access-Control-Allow-Origin': '*',
+                            'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS' }
                     })
                     const res = {
                         address: data.data.address,
@@ -51,16 +54,18 @@ export const useAddrStore = defineStore('addr-store', {
                     console.log(err)
                     return false
                 }
-            } return tmp
+            } return tmp[0]
         },
-        async loadAddressTransactions(address, scriptHash = '') {
+        async loadAddressTransactions(address, addrPage = 1 , scriptHash = '') {
             const tmp = this.addressTxList.filter((f) => f.address === address)
             if (tmp.length === 0) {
                 try {
-
                     const txData = await axios.get(netStore.ApiDetails.url + 'addresses/' + address + '/transactions', {
-                        headers: { project_id: netStore.ApiDetails.pid },
-                        params: { count: 20, page: 1, order: 'desc' }
+                        headers: { project_id: netStore.ApiDetails.pid,
+                            'Access-Control-Allow-Headers': '*',
+                            'Access-Control-Allow-Origin': '*',
+                            'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS' },
+                        params: { count: 20, page: addrPage, order: 'desc' }
                     })
                     const res = {
                         address: address,
@@ -73,7 +78,7 @@ export const useAddrStore = defineStore('addr-store', {
                     console.log(err)
                     return false
                 }
-            } return tmp
+            }return tmp[0]
         },
         async loadAddressUTxOs(address, scriptHash) {
             const tmp = this.addressUTxOList.filter((f) => f.address === address)
@@ -81,8 +86,11 @@ export const useAddrStore = defineStore('addr-store', {
                 try {
 
                     const utxoData = await axios.get(netStore.ApiDetails.url + 'addresses/' + address + '/utxos', {
-                        headers: { project_id: netStore.ApiDetails.pid },
-                        params: { count: 100, page: 1, order: 'desc' }
+                        headers: { project_id: netStore.ApiDetails.pid,
+                            'Access-Control-Allow-Headers': '*',
+                            'Access-Control-Allow-Origin': '*',
+                            'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS' },
+                        params: { count: 20, page: 1, order: 'desc' }
                     })
                     const res = {
                         address: address,
@@ -92,10 +100,9 @@ export const useAddrStore = defineStore('addr-store', {
                     this.addressUTxOList = this.addressUTxOList.concat(res)
                     return res
                 } catch (err) {
-                    console.log(err)
                     return false
                 }
-            } return tmp
+            } return tmp[0]
         }
     }
 })

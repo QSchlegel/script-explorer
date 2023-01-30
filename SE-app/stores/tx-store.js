@@ -20,7 +20,10 @@ export const useTxStore = defineStore('tx-store', {
                 try {
                     const data = await axios.get(
                         netStore.ApiDetails.url + 'txs/' + tx, {
-                        headers: { project_id: netStore.ApiDetails.pid }
+                        headers: { project_id: netStore.ApiDetails.pid,
+                            'Access-Control-Allow-Headers': '*',
+                            'Access-Control-Allow-Origin': '*',
+                            'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS' }
                     })
                     this.txList.push(data.data)
                     return data.data
@@ -37,7 +40,10 @@ export const useTxStore = defineStore('tx-store', {
                 try {
                     const data = await axios.get(
                         netStore.ApiDetails.url + 'txs/' + tx + '/utxos', {
-                        headers: { project_id: netStore.ApiDetails.pid }
+                        headers: { project_id: netStore.ApiDetails.pid,
+                            'Access-Control-Allow-Headers': '*',
+                            'Access-Control-Allow-Origin': '*',
+                            'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS' }
                     })
                     this.utxosList = this.utxosList.concat({
                         scriptHash  :   scriptHash,

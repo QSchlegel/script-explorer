@@ -11,9 +11,12 @@
 
         <p class="text-justify text-gray-500 dark:text-gray-400">This is our address: </p>
         <br />
-
-        <p class="text-justify break-words text-gray-800 dark:text-gray-300">
-            addr1q8evwwefrpj8w0rjvn4uuf2zw3v3cwd2rtk3342rvzguqc5ls7k7sa4mqq653kyv0fk00ga8zgqj6uku3epdvpf7vmjqrkvv20</p>
+        <NuxtLink
+            to="/addresses/addr1q8evwwefrpj8w0rjvn4uuf2zw3v3cwd2rtk3342rvzguqc5ls7k7sa4mqq653kyv0fk00ga8zgqj6uku3epdvpf7vmjqrkvv20">
+            <p class="text-justify break-words text-gray-800 dark:text-gray-300">
+                addr1q8evwwefrpj8w0rjvn4uuf2zw3v3cwd2rtk3342rvzguqc5ls7k7sa4mqq653kyv0fk00ga8zgqj6uku3epdvpf7vmjqrkvv20
+            </p>
+        </NuxtLink>
         <br />
 
     </div>

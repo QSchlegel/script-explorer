@@ -43,8 +43,8 @@
                 <div class="grow" />
             </div>
 
-            <div class="flex grid-cols-12 my-10">
-                <slot />
+            <div class="flex my-10">
+                <slot class="w-1/2" />
             </div>
 
             <br/><br/><br/>
@@ -86,4 +86,8 @@ const loginFkt = async () => {
     }
     loginLoading.value = false
 }
+onMounted(()=>{
+    pID.value = 'mainnet'
+    loginFkt();
+})
 </script>
