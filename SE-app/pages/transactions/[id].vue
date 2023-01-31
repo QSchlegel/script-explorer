@@ -221,13 +221,13 @@ const shortenHash = (txt) => { return txt.slice(0, 15) + " ... " + txt.slice(txt
             </div>
         </div>
         <br />
-
-        <div v-if="netStore.LoggedIn === true
-        && loaded" class="px-3">
+        <div class="grid grid-cols-2 gap-4">
+           <div v-if="netStore.LoggedIn === true
+        && loaded" class="px-3 col-span-2 md:col-span-1">
             <div class="inline-flex items-center justify-center w-full">
                 <hr class="w-72 h-px my-8 bg-blue-600 border-0 dark:bg-blue-600">
                 <span
-                    class="absolute px-3 font-medium text-gray-900 -translate-x-1/2 bg-white left-1/2 dark:text-white dark:bg-gray-800">Inputs</span>
+                    class="absolute px-3 font-medium text-gray-900 bg-white ldark:text-white dark:bg-gray-800">Inputs</span>
             </div>
 
             <!--Input Section-->
@@ -236,14 +236,13 @@ const shortenHash = (txt) => { return txt.slice(0, 15) + " ... " + txt.slice(txt
                 && loaded" :put="'inputs'" :data="dataUtxo" />
             </div>
         </div>
-        <br />
 
         <div v-if="netStore.LoggedIn === true
-        && loaded" class="px-3">
+        && loaded" class="px-3 col-span-2 md:col-span-1">
             <div class="inline-flex items-center justify-center w-full">
                 <hr class="w-72 h-px my-8 bg-red-600 border-0 dark:bg-red-600">
                 <span
-                    class="absolute px-3 font-medium text-gray-900 -translate-x-1/2 bg-white left-1/2 dark:text-white dark:bg-gray-800">Outputs</span>
+                    class="absolute px-3 font-medium text-gray-900 bg-white dark:text-white dark:bg-gray-800">Outputs</span>
             </div>
 
             <!--Output Section-->
@@ -253,7 +252,9 @@ const shortenHash = (txt) => { return txt.slice(0, 15) + " ... " + txt.slice(txt
                 && loaded" :put="'outputs'" :data="dataUtxo" />
             </div>
         </div>
-        <br />
+        </div>
+        <br/>
+        
 
         <div v-if="netStore.LoggedIn === true
         && loaded" class="px-3">

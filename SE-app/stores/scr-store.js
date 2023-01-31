@@ -58,8 +58,7 @@ export const useScrStore = defineStore('scr-store', {
                     this.scriptDataList = this.scriptDataList.concat(data.data)
                     return data.data
                 } catch (err) {
-                    console.log(err)
-                    return []
+                    return false
                 }
             }
             return tmp[0]

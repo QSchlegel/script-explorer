@@ -38,7 +38,7 @@
                     <input type="search" id="search-top" v-model="searchTerm"
                         class="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-lg border-gray-50 border-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
                         placeholder="Search ..." required>
-                    <button type="submit" @click="xy()" :disabled="netStore.LoggedIn !== true"
+                    <button type="submit" @click="search()" :disabled="netStore.LoggedIn !== true"
                         class="absolute top-0 right-0 p-2.5 text-sm font-medium text-white bg-blue-700 rounded-r-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                         <svg aria-hidden="true" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                             xmlns="http://www.w3.org/2000/svg">
@@ -249,17 +249,38 @@ import { onMounted } from 'vue'
 import { initDrawers } from 'flowbite'
 import { useNetStore } from '/stores/net-store'
 import { useScrStore } from '/stores/scr-store'
+import { useTxStore } from '/stores/tx-store'
+import { useAddrStore } from '/stores/addr-store'
+import { useAssetStore } from '/stores/asset-store'
 import ListView from '../core/LeftList/ListView.vue';
 import LoginNotice from '../core/Login/LoginNotice.vue';
-
+import { Buffer } from 'buffer'  // note: the trailing slash is important!
+const router = useRouter();
 
 const netStore = useNetStore()
 const scrStore = useScrStore()
+const txStore = useTxStore()
+const addrStore = useAddrStore()
+const assetStore = useAssetStore()
+
+
+const adaHandle = 'f0ff48bbb7bbe9d59a40f1ce90e9e9d0ff5002ec48f232b49ca0fb9a';
 
 // initialize components based on data attribute selectors
 onMounted(() => {
     initDrawers();
 })
 const searchTerm = ref('')
-const xy = () => { console.log(searchTerm.value) }
+
+const search = async () =>{
+    if( await scrStore.loadScriptData(searchTerm.value)) router.push({path:"/scripts/"+searchTerm.value})
+    if( await txStore.loadTx(searchTerm.value)) router.push({path:"/transactions/"+searchTerm.value})
+    if( await addrStore.loadAddressInfo(searchTerm.value)) router.push({path:"/addresses/"+searchTerm.value})
+    if( await assetStore.loadAsset(searchTerm.value)) router.push({path:"/assets/"+searchTerm.value})
+
+    const assetName = Buffer.from(searchTerm.value).toString('hex');
+    const tmp = await assetStore.loadAssetAddr(adaHandle+assetName)
+    if(tmp) router.push({path:"/addresses/"+tmp.addrs[0].address})
+
+}
 </script>
