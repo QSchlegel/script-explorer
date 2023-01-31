@@ -1,19 +1,19 @@
 import { defineStore } from 'pinia';
 import { useAddrStore } from './addr-store';
 import { useTxStore } from './tx-store';
-import { useStorage } from '@vueuse/core'
+import { useLocalStorage } from '@vueuse/core'
 
 const addrStore = useAddrStore();
 const txStore = useTxStore();
 
 export const useGridStore = defineStore('grid-store', {
     state: () => ({
-        addrListMem: useStorage('addrListMem', []),
-        txListMem: useStorage('txListMem', []),
+        addrListMem: useLocalStorage('addrListMem', []),
+        txListMem: useLocalStorage('txListMem', []),
         addrList: [],
         txList: [],
-        scrList: useStorage('scrList', []),
-        assetList:useStorage('assetList', []),
+        scrList: useLocalStorage('scrList', []),
+        assetList:useLocalStorage('assetList', []),
         graph: [],
         gridSwitch: true
     }),
