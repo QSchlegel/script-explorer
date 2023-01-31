@@ -278,7 +278,7 @@ const search = async () =>{
     if( await addrStore.loadAddressInfo(searchTerm.value)) router.push({path:"/addresses/"+searchTerm.value})
     if( await assetStore.loadAsset(searchTerm.value)) router.push({path:"/assets/"+searchTerm.value})
 
-    const assetName = Buffer.from(searchTerm.value).toString('hex');
+    const assetName = Buffer.from(searchTerm.value.toLocaleLowerCase()).toString('hex');
     const tmp = await assetStore.loadAssetAddr(adaHandle+assetName)
     if(tmp) router.push({path:"/addresses/"+tmp.addrs[0].address})
 
