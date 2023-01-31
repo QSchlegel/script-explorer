@@ -1,16 +1,16 @@
 import { defineStore } from 'pinia';
 import axios from "axios"
-import { useStorage } from '@vueuse/core'
+import { useLocalStorage } from '@vueuse/core'
 
 export const useNetStore = defineStore('net-store', {
     state: () => ({
         //TD store as a List
-        ApiDetails: useStorage('ApiDetails', {
+        ApiDetails: useLocalStorage('ApiDetails', {
             url: String,
             pid: String
         }),
-        LoggedIn: useStorage('LoggedIn', Boolean),
-        mode: useStorage('mode', String)
+        LoggedIn: useLocalStorage('LoggedIn', Boolean),
+        mode: useLocalStorage('mode', String)
 
     }),
     actions: {

@@ -227,7 +227,7 @@ const shortenHash = (txt) => { return txt.slice(0, 15) + " ... " + txt.slice(txt
             <div class="inline-flex items-center justify-center w-full">
                 <hr class="w-72 h-px my-8 bg-blue-600 border-0 dark:bg-blue-600">
                 <span
-                    class="absolute px-3 font-medium text-gray-900 bg-white ldark:text-white dark:bg-gray-800">Inputs</span>
+                    class="absolute px-3 font-medium text-gray-900 bg-white dark:text-white dark:bg-gray-800">Inputs</span>
             </div>
 
             <!--Input Section-->

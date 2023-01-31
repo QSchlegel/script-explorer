@@ -25,6 +25,7 @@ const loaded = ref('false')
 
 const loadScript = async () => {
     loaded.value = false
+    scrStore.currentScript = route.params.id
     const tmp = await scrStore.loadScriptData(route.params.id)
     if (tmp !== []) {
         if (tmp.type === 'timelock') {
@@ -43,7 +44,6 @@ const loadScript = async () => {
         }
         scrType.value = tmp.type
     }
-    scrStore.currentScript = route.params.id
     loaded.value = true
 }
 

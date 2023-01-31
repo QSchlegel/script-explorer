@@ -245,7 +245,6 @@
 </template>
 
 <script setup>
-import { onMounted } from 'vue'
 import { initDrawers } from 'flowbite'
 import { useNetStore } from '/stores/net-store'
 import { useScrStore } from '/stores/scr-store'
@@ -281,6 +280,6 @@ const search = async () =>{
     const assetName = Buffer.from(searchTerm.value.toLocaleLowerCase()).toString('hex');
     const tmp = await assetStore.loadAssetAddr(adaHandle+assetName)
     if(tmp) router.push({path:"/addresses/"+tmp.addrs[0].address})
-
+    searchTerm.value = ''
 }
 </script>
