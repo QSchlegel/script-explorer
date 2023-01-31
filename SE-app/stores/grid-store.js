@@ -12,8 +12,8 @@ export const useGridStore = defineStore('grid-store', {
         txListMem: useStorage('txListMem', []),
         addrList: [],
         txList: [],
-        scrList: [],
-        assetList:[],
+        scrList: useStorage('scrList', []),
+        assetList:useStorage('assetList', []),
         graph: [],
         gridSwitch: true
     }),

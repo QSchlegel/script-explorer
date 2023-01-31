@@ -36,7 +36,6 @@ export const useAssetStore = defineStore('asset-store', {
                     this.assetList = this.assetList.concat(res)
                     return res
                 } catch (err) {
-                    console.log(err)
                     return false
                 }
             } return tmp[0]

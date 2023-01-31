@@ -14,7 +14,7 @@ const props = defineProps({
 
 const loadAssets = async () => {
     page.value = page.value + 1
-    assetList.value = await Promise.all(props.amount.filter(f => f.unit !== 'lovelace').slice(0, page.value * 20).map(async m => assetStore.loadAsset(m.unit)))
+    assetList.value = await Promise.all(props.amount.filter(f => f.unit !== 'lovelace').slice(0, page.value * 8).map(async m => assetStore.loadAsset(m.unit)))
 }
 onMounted(() => {
     loadAssets()
@@ -35,7 +35,7 @@ onMounted(() => {
                 </NuxtLink>
             </div>
 
-            <div v-if="assetList.length % 20 === 0"
+            <div v-if="assetList.length % 8 === 0"
                 class="grid justify-items-center py-3 rounded-lg border-b boder-gray-200 dark:border-gray-700">
                 <a class="text-gray-500 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
                     @click="loadAssets()"> Load More </a>
@@ -57,7 +57,7 @@ onMounted(() => {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="asset, index in props.amount.slice(0, (20 * page < props.amount.length) ? 20 * page : props.amount.length)"
+                    <tr v-for="asset, index in props.amount.slice(0, (8 * page < props.amount.length) ? 8 * page : props.amount.length)"
                         :key="index" class="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-600">
                         <NuxtLink :to="'/assets/' + asset.unit">
                             <th scope="row"
@@ -85,7 +85,7 @@ onMounted(() => {
             </table>
         </div>
 
-        <div v-if="props.amount.length > 20 * page"
+        <div v-if="props.amount.length > 8 * page"
             class="grid justify-items-center py-3 border-t boder-gray-200 dark:border-gray-700">
             <a class="text-gray-500 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white" @click="loadAssets">
                 Load More </a>
