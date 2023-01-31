@@ -181,7 +181,7 @@ const drag = (simulation) => {
 </script>
 
 <template>
-    <div class="w-full bg-white border border-gray-200 rounded-lg dark:bg-gray-800 dark:border-gray-700 md:p-3">
+    <div class="w-full bg-white border border-gray-200 rounded-lg dark:bg-gray-900 dark:border-gray-700 md:p-3">
         <div id="grid"></div>
     </div>
         
