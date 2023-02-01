@@ -171,22 +171,26 @@ watch(LoggedIn, () => {
             </div>
             <div data-popper-arrow> </div>
         </div>
-        
-        <div v-if="netStore.LoggedIn === true && loaded && dataInfo !== ''" v-for="handle in dataInfo.data.amount
-        .filter(({ unit }) => unit.includes(pIDAdaHandle))
-        .map(({ unit }) => {
-            const hexName = unit.replace(pIDAdaHandle, '');
-            const utf8Name = Buffer.from(hexName, 'hex').toString('utf8');
-            return utf8Name;
-        })" class="flex px-10 text-lg text-gray-900 dark:text-white">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                stroke="currentColor" class="w-4 h-4 mt-1.5 mx-1">
-                <path stroke-linecap="round"
-                    d="M16.5 12a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zm0 0c0 1.657 1.007 3 2.25 3S21 13.657 21 12a9 9 0 10-2.636 6.364M16.5 12V8.25" />
-            </svg>
-            <p class=""> {{ handle }}</p>
+
+        <div v-if="netStore.LoggedIn === true && loaded && dataInfo !== ''"
+            class="relative px-6 my-6 mx-5 py-2 w-52 overflow-x-auto h-min-fit max-h-60 border boder-gray-100 dark:border-gray-700 rounded-lg">
+
+            <div class="flex text-lg text-gray-900 dark:text-white " v-for="handle in dataInfo.data.amount
+            .filter(({ unit }) => unit.includes(pIDAdaHandle))
+            .map(({ unit }) => {
+                const hexName = unit.replace(pIDAdaHandle, '');
+                const utf8Name = Buffer.from(hexName, 'hex').toString('utf8');
+                return utf8Name;
+            })">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" class="w-4 h-4 mt-1.5 mx-1">
+                    <path stroke-linecap="round"
+                        d="M16.5 12a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zm0 0c0 1.657 1.007 3 2.25 3S21 13.657 21 12a9 9 0 10-2.636 6.364M16.5 12V8.25" />
+                </svg>
+                <p class=""> {{ handle }}</p>
+            </div>
+
         </div>
-        <br />
 
         <LoginNotice />
         <br />
@@ -233,7 +237,6 @@ watch(LoggedIn, () => {
             </div>
 
             <div class="relative overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-700 mx-5">
-
                 <ol class="relative mx-5 mt-5 pb-1 border-l border-gray-200 dark:border-gray-700">
                     <li v-for="tx, index in dataTx.data " :key="index" class="ml-4 my-4">
                         <div

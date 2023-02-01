@@ -7,6 +7,7 @@ const assetStore = useAssetStore()
 
 const assetList = ref([])
 const page = ref(0)
+const pageSize = ref(8)
 
 const props = defineProps({
     amount: ''
@@ -14,7 +15,7 @@ const props = defineProps({
 
 const loadAssets = async () => {
     page.value = page.value + 1
-    assetList.value = await Promise.all(props.amount.filter(f => f.unit !== 'lovelace').slice(0, page.value * 8).map(async m => assetStore.loadAsset(m.unit)))
+    assetList.value = await Promise.all(props.amount.filter(f => f.unit !== 'lovelace').slice(0, page.value * pageSize.value).map(async m => assetStore.loadAsset(m.unit)))
 }
 onMounted(() => {
     loadAssets()
@@ -24,7 +25,6 @@ onMounted(() => {
 <template>
     <div v-if="props.amount !== undefined && props.amount.length > 0"
         class="relative overflow-x-auto rounded-lg border boder-gray-200 dark:border-gray-700 mt-3">
-
         <div
             v-if="assetList !== [] && assetList !== undefined && assetList.filter(f => f.data.onchain_metadata !== null && f.data.onchain_metadata.image !== null).length > 0">
             <div class="grid grid-cols-4 gap-3 m-3">
@@ -35,17 +35,15 @@ onMounted(() => {
                 </NuxtLink>
             </div>
 
-            <div v-if="assetList.length % 8 === 0"
-                class="grid justify-items-center py-3 rounded-lg border-b boder-gray-200 dark:border-gray-700">
-                <a class="text-gray-500 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
-                    @click="loadAssets()"> Load More </a>
-            </div>
+            <button v-if="props.amount.length > pageSize * page"
+                class="w-full py-1 bg-white dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-600 border-y boder-gray-100 dark:border-gray-700 text-gray-500 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
+                @click="loadAssets()"> Load More
+            </button>
+
         </div>
 
-
-
         <div class="relative overflow-x-auto h-min-fit max-h-60">
-            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 rounded-lg ">
+            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 rounded-lg">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
                         <th scope="col" class="px-6 py-3">
@@ -57,7 +55,7 @@ onMounted(() => {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="asset, index in props.amount.slice(0, (8 * page < props.amount.length) ? 8 * page : props.amount.length)"
+                    <tr v-for="asset, index in props.amount.slice(0, (pageSize * page < props.amount.length) ? pageSize * page : props.amount.length)"
                         :key="index" class="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-600">
                         <NuxtLink :to="'/assets/' + asset.unit">
                             <th scope="row"
@@ -85,10 +83,9 @@ onMounted(() => {
             </table>
         </div>
 
-        <div v-if="props.amount.length > 8 * page"
-            class="grid justify-items-center py-3 border-t boder-gray-200 dark:border-gray-700">
-            <a class="text-gray-500 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white" @click="loadAssets">
-                Load More </a>
-        </div>
+        <button v-if="props.amount.length > pageSize * page" @click="loadAssets"
+            class="w-full py-1 bg-white dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-600 border-t boder-gray-100 dark:border-gray-700 text-gray-500 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white">
+            Load More
+        </button>
     </div>
 </template>

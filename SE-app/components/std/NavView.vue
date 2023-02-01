@@ -7,8 +7,8 @@
             <div class="w-6">
                 <a class="text-gray-500 hover:text-gray-900 dark:hover:text-white" data-drawer-target="drawer-list-left"
                     data-drawer-toggle="drawer-list-left">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" v-if="scrStore.slLoading !== true"
-                        stroke="currentColor" class="w-6 h-6">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        v-if="scrStore.slLoading !== true" stroke="currentColor" class="w-6 h-6">
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
                     </svg>
@@ -81,7 +81,7 @@
         </h5>
 
         <LoginNotice />
-        
+
         <div v-if="false"
             class="w-48 text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
             <button type="button"
@@ -130,44 +130,39 @@
         </div>
         <div class="grid grid-cols-3 gap-4 p-4">
 
-            <div
+            <NuxtLink to="/"
                 class="p-4 rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 dark:hover:bg-gray-600 dark:bg-gray-700">
-                <NuxtLink to="/">
-                    <div
-                        class="flex justify-center items-center p-2 mx-auto mb-2 max-w-[48px] bg-gray-200 dark:bg-gray-500 rounded-full w-18 h-18">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                            class="inline w-8 h-8 text-gray-500 dark:text-gray-400">
-                            <path
-                                d="M11.47 3.84a.75.75 0 011.06 0l8.69 8.69a.75.75 0 101.06-1.06l-8.689-8.69a2.25 2.25 0 00-3.182 0l-8.69 8.69a.75.75 0 001.061 1.06l8.69-8.69z" />
-                            <path
-                                d="M12 5.432l8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 01-.75-.75v-4.5a.75.75 0 00-.75-.75h-3a.75.75 0 00-.75.75V21a.75.75 0 01-.75.75H5.625a1.875 1.875 0 01-1.875-1.875v-6.198a2.29 2.29 0 00.091-.086L12 5.43z" />
-                        </svg>
-                    </div>
-                </NuxtLink>
+                <div
+                    class="flex justify-center items-center p-2 mx-auto mb-2 max-w-[48px] bg-gray-200 dark:bg-gray-500 rounded-full w-18 h-18">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                        class="inline w-8 h-8 text-gray-500 dark:text-gray-400">
+                        <path
+                            d="M11.47 3.84a.75.75 0 011.06 0l8.69 8.69a.75.75 0 101.06-1.06l-8.689-8.69a2.25 2.25 0 00-3.182 0l-8.69 8.69a.75.75 0 001.061 1.06l8.69-8.69z" />
+                        <path
+                            d="M12 5.432l8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 01-.75-.75v-4.5a.75.75 0 00-.75-.75h-3a.75.75 0 00-.75.75V21a.75.75 0 01-.75.75H5.625a1.875 1.875 0 01-1.875-1.875v-6.198a2.29 2.29 0 00.091-.086L12 5.43z" />
+                    </svg>
+                </div>
 
                 <div class="font-medium text-center text-gray-500 dark:text-gray-400">Home</div>
-            </div>
+            </NuxtLink>
 
-            <div
+            <NuxtLink to="/map"
                 class="p-4 rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 dark:hover:bg-gray-600 dark:bg-gray-700">
-                <NuxtLink to="/map">
-                    <div
-                        class="flex justify-center items-center p-2 mx-auto mb-2 max-w-[48px] bg-gray-200 dark:bg-gray-500 rounded-full w-18 h-18">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                            class="inline w-8 h-8 text-gray-500 dark:text-gray-400">
-                            <path fill-rule="evenodd"
-                                d="M8.161 2.58a1.875 1.875 0 011.678 0l4.993 2.498c.106.052.23.052.336 0l3.869-1.935A1.875 1.875 0 0121.75 4.82v12.485c0 .71-.401 1.36-1.037 1.677l-4.875 2.437a1.875 1.875 0 01-1.676 0l-4.994-2.497a.375.375 0 00-.336 0l-3.868 1.935A1.875 1.875 0 012.25 19.18V6.695c0-.71.401-1.36 1.036-1.677l4.875-2.437zM9 6a.75.75 0 01.75.75V15a.75.75 0 01-1.5 0V6.75A.75.75 0 019 6zm6.75 3a.75.75 0 00-1.5 0v8.25a.75.75 0 001.5 0V9z"
-                                clip-rule="evenodd" />
-                        </svg>
-                    </div>
-                </NuxtLink>
+                <div
+                    class="flex justify-center items-center p-2 mx-auto mb-2 max-w-[48px] bg-gray-200 dark:bg-gray-500 rounded-full w-18 h-18">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                        class="inline w-8 h-8 text-gray-500 dark:text-gray-400">
+                        <path fill-rule="evenodd"
+                            d="M8.161 2.58a1.875 1.875 0 011.678 0l4.993 2.498c.106.052.23.052.336 0l3.869-1.935A1.875 1.875 0 0121.75 4.82v12.485c0 .71-.401 1.36-1.037 1.677l-4.875 2.437a1.875 1.875 0 01-1.676 0l-4.994-2.497a.375.375 0 00-.336 0l-3.868 1.935A1.875 1.875 0 012.25 19.18V6.695c0-.71.401-1.36 1.036-1.677l4.875-2.437zM9 6a.75.75 0 01.75.75V15a.75.75 0 01-1.5 0V6.75A.75.75 0 019 6zm6.75 3a.75.75 0 00-1.5 0v8.25a.75.75 0 001.5 0V9z"
+                            clip-rule="evenodd" />
+                    </svg>
+                </div>
 
                 <div class="font-medium text-center text-gray-500 dark:text-gray-400">Map</div>
-            </div>
+            </NuxtLink>
 
-            <div
+            <NuxtLink to="/bookmarks"
                 class="p-4 rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 dark:hover:bg-gray-600 dark:bg-gray-700">
-                <NuxtLink to="/bookmarks">
                     <div
                         class="flex justify-center items-center p-2 mx-auto mb-2 max-w-[48px] bg-gray-200 dark:bg-gray-500 rounded-full w-18 h-18">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
@@ -177,14 +172,12 @@
                                 clip-rule="evenodd" />
                         </svg>
                     </div>
-                </NuxtLink>
 
                 <div class="font-medium text-center text-gray-500 dark:text-gray-400">Bookmarks</div>
-            </div>
+            </NuxtLink>
 
-            <div
+            <NuxtLink to="/about"
                 class="p-4 rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 dark:hover:bg-gray-600 dark:bg-gray-700">
-                <NuxtLink to="/about">
                     <div
                         class="flex justify-center items-center p-2 mx-auto mb-2 max-w-[48px] bg-gray-200 dark:bg-gray-500 rounded-full w-18 h-18">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
@@ -193,14 +186,13 @@
                                 d="M11.25 4.533A9.707 9.707 0 006 3a9.735 9.735 0 00-3.25.555.75.75 0 00-.5.707v14.25a.75.75 0 001 .707A8.237 8.237 0 016 18.75c1.995 0 3.823.707 5.25 1.886V4.533zM12.75 20.636A8.214 8.214 0 0118 18.75c.966 0 1.89.166 2.75.47a.75.75 0 001-.708V4.262a.75.75 0 00-.5-.707A9.735 9.735 0 0018 3a9.707 9.707 0 00-5.25 1.533v16.103z" />
                         </svg>
                     </div>
-                </NuxtLink>
 
                 <div class="font-medium text-center text-gray-500 dark:text-gray-400">About</div>
-            </div>
+            </NuxtLink>
 
-            <div
+            <NuxtLink to="/donate"
                 class="p-4 rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 dark:hover:bg-gray-600 dark:bg-gray-700">
-                <NuxtLink to="/donate">
+                
                     <div
                         class="flex justify-center items-center p-2 mx-auto mb-2 max-w-[48px] bg-gray-200 dark:bg-gray-500 rounded-full w-18 h-18">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
@@ -211,16 +203,16 @@
 
 
                     </div>
-                </NuxtLink>
+                
 
                 <div class="font-medium text-center text-gray-500 dark:text-gray-400">Donate</div>
-            </div>
+            </NuxtLink>
 
 
 
-            <div
+            <NuxtLink to="/settings"
                 class="p-4 rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 dark:hover:bg-gray-600 dark:bg-gray-700">
-                <NuxtLink to="/settings">
+                
                     <div
                         class="flex justify-center items-center p-2 mx-auto mb-2 max-w-[48px] bg-gray-200 dark:bg-gray-500 rounded-full w-18 h-18">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
@@ -232,10 +224,9 @@
                                 clip-rule="evenodd" />
                         </svg>
                     </div>
-                </NuxtLink>
 
                 <div class="font-medium text-center text-gray-500 dark:text-gray-400">Settings</div>
-            </div>
+            </NuxtLink>
         </div>
     </div>
 
@@ -271,15 +262,15 @@ onMounted(() => {
 })
 const searchTerm = ref('')
 
-const search = async () =>{
-    if( await scrStore.loadScriptData(searchTerm.value)) router.push({path:"/scripts/"+searchTerm.value})
-    if( await txStore.loadTx(searchTerm.value)) router.push({path:"/transactions/"+searchTerm.value})
-    if( await addrStore.loadAddressInfo(searchTerm.value)) router.push({path:"/addresses/"+searchTerm.value})
-    if( await assetStore.loadAsset(searchTerm.value)) router.push({path:"/assets/"+searchTerm.value})
+const search = async () => {
+    if (await scrStore.loadScriptData(searchTerm.value)) router.push({ path: "/scripts/" + searchTerm.value })
+    if (await txStore.loadTx(searchTerm.value)) router.push({ path: "/transactions/" + searchTerm.value })
+    if (await addrStore.loadAddressInfo(searchTerm.value)) router.push({ path: "/addresses/" + searchTerm.value })
+    if (await assetStore.loadAsset(searchTerm.value)) router.push({ path: "/assets/" + searchTerm.value })
 
     const assetName = Buffer.from(searchTerm.value.toLocaleLowerCase()).toString('hex');
-    const tmp = await assetStore.loadAssetAddr(adaHandle+assetName)
-    if(tmp) router.push({path:"/addresses/"+tmp.addrs[0].address})
+    const tmp = await assetStore.loadAssetAddr(adaHandle + assetName)
+    if (tmp) router.push({ path: "/addresses/" + tmp.addrs[0].address })
     searchTerm.value = ''
 }
 </script>
