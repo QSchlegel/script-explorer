@@ -89,10 +89,11 @@ const shortenHash = (txt) => { return txt.slice(0, 15) + " ... " + txt.slice(txt
             <div id="dropdown"
                 class="z-10 hidden text-base list-none bg-white divide-y divide-gray-100 rounded shadow w-50 dark:bg-gray-700">
                 <ul class="py-1" aria-labelledby="dropdownButton">
-                    <li>
-                        <a v-if="gridStore.txList.filter(f => f.id === route.params.id).length === 0"
-                            @click="gridStore.addItem(route.params.id, 'tx')"
-                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
+                    <a v-if="gridStore.txList.filter(f => f.id === route.params.id).length === 0"
+                        @click="gridStore.addItem(route.params.id, 'tx')"
+                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
+                        <li>
+
                             <div class="flex text-left ">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
@@ -101,12 +102,14 @@ const shortenHash = (txt) => { return txt.slice(0, 15) + " ... " + txt.slice(txt
                                 </svg>
                                 <p> Add Bookmark</p>
                             </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a v-if="gridStore.txList.filter(f => f.id === route.params.id).length > 0"
-                            @click="gridStore.removeItem(route.params.id, 'tx')"
-                            class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100 dark:hover:bg-gray-600  dark:hover:text-white">
+
+                        </li>
+                    </a>
+                    <a v-if="gridStore.txList.filter(f => f.id === route.params.id).length > 0"
+                        @click="gridStore.removeItem(route.params.id, 'tx')"
+                        class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                        <li>
+
                             <div class="flex text-left ">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
@@ -115,11 +118,13 @@ const shortenHash = (txt) => { return txt.slice(0, 15) + " ... " + txt.slice(txt
                                 </svg>
                                 <p> Remove Bookmark</p>
                             </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#"
-                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
+
+                        </li>
+                    </a>
+                    <a href="#"
+                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
+                        <li>
+
                             <div class="flex text-left ">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
@@ -128,8 +133,9 @@ const shortenHash = (txt) => { return txt.slice(0, 15) + " ... " + txt.slice(txt
                                 </svg>
                                 <p> Share </p>
                             </div>
-                        </a>
-                    </li>
+
+                        </li>
+                    </a>
                 </ul>
             </div>
         </div>
@@ -222,39 +228,39 @@ const shortenHash = (txt) => { return txt.slice(0, 15) + " ... " + txt.slice(txt
         </div>
         <br />
         <div class="grid grid-cols-2 gap-4">
-           <div v-if="netStore.LoggedIn === true
-        && loaded" class="px-3 col-span-2 md:col-span-1">
-            <div class="inline-flex items-center justify-center w-full">
-                <hr class="w-72 h-px my-8 bg-blue-600 border-0 dark:bg-blue-600">
-                <span
-                    class="absolute px-3 font-medium text-gray-900 bg-white dark:text-white dark:bg-gray-800">Inputs</span>
+            <div v-if="netStore.LoggedIn === true
+            && loaded" class="px-3 col-span-2 md:col-span-1">
+                <div class="inline-flex items-center justify-center w-full">
+                    <hr class="w-72 h-px my-8 bg-blue-600 border-0 dark:bg-blue-600">
+                    <span
+                        class="absolute px-3 font-medium text-gray-900 bg-white dark:text-white dark:bg-gray-800">Inputs</span>
+                </div>
+
+                <!--Input Section-->
+                <div class="relative overflow-x-auto rounded-lg border border-blue-600 dark:border-blue-600">
+                    <InOutputView v-if="netStore.LoggedIn === true
+                    && loaded" :put="'inputs'" :data="dataUtxo" />
+                </div>
             </div>
 
-            <!--Input Section-->
-            <div class="relative overflow-x-auto rounded-lg border border-blue-600 dark:border-blue-600">
-                <InOutputView v-if="netStore.LoggedIn === true
-                && loaded" :put="'inputs'" :data="dataUtxo" />
+            <div v-if="netStore.LoggedIn === true
+            && loaded" class="px-3 col-span-2 md:col-span-1">
+                <div class="inline-flex items-center justify-center w-full">
+                    <hr class="w-72 h-px my-8 bg-red-600 border-0 dark:bg-red-600">
+                    <span
+                        class="absolute px-3 font-medium text-gray-900 bg-white dark:text-white dark:bg-gray-800">Outputs</span>
+                </div>
+
+                <!--Output Section-->
+                <div class="relative overflow-x-auto rounded-lg border border-red-600 dark:border-red-600">
+
+                    <InOutputView v-if="netStore.LoggedIn === true
+                    && loaded" :put="'outputs'" :data="dataUtxo" />
+                </div>
             </div>
         </div>
+        <br />
 
-        <div v-if="netStore.LoggedIn === true
-        && loaded" class="px-3 col-span-2 md:col-span-1">
-            <div class="inline-flex items-center justify-center w-full">
-                <hr class="w-72 h-px my-8 bg-red-600 border-0 dark:bg-red-600">
-                <span
-                    class="absolute px-3 font-medium text-gray-900 bg-white dark:text-white dark:bg-gray-800">Outputs</span>
-            </div>
-
-            <!--Output Section-->
-            <div class="relative overflow-x-auto rounded-lg border border-red-600 dark:border-red-600">
-
-                <InOutputView v-if="netStore.LoggedIn === true
-                && loaded" :put="'outputs'" :data="dataUtxo" />
-            </div>
-        </div>
-        </div>
-        <br/>
-        
 
         <div v-if="netStore.LoggedIn === true
         && loaded" class="px-3">
@@ -296,7 +302,7 @@ const shortenHash = (txt) => { return txt.slice(0, 15) + " ... " + txt.slice(txt
                                 {{ dataTx.block_height }}
                             </td>
                         </tr>
-                        
+
                         <tr class="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-600">
                             <th scope="row"
                                 class="flex px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
