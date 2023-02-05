@@ -174,7 +174,6 @@ watch(LoggedIn, () => {
 
         <div v-if="netStore.LoggedIn === true && loaded && dataInfo !== ''"
             class="relative px-6 my-6 mx-5 py-2 w-52 overflow-x-auto h-min-fit max-h-60 border boder-gray-100 dark:border-gray-700 rounded-lg">
-
             <div class="flex text-lg text-gray-900 dark:text-white " v-for="handle in dataInfo.data.amount
             .filter(({ unit }) => unit.includes(pIDAdaHandle))
             .map(({ unit }) => {

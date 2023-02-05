@@ -31,18 +31,21 @@ export const useAddrStore = defineStore('addr-store', {
             }
         },
         async loadAddressInfo(address, scriptHash = '') {
-            const tmp = this.addressInfoList.filter((f) => f.address === address)
+            const tmp = this.addressInfoList.filter((f) => f.network === netStore.mode && f.address === address)
             if (tmp.length === 0) {
                 try {
 
                     this.loadInfo = true
                     const data = await axios.get(netStore.ApiDetails.url + 'addresses/' + address + '/extended', {
-                        headers: { project_id: netStore.ApiDetails.pid,
+                        headers: {
+                            project_id: netStore.ApiDetails.pid,
                             'Access-Control-Allow-Headers': '*',
                             'Access-Control-Allow-Origin': '*',
-                            'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS' }
+                            'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS'
+                        }
                     })
                     const res = {
+                        network: netStore.mode,
                         address: data.data.address,
                         scriptHash: scriptHash,
                         data: data.data,
@@ -56,18 +59,21 @@ export const useAddrStore = defineStore('addr-store', {
                 }
             } return tmp[0]
         },
-        async loadAddressTransactions(address, addrPage = 1 , scriptHash = '') {
-            const tmp = this.addressTxList.filter((f) => f.address === address)
+        async loadAddressTransactions(address, addrPage = 1, scriptHash = '') {
+            const tmp = this.addressTxList.filter((f) => f.network === netStore.mode && f.address === address)
             if (tmp.length === 0) {
                 try {
                     const txData = await axios.get(netStore.ApiDetails.url + 'addresses/' + address + '/transactions', {
-                        headers: { project_id: netStore.ApiDetails.pid,
+                        headers: {
+                            project_id: netStore.ApiDetails.pid,
                             'Access-Control-Allow-Headers': '*',
                             'Access-Control-Allow-Origin': '*',
-                            'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS' },
+                            'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS'
+                        },
                         params: { count: 20, page: addrPage, order: 'desc' }
                     })
                     const res = {
+                        network: netStore.mode,
                         address: address,
                         scriptHash: scriptHash,
                         data: txData.data
@@ -78,21 +84,23 @@ export const useAddrStore = defineStore('addr-store', {
                     console.log(err)
                     return false
                 }
-            }return tmp[0]
+            } return tmp[0]
         },
         async loadAddressUTxOs(address, scriptHash) {
-            const tmp = this.addressUTxOList.filter((f) => f.address === address)
+            const tmp = this.addressUTxOList.filter((f) => f.network === netStore.mode && f.address === address)
             if (tmp.length === 0) {
                 try {
-
                     const utxoData = await axios.get(netStore.ApiDetails.url + 'addresses/' + address + '/utxos', {
-                        headers: { project_id: netStore.ApiDetails.pid,
+                        headers: {
+                            project_id: netStore.ApiDetails.pid,
                             'Access-Control-Allow-Headers': '*',
                             'Access-Control-Allow-Origin': '*',
-                            'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS' },
+                            'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS'
+                        },
                         params: { count: 20, page: 1, order: 'desc' }
                     })
                     const res = {
+                        network: netStore.mode,
                         address: address,
                         scriptHash: scriptHash,
                         data: utxoData.data

@@ -172,7 +172,10 @@ watch(LoggedIn, () => {
                     }}</p>
                 <br />
 
-                <ImageView class="m-2" :data="dataInfo.data" />
+                <div class="flex justify-evenly">
+                    <ImageView class="w-4/6 m-2" :data="dataInfo.data" />
+                </div>
+                
             </div>
 
             <div class="inline-flex items-center justify-center w-full">

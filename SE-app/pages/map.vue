@@ -2,8 +2,11 @@
 import * as d3 from 'd3'
 import { useRouter } from 'vue-router';
 import { useGridStore } from '/stores/grid-store'
+import { useNetStore } from '/stores/net-store';
 
 const gridStore = useGridStore();
+const netStore = useNetStore();
+
 const router = useRouter();
 
 const vh = ref(0)
@@ -11,9 +14,9 @@ const vw = ref(0)
 const dark = ref(false)
 
 onMounted(async () => {
-    if (gridStore.graph.length === 0) {
-        const addrs = gridStore.addrListMem.map(m => gridStore.loadItem(m.id, 'address'))
-        const txs = gridStore.txListMem.map(m => gridStore.loadItem(m.id, 'tx'))
+    if (gridStore.graph.filter(f=> f.network === netStore.mode).length === 0) {
+        const addrs = gridStore.addrListMem.filter(f=> f.network === netStore.mode).map(m => gridStore.loadItem(m.id, 'address'))
+        const txs = gridStore.txListMem.filter(f=> f.network === netStore.mode).map(m => gridStore.loadItem(m.id, 'tx'))
         await Promise.all([addrs, txs]).then(setTimeout(() => { gridStore.generateGraph() }, 3000))
     }
     dark.value = window.matchMedia('(prefers-color-scheme: dark)').matches
@@ -40,9 +43,9 @@ const getViewport = () => {
 
 
 const generateGraph = () => {
-    if (gridStore.graph === []) return
-    const links = gridStore.graph.map(d => Object.create(d));
-    const nodes = Array.from(new Set(gridStore.graph.flatMap(l => [l.source, l.target])), id => ({ id })).map(d => Object.create(d));
+    if (gridStore.graph.filter(f=> f.network === netStore.mode) === []) return
+    const links = gridStore.graph.filter(f=> f.network === netStore.mode).map(d => Object.create(d));
+    const nodes = Array.from(new Set(gridStore.graph.filter(f=> f.network === netStore.mode).flatMap(l => [l.source, l.target])), id => ({ id })).map(d => Object.create(d));
     const w = document.documentElement.clientWidth,
         h = document.documentElement.clientHeight -20,
         r = 15

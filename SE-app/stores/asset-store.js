@@ -16,7 +16,7 @@ export const useAssetStore = defineStore('asset-store', {
     }),
     actions: {
         async loadAsset(asset) {
-            const tmp = this.assetList.filter((f) => f.data.asset === asset)
+            const tmp = this.assetList.filter((f) => f.network === netStore.mode && f.data.asset === asset)
             if (tmp.length === 0) {
                 try {
                     const data = await axios.get(
@@ -30,6 +30,7 @@ export const useAssetStore = defineStore('asset-store', {
                     })
                     const utf8Name = Buffer.from((data.data.asset_name) ? data.data.asset_name : '', 'hex').toString('utf8');
                     const res = {
+                        network: netStore.mode,
                         assetName: utf8Name,
                         data: data.data
                     }
@@ -43,7 +44,7 @@ export const useAssetStore = defineStore('asset-store', {
 
 
         async loadAssetAddr(asset, page = 1) {
-            const tmp = this.assetAddrList.filter((f) => f.asset === asset)
+            const tmp = this.assetAddrList.filter((f) => f.network === netStore.mode && f.asset === asset)
             if (tmp.length === 0) {
                 try {
                     const data = await axios.get(
@@ -57,6 +58,7 @@ export const useAssetStore = defineStore('asset-store', {
                         params: { count: 20, page: page, order: 'desc' }
                     })
                     const res = {
+                        network: netStore.mode,
                         asset: asset,
                         addrs: data.data
                     }
@@ -69,7 +71,7 @@ export const useAssetStore = defineStore('asset-store', {
         },
 
         async loadAssetTx(asset, page = 1) {
-            const tmp = this.assetTxList.filter((f) => f.asset === asset)
+            const tmp = this.assetTxList.filter((f) => f.network === netStore.mode && f.asset === asset)
             if (tmp.length === 0) {
                 try {
                     const data = await axios.get(
@@ -83,6 +85,7 @@ export const useAssetStore = defineStore('asset-store', {
                         params: { count: 20, page: page, order: 'desc' }
                     })
                     const res = {
+                        network: netStore.mode,
                         asset: asset,
                         txs: data.data
                     }
@@ -95,7 +98,7 @@ export const useAssetStore = defineStore('asset-store', {
         },
 
         async loadPolicy(policyId, page = 1) {
-            const tmp = this.policyList.filter((f) => f.policyId === policyId)
+            const tmp = this.policyList.filter((f) => f.network === netStore.mode && f.policyId === policyId)
             if (tmp.length === 0 || page !== 1) {
                 try {
                     const data = await axios.get(netStore.ApiDetails.url + 'assets/policy/' + policyId, {
@@ -110,11 +113,13 @@ export const useAssetStore = defineStore('asset-store', {
                     var res
                     if (page === 1) {
                         res = {
+                            network: netStore.mode,
                             policyId: policyId,
                             assets: data.data
                         }
                     } else {
                         res = {
+                            network: netStore.mode,
                             policyId: policyId,
                             assets: tmp[0].assets.concat(data.data)
                         }

@@ -1,27 +1,27 @@
 <template>
 
-    <ul v-if="scrStore.scriptList.length > 0"
+    <ul v-if="scrStore.scriptList.filter(f=>f.network === netStore.mode).length > 0"
         class="text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-800 dark:border-gray-600 dark:text-white">
-        <div v-for="script, index in scrStore.scriptList" :key="index">
+        <div v-for="script, index in scrStore.scriptList.filter(f=>f.network === netStore.mode)" :key="index">
             
                 <li v-if="index === 0"
                     class="w-full px-4 py-2 border-b border-gray-200 rounded-t-lg dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-500">
-                    <ListItem :scr="script"  />
+                    <ListItem :scr="script.scriptHash"  />
                 </li>
-                <li v-if="index !== 0 && index != scrStore.scriptList.length - 1"
+                <li v-if="index !== 0 && index != scrStore.scriptList.filter(f=>f.network === netStore.mode).length - 1"
                     class="w-full px-4 py-2 border-b border-gray-200 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-500">
-                    <ListItem :scr="script"  />
+                    <ListItem :scr="script.scriptHash"  />
                 </li>
-                <li v-if="index === scrStore.scriptList.length - 1"
+                <li v-if="index === scrStore.scriptList.filter(f=>f.network === netStore.mode).length - 1"
                     class="w-full px-4 py-2 rounded-b-lg hover:bg-gray-100 dark:hover:bg-gray-500">
-                    <ListItem :scr="script" />
+                    <ListItem :scr="script.scriptHash" />
                 </li>
         </div>
     </ul>
     <br />
 
     <!--Pagination-->
-    <div v-if="scrStore.scriptList.length > 0" class="mb-56">
+    <div v-if="scrStore.scriptList.filter(f=>f.network === netStore.mode).length > 0" class="mb-56">
         <nav aria-label="Page navigation-list" class="text-center">
             <ul class="inline-flex items-center -space-x-px">
                 <li>

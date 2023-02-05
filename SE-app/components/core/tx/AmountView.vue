@@ -26,10 +26,10 @@ onMounted(() => {
     <div v-if="props.amount !== undefined && props.amount.length > 0"
         class="relative overflow-x-auto rounded-lg border boder-gray-200 dark:border-gray-700 mt-3">
         <div
-            v-if="assetList !== [] && assetList !== undefined && assetList.filter(f => f.data.onchain_metadata !== null && f.data.onchain_metadata.image !== null).length > 0">
+            v-if="assetList !== [] && assetList !== undefined && assetList.filter(f => f.data.onchain_metadata !== undefined && f.data.onchain_metadata.image !== undefined).length > 0">
             <div class="grid grid-cols-4 gap-3 m-3">
                 <NuxtLink
-                    v-for="nft in assetList.filter(f => f.data.onchain_metadata !== null && f.data.onchain_metadata.image !== null)"
+                    v-for="nft in assetList.filter(f => f.data.onchain_metadata !== undefined && f.data.onchain_metadata.image !== undefined)"
                     :to="'/assets/' + nft.data.asset">
                     <ImageView :data="nft.data" />
                 </NuxtLink>

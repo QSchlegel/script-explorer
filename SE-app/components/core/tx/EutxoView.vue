@@ -1,12 +1,9 @@
 <script setup>
 import AmountView from './AmountView.vue';
-
-
 const props = defineProps({
     txHash: '',
     utxo: {}
 })
-
 const shortenHash = (txt) => { return txt.slice(0, 15) + " ... " + txt.slice(txt.length - 10) }
 </script>
 <template>
