@@ -1,24 +1,30 @@
 <script setup>
 import { Buffer } from 'buffer'  // note: the trailing slash is important!
+
 //CSS Framework imports
 import { initDropdowns, initPopovers } from 'flowbite'
+
 //Store imports
 import { useNetStore } from '/stores/net-store'
 import { useAddrStore } from '/stores/addr-store'
 import { useGridStore } from '/stores/grid-store'
 import { storeToRefs } from 'pinia'
+
 //Component imports
 import LoginNotice from '~~/components/core/Login/LoginNotice.vue';
 import AmountView from '~~/components/core/tx/AmountView.vue'
 import EutxoView from '~~/components/core/tx/EutxoView.vue'
 import TxTimeView from '~~/components/core/tx/TxTimeView.vue'
+
 //init Stores
 const netStore = useNetStore()
 const addrStore = useAddrStore()
 const gridStore = useGridStore()
 const { LoggedIn } = storeToRefs(netStore)
+
 //init Route Params
 const route = useRoute()
+
 //init Component variables
 const loaded = ref(false)
 const dataInfo = ref('')
@@ -26,6 +32,7 @@ const dataTx = ref('')
 const dataUtxo = ref('')
 const page = ref(1)
 const pIDAdaHandle = 'f0ff48bbb7bbe9d59a40f1ce90e9e9d0ff5002ec48f232b49ca0fb9a';
+
 //Component Functions
 const loadAddr = async () => {
     dataInfo.value = await addrStore.loadAddressInfo(route.params.id)
@@ -41,6 +48,7 @@ const loadMoreTx = async () => {
 }
 const shortenHash = (txt) => { return txt.slice(0, 15) + " ... " + txt.slice(txt.length - 10) }
 
+//Hooks
 onMounted(() => {
     initDropdowns();
     initPopovers();
@@ -59,9 +67,8 @@ watch(LoggedIn, () => {
         <div class="flex justify-between px-4 pt-4">
             <div class="flex p-1.5 text-gray-900 dark:text-white" data-popover-target="popover-addr"
                 data-popover-placement="bottom">
-                <svg v-if="loaded && dataInfo.data.script" xmlns="http://www.w3.org/2000/svg" fill="none"
-                    viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                    class="w-3 h-3 my-1.5 md:w-5 md:h-5 md:my-2.5 ">
+                <svg v-if="loaded && dataInfo.script" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                    stroke-width="1.5" stroke="currentColor" class="w-3 h-3 my-1.5 md:w-5 md:h-5 md:my-2.5 ">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
                 </svg>
                 <svg v-if="loaded" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
@@ -70,9 +77,8 @@ watch(LoggedIn, () => {
                         d="M11.54 22.351l.07.04.028.016a.76.76 0 00.723 0l.028-.015.071-.041a16.975 16.975 0 001.144-.742 19.58 19.58 0 002.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 00-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 002.682 2.282 16.975 16.975 0 001.145.742zM12 13.5a3 3 0 100-6 3 3 0 000 6z"
                         clip-rule="evenodd" />
                 </svg>
-                <svg v-if="loaded && dataInfo.data.script" xmlns="http://www.w3.org/2000/svg" fill="none"
-                    viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                    class="w-3 h-3 my-1.5 md:w-5 md:h-5 md:my-2.5 ">
+                <svg v-if="loaded && dataInfo.script" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                    stroke-width="1.5" stroke="currentColor" class="w-3 h-3 my-1.5 md:w-5 md:h-5 md:my-2.5 ">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
                 </svg>
                 <svg aria-hidden="true" v-if="!loaded && netStore.LoggedIn === true"
@@ -112,8 +118,8 @@ watch(LoggedIn, () => {
                             @click="gridStore.addItem(route.params.id, 'address')"
                             class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
                             <div class="flex text-left ">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                    stroke="currentColor" class="w-5 h-5">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z" />
                                 </svg>
@@ -126,8 +132,8 @@ watch(LoggedIn, () => {
                             @click="gridStore.removeItem(route.params.id, 'address')"
                             class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100 dark:hover:bg-gray-600  dark:hover:text-white">
                             <div class="flex text-left ">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                    stroke="currentColor" class="w-5 h-5">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M3 3l1.664 1.664M21 21l-1.5-1.5m-5.485-1.242L12 17.25 4.5 21V8.742m.164-4.078a2.15 2.15 0 011.743-1.342 48.507 48.507 0 0111.186 0c1.1.128 1.907 1.077 1.907 2.185V19.5M4.664 4.664L19.5 19.5" />
                                 </svg>
@@ -139,8 +145,8 @@ watch(LoggedIn, () => {
                         <a href="#"
                             class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
                             <div class="flex text-left ">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                    stroke="currentColor" class="w-5 h-5">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M9 8.25H7.5a2.25 2.25 0 00-2.25 2.25v9a2.25 2.25 0 002.25 2.25h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25H15m0-3l-3-3m0 0l-3 3m3-3V15" />
                                 </svg>
@@ -155,8 +161,7 @@ watch(LoggedIn, () => {
         <!--Popover-->
         <div data-popover id="popover-addr" role="tooltip"
             class="absolute z-10 invisible inline-block w-64 text-sm font-light text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800">
-            <div
-                class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700">
+            <div class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700">
                 <h3 class="uppercase font-semibold text-gray-900 dark:text-white">Address</h3>
             </div>
             <div class="px-3 py-2">
@@ -172,15 +177,16 @@ watch(LoggedIn, () => {
             <div data-popper-arrow> </div>
         </div>
 
-        <div v-if="netStore.LoggedIn === true && loaded && dataInfo !== ''"
+        <div v-if="netStore.LoggedIn === true && loaded && dataInfo !== '' && dataInfo.amount
+            .filter(({ unit }) => unit.includes(pIDAdaHandle)).length > 0"
             class="relative px-6 my-6 mx-5 py-2 w-52 overflow-x-auto h-min-fit max-h-60 border boder-gray-100 dark:border-gray-700 rounded-lg">
-            <div class="flex text-lg text-gray-900 dark:text-white " v-for="handle in dataInfo.data.amount
-            .filter(({ unit }) => unit.includes(pIDAdaHandle))
-            .map(({ unit }) => {
-                const hexName = unit.replace(pIDAdaHandle, '');
-                const utf8Name = Buffer.from(hexName, 'hex').toString('utf8');
-                return utf8Name;
-            })">
+            <div class="flex text-lg text-gray-900 dark:text-white " v-for="handle in dataInfo.amount
+                .filter(({ unit }) => unit.includes(pIDAdaHandle))
+                .map(({ unit }) => {
+                    const hexName = unit.replace(pIDAdaHandle, '');
+                    const utf8Name = Buffer.from(hexName, 'hex').toString('utf8');
+                    return utf8Name;
+                })">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                     stroke="currentColor" class="w-4 h-4 mt-1.5 mx-1">
                     <path stroke-linecap="round"
@@ -194,8 +200,9 @@ watch(LoggedIn, () => {
         <LoginNotice />
         <br />
 
+        <!--Address Holdings-->
         <div v-if="netStore.LoggedIn === true && loaded
-        && dataInfo !== ''" class="px-3">
+            && dataInfo !== ''" class="px-3">
             <div class="inline-flex items-center justify-center w-full">
                 <hr class="w-72 h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
                 <span
@@ -203,12 +210,13 @@ watch(LoggedIn, () => {
                     Address Holdings
                 </span>
             </div>
-            <AmountView :amount="dataInfo.data.amount" />
+            <AmountView :amount="dataInfo.amount" />
+            <br />
         </div>
-        <br />
-
+        
+        <!--Address UTxOs-->
         <div v-if="netStore.LoggedIn === true && loaded
-        && dataUtxo !== '' && dataUtxo.data" class="px-3">
+            && dataUtxo !== '' && dataUtxo.data && dataUtxo.data.length > 0" class="px-3">
             <div class="inline-flex items-center justify-center w-full">
                 <hr class="w-72 h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
                 <span
@@ -216,17 +224,17 @@ watch(LoggedIn, () => {
                     Address UTxOs
                 </span>
             </div>
-
             <div class="relative overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-700">
                 <div v-for="utxo, index in dataUtxo.data " :key="index" class="mx-5 py-4">
                     <EutxoView :txHash="utxo.tx_hash" :utxo="utxo" />
                 </div>
             </div>
+            <br />
         </div>
-        <br />
-
+        
+        <!--Transactions-->
         <div v-if="netStore.LoggedIn === true && loaded
-        && dataTx !== ''">
+            && dataTx !== ''">
             <div class="inline-flex items-center justify-center w-full">
                 <hr class="w-72 h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
                 <span
@@ -244,7 +252,7 @@ watch(LoggedIn, () => {
                         <time class="mb-1 text-xs font-normal leading-none text-gray-400 dark:text-gray-500">
                             <TxTimeView :blockTime="tx.block_time" />
                         </time>
-                        <NuxtLink :to="'/transactions/' + tx.tx_hash"
+                        <NuxtLink :to="`/transactions/${tx.tx_hash}`"
                             class="flex my-1 text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-100">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                                 class="w-3 h-3 m-1 md:w-4 md:h-4">
@@ -252,7 +260,7 @@ watch(LoggedIn, () => {
                                     d="M3.478 2.405a.75.75 0 00-.926.94l2.432 7.905H13.5a.75.75 0 010 1.5H4.984l-2.432 7.905a.75.75 0 00.926.94 60.519 60.519 0 0018.445-8.986.75.75 0 000-1.218A60.517 60.517 0 003.478 2.405z" />
                             </svg>
                             <h3 class="text-sm font-semibold my-0.5">{{
-                                shortenHash(tx.tx_hash)+ ' - ' + tx.tx_index
+                                shortenHash(tx.tx_hash) + ' - ' + tx.tx_index
                             }}</h3>
                         </NuxtLink>
                     </li>
@@ -263,7 +271,6 @@ watch(LoggedIn, () => {
                         @click="loadMoreTx()"> Load More </a>
                 </div>
             </div>
-
         </div>
 
     </div>

@@ -1,20 +1,31 @@
 import { defineStore } from 'pinia';
 import axios from "axios"
-import { useLocalStorage } from '@vueuse/core'
+//import { useLocalStorage } from '@vueuse/core'
 
+type State = {
+    ApiDetails:{
+        url: string,
+        pid: string
+    },
+    LoggedIn: Boolean,
+    mode:String
+}
 export const useNetStore = defineStore('net-store', {
-    state: () => ({
+    state: ():State => ({
         //TD store as a List
-        ApiDetails: useLocalStorage('ApiDetails', {
-            url: String,
-            pid: String
-        }),
-        LoggedIn: useLocalStorage('LoggedIn', Boolean),
-        mode: useLocalStorage('mode', String)
+        ApiDetails: {
+            url: '',
+            pid: ''
+        },
+        LoggedIn: false,
+        mode: ''
 
     }),
     actions: {
-        async setApi(pID) {
+        getPid():string {
+            return this.ApiDetails.pid
+        },
+        async setApi(pID: string) {
             //Check API Credentials
             this.ApiDetails = {
                 url: '',
@@ -30,20 +41,17 @@ export const useNetStore = defineStore('net-store', {
             if (pID.startsWith('previewxyz')) { this.ApiDetails.url = 'https://blockfrost-proxy.script-explorer.workers.dev/'; this.mode = 'preview' }
 
             try {
-                const data = await axios.get(this.ApiDetails.url + "metrics", {
-                    headers: {
-                        project_id: this.ApiDetails.pid,
-                        'Access-Control-Allow-Headers': '*',
-                        'Access-Control-Allow-Origin': '*',
-                        'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS'
-                    }
-                })
-
+                const headers = {
+                    'Access-Control-Allow-Headers': '*',
+                    'Access-Control-Allow-Origin': '*',
+                    'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+                    'project_id': this.ApiDetails.pid
+                }
+                const data = await axios.get(this.ApiDetails.url + "metrics", { headers })
                 if (data.status === 200) {
                     this.LoggedIn = true;
                     return true
                 }
-
             } catch (err) {
                 this.clearApi()
             }
@@ -51,7 +59,10 @@ export const useNetStore = defineStore('net-store', {
         },
         clearApi() {
             this.$reset()
-            this.ApiDetails = {}
+            this.ApiDetails = {
+                url: '',
+                pid: ''
+            },
             this.LoggedIn = false
             this.mode = ''
 

@@ -6,15 +6,15 @@
             
                 <li v-if="index === 0"
                     class="w-full px-4 py-2 border-b border-gray-200 rounded-t-lg dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-500">
-                    <ListItem :scr="script.scriptHash"  />
+                    <ListItem :scr="script.script_hash"  />
                 </li>
                 <li v-if="index !== 0 && index != scrStore.scriptList.filter(f=>f.network === netStore.mode).length - 1"
                     class="w-full px-4 py-2 border-b border-gray-200 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-500">
-                    <ListItem :scr="script.scriptHash"  />
+                    <ListItem :scr="script.script_hash"  />
                 </li>
                 <li v-if="index === scrStore.scriptList.filter(f=>f.network === netStore.mode).length - 1"
                     class="w-full px-4 py-2 rounded-b-lg hover:bg-gray-100 dark:hover:bg-gray-500">
-                    <ListItem :scr="script.scriptHash" />
+                    <ListItem :scr="script.script_hash" />
                 </li>
         </div>
     </ul>

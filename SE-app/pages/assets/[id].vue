@@ -1,36 +1,39 @@
 <script setup>
 //CSS Framework imports
 import { initDropdowns, initPopovers } from 'flowbite'
+
 //Store imports
 import { useNetStore } from '/stores/net-store'
 import { useAssetStore } from '/stores/asset-store'
 import { useGridStore } from '/stores/grid-store'
 import { storeToRefs } from 'pinia'
+
 //Component imports
 import LoginNotice from '~~/components/core/Login/LoginNotice.vue'
 import TxTimeView from '~~/components/core/tx/TxTimeView.vue'
 import ImageView from '~~/components/core/asset/ImageView.vue'
+
 //init Stores
 const netStore = useNetStore()
 const assetStore = useAssetStore()
 const gridStore = useGridStore()
 const { LoggedIn } = storeToRefs(netStore)
+
 //init Route Params
 const route = useRoute()
+
 //init Component variables
 const loaded = ref(false)
 const dataInfo = ref('')
 const dataAddr = ref('')
 const dataTx = ref('')
 const page = ref(1)
+
 //Component Functions
-const loadAsset = async () => {
-    const info = assetStore.loadAsset(route.params.id)
-    const addr = assetStore.loadAssetAddr(route.params.id)
-    const tx = assetStore.loadAssetTx(route.params.id)
-    dataInfo.value = await info
-    dataAddr.value = await addr
-    dataTx.value = await tx
+const loadAssetData = async () => {
+    dataInfo.value = await assetStore.loadAsset(route.params.id)
+    dataAddr.value = await assetStore.loadAssetAddr(route.params.id)
+    dataTx.value = await assetStore.loadAssetTx(route.params.id)
     loaded.value = true
 }
 const loadMoreTx = async () => {
@@ -40,15 +43,18 @@ const loadMoreTx = async () => {
     dataTx.value.txs = tmp.concat(dataTx.value.txs)
 }
 const shortenHash = (txt) => { return txt.slice(0, 15) + " ... " + txt.slice(txt.length - 10) }
-onMounted(() => {
+
+//Hooks
+onMounted( async () => {
     initDropdowns();
     initPopovers();
-    if (netStore.LoggedIn === true) { loadAsset(); }
+    if (netStore.LoggedIn === true) { await loadAssetData(); }
 })
-watch(LoggedIn, () => {
-    loadAsset()
+watch(LoggedIn, async ()  => {
+    await loadAssetData()
 })
 </script>
+
 <template>
     <div class="grow" />
     <div class="w-96 md:w-1/2 bg-white border border-gray-200 rounded-lg dark:bg-gray-800 dark:border-gray-700 md:p-3">
@@ -119,8 +125,8 @@ watch(LoggedIn, () => {
                             @click="gridStore.addItem(route.params.id, 'asset')"
                             class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
                             <div class="flex text-left ">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                    stroke="currentColor" class="w-5 h-5">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z" />
                                 </svg>
@@ -133,8 +139,8 @@ watch(LoggedIn, () => {
                             @click="gridStore.removeItem(route.params.id, 'asset')"
                             class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100 dark:hover:bg-gray-600  dark:hover:text-white">
                             <div class="flex text-left ">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                    stroke="currentColor" class="w-5 h-5">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M3 3l1.664 1.664M21 21l-1.5-1.5m-5.485-1.242L12 17.25 4.5 21V8.742m.164-4.078a2.15 2.15 0 011.743-1.342 48.507 48.507 0 0111.186 0c1.1.128 1.907 1.077 1.907 2.185V19.5M4.664 4.664L19.5 19.5" />
                                 </svg>
@@ -146,8 +152,8 @@ watch(LoggedIn, () => {
                         <a href="#"
                             class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
                             <div class="flex text-left ">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                    stroke="currentColor" class="w-5 h-5">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M9 8.25H7.5a2.25 2.25 0 00-2.25 2.25v9a2.25 2.25 0 002.25 2.25h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25H15m0-3l-3-3m0 0l-3 3m3-3V15" />
                                 </svg>
@@ -158,24 +164,24 @@ watch(LoggedIn, () => {
                 </ul>
             </div>
         </div>
-        
+
 
         <br />
         <LoginNotice />
 
         <div v-if="netStore.LoggedIn === true && loaded && dataInfo !== ''">
-            <div v-if="dataInfo.data.onchain_metadata !== null">
+            <div v-if="dataInfo.onchain_metadata !== null">
 
-                <p v-if="dataInfo.data.onchain_metadata.name !== undefined"
+                <p v-if="dataInfo.onchain_metadata.name !== undefined"
                     class="text-center text-xl text-gray-900 dark:text-white">{{
-                        dataInfo.data.onchain_metadata.name
+                        dataInfo.onchain_metadata.name
                     }}</p>
                 <br />
 
                 <div class="flex justify-evenly">
-                    <ImageView class="w-4/6 m-2" :data="dataInfo.data" />
+                    <ImageView class="w-4/6 m-2" :data="dataInfo" />
                 </div>
-                
+
             </div>
 
             <div class="inline-flex items-center justify-center w-full">
@@ -187,8 +193,8 @@ watch(LoggedIn, () => {
             </div>
 
             <div class="text-center text-gray-600 dark:text-gray-400">
-                PolicyId: 
-                <NuxtLink :to="'/scripts/'+dataInfo.data.policy_id">{{ shortenHash(dataInfo.data.policy_id) }}</NuxtLink>
+                PolicyId:
+                <NuxtLink :to="'/scripts/' + dataInfo.policy_id">{{ shortenHash(dataInfo.policy_id) }}</NuxtLink>
             </div>
 
 
@@ -271,7 +277,7 @@ watch(LoggedIn, () => {
                                     d="M3.478 2.405a.75.75 0 00-.926.94l2.432 7.905H13.5a.75.75 0 010 1.5H4.984l-2.432 7.905a.75.75 0 00.926.94 60.519 60.519 0 0018.445-8.986.75.75 0 000-1.218A60.517 60.517 0 003.478 2.405z" />
                             </svg>
                             <h3 class="text-sm font-semibold my-0.5">{{
-                                shortenHash(tx.tx_hash)+ ' - ' + tx.tx_index
+                                shortenHash(tx.tx_hash) + ' - ' + tx.tx_index
                             }}</h3>
                         </NuxtLink>
                     </li>

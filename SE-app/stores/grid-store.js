@@ -72,7 +72,7 @@ export const useGridStore = defineStore('grid-store', {
                     txStore.loadUtxos(m.tx)
                         .then(_ => {
                             txStore.utxosList
-                                .filter((f) => f.network === netStore.mode && f.txHash === m.tx)
+                                .filter((f) => f.network === netStore.mode && f.hash === m.tx)
                                 .map((n) => {
                                     n.inputs.map((k) => AddrIn.push(k.address))
                                     n.outputs.map((k) => AddrOut.push(k.address))

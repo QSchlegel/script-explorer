@@ -36,7 +36,7 @@ const loadScript = async () => {
         }
         else {
             const tmpRedeemer = await scrStore.loadScriptRedeemer(route.params.id)
-            const pType = (tmpRedeemer.data.length > 0) ? tmpRedeemer.data[0].purpose : ''
+            const pType = (tmpRedeemer.length > 0) ? tmpRedeemer[0].purpose : ''
             if (pType === 'mint') {
                 await assetStore.loadPolicy(route.params.id)
             }
@@ -46,6 +46,7 @@ const loadScript = async () => {
     }
     loaded.value = true
 }
+const shortenHash = (txt) => { return txt.slice(0, 15) + " ... " + txt.slice(txt.length - 15) }
 
 // initialize components based on data attribute selectors
 onMounted(() => {
@@ -56,7 +57,6 @@ onMounted(() => {
 watch(LoggedIn, () => {
     loadScript()
 })
-const shortenHash = (txt) => { return txt.slice(0, 15) + " ... " + txt.slice(txt.length - 15) }
 </script>
 
 <template>
@@ -279,7 +279,7 @@ const shortenHash = (txt) => { return txt.slice(0, 15) + " ... " + txt.slice(txt
                     </thead>
                     <tbody>
 
-                        <tr v-for="tx, index in scrStore.plutusList.filter(f => f.scriptHash === route.params.id)[0].data"
+                        <tr v-for="tx, index in scrStore.plutusList.filter(f => f.script_hash === route.params.id)"
                             :key="index" class="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-600">
                             <NuxtLink :to="'/transactions/' + tx.tx_hash">
                                 <th scope="row"
