@@ -33,7 +33,7 @@ const shortenHash = (txt) => { return txt.slice(0, 15) + " ... " + txt.slice(txt
         <!--Output utxos-->
         <div v-for="utxo, jndex in ((props.put === 'inputs') ? [... props.data.inputs] : [... props.data.outputs]).filter(f => f.address === addr) "
             :key="jndex" class="mx-8 py-4">
-            <EutxoView :txHash="(props.put === 'inputs') ? utxo.tx_hash: data.txHash" :utxo="utxo" />
+            <EutxoView :txHash="(props.put === 'inputs') ? utxo.tx_hash: props.data.hash" :utxo="utxo" />
         </div>
 
     </div>

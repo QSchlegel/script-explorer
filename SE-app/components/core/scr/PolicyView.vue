@@ -26,12 +26,12 @@ onMounted(() => {
 <template>
     <div class="rounded-lg border boder-gray-200 dark:border-gray-700">
         <div
-            v-if="assetList !== [] && assetList !== undefined && assetList.filter(f => f.data.onchain_metadata !== null && f.data.onchain_metadata.image !== null).length > 0">
+            v-if="assetList !== [] && assetList !== undefined && assetList.filter(f => f.onchain_metadata !== null && f.onchain_metadata.image !== null).length > 0">
             <div class="grid grid-cols-4 gap-5 m-3">
                 <NuxtLink
-                    v-for="nft in assetList.filter(f => f.data.onchain_metadata !== null && f.data.onchain_metadata.image !== null)"
-                    :to="'/assets/'+nft.data.asset">
-                    <ImageView :data="nft.data" />
+                    v-for="nft in assetList.filter(f => f.onchain_metadata !== null && f.onchain_metadata.image !== null)"
+                    :to="'/assets/'+nft.asset">
+                    <ImageView :data="nft" />
                 </NuxtLink>
             </div>
 
@@ -60,7 +60,7 @@ onMounted(() => {
                 <tbody>
                     <tr v-for="asset, index in assetList" :key="index"
                         class="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-600">
-                        <NuxtLink :to="'/assets/' + asset.data.asset">
+                        <NuxtLink :to="'/assets/' + asset.asset">
                             <th scope="row"
                                 class="flex px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -69,11 +69,11 @@ onMounted(() => {
                                         d="M21 7.5l-2.25-1.313M21 7.5v2.25m0-2.25l-2.25 1.313M3 7.5l2.25-1.313M3 7.5l2.25 1.313M3 7.5v2.25m9 3l2.25-1.313M12 12.75l-2.25-1.313M12 12.75V15m0 6.75l2.25-1.313M12 21.75V19.5m0 2.25l-2.25-1.313m0-16.875L12 2.25l2.25 1.313M21 14.25v2.25l-2.25 1.313m-13.5 0L3 16.5v-2.25" />
                                 </svg>
 
-                                <AssetNameView :name="asset.data.asset" />
+                                <AssetNameView :name="asset.asset" />
                             </th>
                         </NuxtLink>
                         <td class="px-6 py-4">
-                            {{ asset.data.quantity }}
+                            {{ asset.quantity }}
                         </td>
                     </tr>
                 </tbody>

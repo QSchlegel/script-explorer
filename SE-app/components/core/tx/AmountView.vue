@@ -26,12 +26,12 @@ onMounted(() => {
     <div v-if="props.amount !== undefined && props.amount.length > 0"
         class="relative overflow-x-auto rounded-lg border boder-gray-200 dark:border-gray-700 mt-3">
         <div
-            v-if="assetList !== [] && assetList !== undefined && assetList.filter(f => f.data.onchain_metadata !== null && f.data.onchain_metadata.image !== null).length > 0">
+            v-if="assetList !== [] && assetList !== undefined && assetList.filter(f => f.onchain_metadata && f.onchain_metadata.image).length > 0">
             <div class="grid grid-cols-4 gap-3 m-3">
                 <NuxtLink
-                    v-for="nft in assetList.filter(f => f.data.onchain_metadata !== null && f.data.onchain_metadata.image !== null)"
-                    :to="'/assets/' + nft.data.asset">
-                    <ImageView :data="nft.data" />
+                    v-for="nft in assetList.filter(f => f.onchain_metadata && f.onchain_metadata.image)"
+                    :to="'/assets/' + nft.asset">
+                    <ImageView :data="nft" />
                 </NuxtLink>
             </div>
 
@@ -39,7 +39,6 @@ onMounted(() => {
                 class="w-full py-1 bg-white dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-600 border-y boder-gray-100 dark:border-gray-700 text-gray-500 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
                 @click="loadAssets()"> Load More
             </button>
-
         </div>
 
         <div class="relative overflow-x-auto h-min-fit max-h-60">
