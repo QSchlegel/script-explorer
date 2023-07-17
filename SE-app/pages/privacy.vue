@@ -1,1 +1,1 @@
-<template>HI</template>
+<template>Currently we do not log any user data!</template>

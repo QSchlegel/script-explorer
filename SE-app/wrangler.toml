@@ -1,8 +1,0 @@
-name = "app"
-main = "./.output/server/index.mjs"
-workers_dev = true
-compatibility_date = "2023-01-01"
-account_id = "6254411d36de8918def1668645c376d3"
-
-[site]
-bucket = ".output/public"
