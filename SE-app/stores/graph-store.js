@@ -67,7 +67,7 @@ export const useGraphStore = defineStore('graph-store', {
         createTxGraph(tx) {
             this.gLoading = true
             if (tx !== '' && this.txGraphList.filter((f) => f.id === tx).length === 0) {
-                const txObject = txStore.utxosList.filter((f) => f.txHash === tx)[0]
+                const txObject = txStore.utxosList.filter((f) => f.hash === tx)[0]
                 if (txObject === undefined) return;
                 const links = []
                 const valueIn = txObject.inputs.map((m) => m.amount.map((n) => Object.assign(n, { utxo: m.tx_hash + "-" + m.output_index, addr: m.address, collateral: m.collateral }))).flat()

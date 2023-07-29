@@ -1,3 +1,12 @@
+<script setup lang="ts">
+useHead({
+  title: 'About',
+  meta: [
+    { name: 'description', content: 'This is the about page for the Script Explorer' }
+  ],
+})
+</script>
+
 <template>
     <div class="grow" />
     <div class="flex-none w-96">

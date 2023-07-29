@@ -48,6 +48,13 @@ const loadMoreTx = async () => {
 }
 const shortenHash = (txt) => { return txt.slice(0, 15) + " ... " + txt.slice(txt.length - 10) }
 
+useHead({
+  title: 'Address',
+  meta: [
+    { name: 'description', content: 'This is an address page.'}
+  ],
+})
+
 //Hooks
 onMounted(() => {
     initDropdowns();

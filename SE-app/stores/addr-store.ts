@@ -122,3 +122,7 @@ export const useAddrStore = defineStore('addr-store', {
         }
     }
 })
+
+if (import.meta.hot) { 
+    import.meta.hot.accept(acceptHMRUpdate(useAddrStore, import.meta.hot));
+}
