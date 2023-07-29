@@ -1,5 +1,13 @@
-<template>
+<script setup lang="ts">
+useHead({
+  title: 'Landing',
+  meta: [
+    { name: 'description', content: 'This is the landing page for the Script Explorer' }
+  ],
+})
+</script>
 
+<template>
 
     <div class="grow" />
     <div class="flex-none w-96">

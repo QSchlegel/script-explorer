@@ -48,6 +48,13 @@ const loadScript = async () => {
 }
 const shortenHash = (txt) => { return txt.slice(0, 15) + " ... " + txt.slice(txt.length - 15) }
 
+useHead({
+  title: 'Script',
+  meta: [
+    { name: 'description', content: 'This is a script page.'}
+  ],
+})
+
 // initialize components based on data attribute selectors
 onMounted(() => {
     initDropdowns();

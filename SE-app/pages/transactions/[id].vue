@@ -10,6 +10,7 @@ import LoginNotice from '~~/components/core/Login/LoginNotice.vue';
 import { storeToRefs } from 'pinia'
 import InOutputView from '~~/components/core/tx/InOutputView.vue'
 import TxTimeView from '~~/components/core/tx/TxTimeView.vue'
+import Sankey from '~~/components/core/tx/Sankey.vue'
 
 //init Stores
 const netStore = useNetStore()
@@ -32,6 +33,13 @@ const loadTx = async () => {
     loaded.value = (txData !== false) && (utxoData !== false)
 }
 
+useHead({
+  title: 'Transaction',
+  meta: [
+    { name: 'description', content: 'This is a transaction page.'}
+  ],
+})
+
 // initialize components based on data attribute selectors
 onMounted(() => {
     initDropdowns();
@@ -43,6 +51,7 @@ watch(LoggedIn, () => {
 })
 
 const shortenHash = (txt) => { return txt.slice(0, 15) + " ... " + txt.slice(txt.length - 10) }
+
 
 </script>
 
@@ -165,6 +174,8 @@ const shortenHash = (txt) => { return txt.slice(0, 15) + " ... " + txt.slice(txt
 
         <div v-if="netStore.LoggedIn === true
         && loaded" class="px-3">
+        
+
             <div class="inline-flex items-center justify-center w-full">
                 <hr class="w-72 h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
                 <span
@@ -261,6 +272,10 @@ const shortenHash = (txt) => { return txt.slice(0, 15) + " ... " + txt.slice(txt
         </div>
         <br />
 
+        <div class="mx-center-align mx-5">
+                <Sankey :graphtype="'tx'"  :graph-id="dataTx.hash"/>
+            </div>
+            
 
         <div v-if="netStore.LoggedIn === true
         && loaded" class="px-3">
