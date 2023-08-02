@@ -34,10 +34,10 @@ const loadTx = async () => {
 }
 
 useHead({
-  title: 'Transaction',
-  meta: [
-    { name: 'description', content: 'This is a transaction page.'}
-  ],
+    title: 'Transaction',
+    meta: [
+        { name: 'description', content: 'This is a transaction page.' }
+    ],
 })
 
 // initialize components based on data attribute selectors
@@ -104,8 +104,8 @@ const shortenHash = (txt) => { return txt.slice(0, 15) + " ... " + txt.slice(txt
                         <li>
 
                             <div class="flex text-left ">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                    stroke="currentColor" class="w-5 h-5">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z" />
                                 </svg>
@@ -120,8 +120,8 @@ const shortenHash = (txt) => { return txt.slice(0, 15) + " ... " + txt.slice(txt
                         <li>
 
                             <div class="flex text-left ">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                    stroke="currentColor" class="w-5 h-5">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M3 3l1.664 1.664M21 21l-1.5-1.5m-5.485-1.242L12 17.25 4.5 21V8.742m.164-4.078a2.15 2.15 0 011.743-1.342 48.507 48.507 0 0111.186 0c1.1.128 1.907 1.077 1.907 2.185V19.5M4.664 4.664L19.5 19.5" />
                                 </svg>
@@ -135,8 +135,8 @@ const shortenHash = (txt) => { return txt.slice(0, 15) + " ... " + txt.slice(txt
                         <li>
 
                             <div class="flex text-left ">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                    stroke="currentColor" class="w-5 h-5">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M9 8.25H7.5a2.25 2.25 0 00-2.25 2.25v9a2.25 2.25 0 002.25 2.25h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25H15m0-3l-3-3m0 0l-3 3m3-3V15" />
                                 </svg>
@@ -152,8 +152,7 @@ const shortenHash = (txt) => { return txt.slice(0, 15) + " ... " + txt.slice(txt
         <!--Popover-->
         <div data-popover id="popover-tx" role="tooltip"
             class="absolute z-10 invisible inline-block w-64 text-sm font-light text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800">
-            <div
-                class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700">
+            <div class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700">
                 <h3 class="uppercase font-semibold text-gray-900 dark:text-white">Transaction</h3>
             </div>
             <div class="px-3 py-2">
@@ -173,8 +172,8 @@ const shortenHash = (txt) => { return txt.slice(0, 15) + " ... " + txt.slice(txt
         <LoginNotice />
 
         <div v-if="netStore.LoggedIn === true
-        && loaded" class="px-3">
-        
+            && loaded" class="px-3">
+
 
             <div class="inline-flex items-center justify-center w-full">
                 <hr class="w-72 h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
@@ -240,7 +239,7 @@ const shortenHash = (txt) => { return txt.slice(0, 15) + " ... " + txt.slice(txt
         <br />
         <div class="grid grid-cols-2 gap-4">
             <div v-if="netStore.LoggedIn === true
-            && loaded" class="px-3 col-span-2 md:col-span-1">
+                && loaded" class="px-3 col-span-2 md:col-span-1">
                 <div class="inline-flex items-center justify-center w-full">
                     <hr class="w-72 h-px my-8 bg-blue-600 border-0 dark:bg-blue-600">
                     <span
@@ -250,12 +249,12 @@ const shortenHash = (txt) => { return txt.slice(0, 15) + " ... " + txt.slice(txt
                 <!--Input Section-->
                 <div class="relative overflow-x-auto rounded-lg border border-blue-600 dark:border-blue-600">
                     <InOutputView v-if="netStore.LoggedIn === true
-                    && loaded" :put="'inputs'" :data="dataUtxo" />
+                        && loaded" :put="'inputs'" :data="dataUtxo" />
                 </div>
             </div>
 
             <div v-if="netStore.LoggedIn === true
-            && loaded" class="px-3 col-span-2 md:col-span-1">
+                && loaded" class="px-3 col-span-2 md:col-span-1">
                 <div class="inline-flex items-center justify-center w-full">
                     <hr class="w-72 h-px my-8 bg-red-600 border-0 dark:bg-red-600">
                     <span
@@ -266,19 +265,32 @@ const shortenHash = (txt) => { return txt.slice(0, 15) + " ... " + txt.slice(txt
                 <div class="relative overflow-x-auto rounded-lg border border-red-600 dark:border-red-600">
 
                     <InOutputView v-if="netStore.LoggedIn === true
-                    && loaded" :put="'outputs'" :data="dataUtxo" />
+                        && loaded" :put="'outputs'" :data="dataUtxo" />
                 </div>
             </div>
         </div>
         <br />
 
-        <div class="mx-center-align mx-5">
-                <Sankey :graphtype="'tx'"  :graph-id="dataTx.hash"/>
+        <div v-if="netStore.LoggedIn === true
+            && loaded" class="px-3">
+            <div class="inline-flex items-center justify-center w-full">
+                <hr class="w-72 h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
+                <span
+                    class="absolute px-3 font-medium text-gray-900 -translate-x-1/2 bg-white left-1/2 dark:text-white dark:bg-gray-800">Sankey
+                    Diagram</span>
             </div>
-            
+            <div class="relative overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-700">
+                <div class="mx-center-align m-5">
+                    <Sankey :graphtype="'tx'" :graph-id="dataTx.hash" />
+                </div>
+            </div>
+        </div>
+
+
+        <br />
 
         <div v-if="netStore.LoggedIn === true
-        && loaded" class="px-3">
+            && loaded" class="px-3">
             <div class="inline-flex items-center justify-center w-full">
                 <hr class="w-72 h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
                 <span
@@ -344,5 +356,4 @@ const shortenHash = (txt) => { return txt.slice(0, 15) + " ... " + txt.slice(txt
     </div>
 
     <div class="grow" />
-
 </template>
