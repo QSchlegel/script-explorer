@@ -1,0 +1,2173 @@
+components:
+  schemas:
+    Block:
+      properties:
+        epoch_no:
+          description: Epoch number in which the block was created.
+          type: integer
+        hash:
+          description: Hash of the block.
+          type: string
+        id:
+          description: Unique identifier for the block.
+          type: integer
+        slot_no:
+          description: Slot number within the epoch.
+          type: integer
+      required:
+      - id
+      - hash
+      - epoch_no
+      - slot_no
+      type: object
+    Datum:
+      properties:
+        datum_hash:
+          description: Hash of the datum.
+          type: string
+        value:
+          description: Value associated with the datum.
+          type: string
+      required:
+      - datum_hash
+      type: object
+    Transaction:
+      properties:
+        inputs:
+          description: Inputs for the transaction.
+          items:
+            type: string
+          type: array
+        metadata:
+          description: Metadata associated with the transaction.
+          type: object
+        outputs:
+          description: Outputs from the transaction.
+          items:
+            type: string
+          type: array
+        tx_hash:
+          description: Hash of the transaction.
+          type: string
+      required:
+      - tx_hash
+      type: object
+info:
+  description: Detailed OpenAPI Specification for the provided 56 endpoints.
+  title: Enhanced API Specification
+  version: 1.0.0
+openapi: 3.0.0
+paths:
+  /ada_pots:
+    get:
+      description: Handles GET requests for /ada_pots. Detailed information is returned
+        based on query parameters.
+      parameters:
+      - description: Unique identifier for the resource.
+        in: query
+        name: id
+        required: false
+        schema:
+          type: string
+      - description: Maximum number of results to return.
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 10
+          type: integer
+      - description: Number of items to skip for pagination.
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  type: object
+                type: array
+          description: Successful response with the requested details.
+        '400':
+          description: Invalid request parameters.
+        '404':
+          description: Resource not found.
+      summary: GET /ada_pots
+  /blocks:
+    get:
+      description: Handles GET requests for /blocks. Detailed information is returned
+        based on query parameters.
+      parameters:
+      - description: The epoch number to filter blocks.
+        in: query
+        name: epoch_no
+        required: false
+        schema:
+          type: integer
+      - description: The slot number within the epoch.
+        in: query
+        name: slot_no
+        required: false
+        schema:
+          type: integer
+      - description: Maximum number of results to return.
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 10
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  type: object
+                type: array
+          description: Successful response with the requested details.
+        '400':
+          description: Invalid request parameters.
+        '404':
+          description: Resource not found.
+      summary: GET /blocks
+  /collateral_tx_in:
+    get:
+      description: Handles GET requests for /collateral_tx_in. Detailed information
+        is returned based on query parameters.
+      parameters:
+      - description: The hash of the transaction.
+        in: query
+        name: tx_hash
+        required: true
+        schema:
+          type: string
+      - description: Include metadata in the response.
+        in: query
+        name: include_metadata
+        required: false
+        schema:
+          default: false
+          type: boolean
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  type: object
+                type: array
+          description: Successful response with the requested details.
+        '400':
+          description: Invalid request parameters.
+        '404':
+          description: Resource not found.
+      summary: GET /collateral_tx_in
+  /collateral_tx_out:
+    get:
+      description: Handles GET requests for /collateral_tx_out. Detailed information
+        is returned based on query parameters.
+      parameters:
+      - description: The hash of the transaction.
+        in: query
+        name: tx_hash
+        required: true
+        schema:
+          type: string
+      - description: Include metadata in the response.
+        in: query
+        name: include_metadata
+        required: false
+        schema:
+          default: false
+          type: boolean
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  type: object
+                type: array
+          description: Successful response with the requested details.
+        '400':
+          description: Invalid request parameters.
+        '404':
+          description: Resource not found.
+      summary: GET /collateral_tx_out
+  /committee:
+    get:
+      description: Handles GET requests for /committee. Detailed information is returned
+        based on query parameters.
+      parameters:
+      - description: Unique identifier for the resource.
+        in: query
+        name: id
+        required: false
+        schema:
+          type: string
+      - description: Maximum number of results to return.
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 10
+          type: integer
+      - description: Number of items to skip for pagination.
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  type: object
+                type: array
+          description: Successful response with the requested details.
+        '400':
+          description: Invalid request parameters.
+        '404':
+          description: Resource not found.
+      summary: GET /committee
+  /constitution:
+    get:
+      description: Handles GET requests for /constitution. Detailed information is
+        returned based on query parameters.
+      parameters:
+      - description: Unique identifier for the resource.
+        in: query
+        name: id
+        required: false
+        schema:
+          type: string
+      - description: Maximum number of results to return.
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 10
+          type: integer
+      - description: Number of items to skip for pagination.
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  type: object
+                type: array
+          description: Successful response with the requested details.
+        '400':
+          description: Invalid request parameters.
+        '404':
+          description: Resource not found.
+      summary: GET /constitution
+  /cost_model:
+    get:
+      description: Handles GET requests for /cost_model. Detailed information is returned
+        based on query parameters.
+      parameters:
+      - description: Unique identifier for the resource.
+        in: query
+        name: id
+        required: false
+        schema:
+          type: string
+      - description: Maximum number of results to return.
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 10
+          type: integer
+      - description: Number of items to skip for pagination.
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  type: object
+                type: array
+          description: Successful response with the requested details.
+        '400':
+          description: Invalid request parameters.
+        '404':
+          description: Resource not found.
+      summary: GET /cost_model
+  /datum:
+    get:
+      description: Handles GET requests for /datum. Detailed information is returned
+        based on query parameters.
+      parameters:
+      - description: Unique identifier for the resource.
+        in: query
+        name: id
+        required: false
+        schema:
+          type: string
+      - description: Maximum number of results to return.
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 10
+          type: integer
+      - description: Number of items to skip for pagination.
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  type: object
+                type: array
+          description: Successful response with the requested details.
+        '400':
+          description: Invalid request parameters.
+        '404':
+          description: Resource not found.
+      summary: GET /datum
+  /delegation:
+    get:
+      description: Handles GET requests for /delegation. Detailed information is returned
+        based on query parameters.
+      parameters:
+      - description: Unique identifier for the resource.
+        in: query
+        name: id
+        required: false
+        schema:
+          type: string
+      - description: Maximum number of results to return.
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 10
+          type: integer
+      - description: Number of items to skip for pagination.
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  type: object
+                type: array
+          description: Successful response with the requested details.
+        '400':
+          description: Invalid request parameters.
+        '404':
+          description: Resource not found.
+      summary: GET /delegation
+  /delegation_vote:
+    get:
+      description: Handles GET requests for /delegation_vote. Detailed information
+        is returned based on query parameters.
+      parameters:
+      - description: Unique identifier for the resource.
+        in: query
+        name: id
+        required: false
+        schema:
+          type: string
+      - description: Maximum number of results to return.
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 10
+          type: integer
+      - description: Number of items to skip for pagination.
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  type: object
+                type: array
+          description: Successful response with the requested details.
+        '400':
+          description: Invalid request parameters.
+        '404':
+          description: Resource not found.
+      summary: GET /delegation_vote
+  /delisted_pool:
+    get:
+      description: Handles GET requests for /delisted_pool. Detailed information is
+        returned based on query parameters.
+      parameters:
+      - description: Unique identifier for the resource.
+        in: query
+        name: id
+        required: false
+        schema:
+          type: string
+      - description: Maximum number of results to return.
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 10
+          type: integer
+      - description: Number of items to skip for pagination.
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  type: object
+                type: array
+          description: Successful response with the requested details.
+        '400':
+          description: Invalid request parameters.
+        '404':
+          description: Resource not found.
+      summary: GET /delisted_pool
+  /drep_hash:
+    get:
+      description: Handles GET requests for /drep_hash. Detailed information is returned
+        based on query parameters.
+      parameters:
+      - description: Unique identifier for the resource.
+        in: query
+        name: id
+        required: false
+        schema:
+          type: string
+      - description: Maximum number of results to return.
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 10
+          type: integer
+      - description: Number of items to skip for pagination.
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  type: object
+                type: array
+          description: Successful response with the requested details.
+        '400':
+          description: Invalid request parameters.
+        '404':
+          description: Resource not found.
+      summary: GET /drep_hash
+  /drep_registration:
+    get:
+      description: Handles GET requests for /drep_registration. Detailed information
+        is returned based on query parameters.
+      parameters:
+      - description: Unique identifier for the resource.
+        in: query
+        name: id
+        required: false
+        schema:
+          type: string
+      - description: Maximum number of results to return.
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 10
+          type: integer
+      - description: Number of items to skip for pagination.
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  type: object
+                type: array
+          description: Successful response with the requested details.
+        '400':
+          description: Invalid request parameters.
+        '404':
+          description: Resource not found.
+      summary: GET /drep_registration
+  /epoch:
+    get:
+      description: Handles GET requests for /epoch. Detailed information is returned
+        based on query parameters.
+      parameters:
+      - description: Unique identifier for the resource.
+        in: query
+        name: id
+        required: false
+        schema:
+          type: string
+      - description: Maximum number of results to return.
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 10
+          type: integer
+      - description: Number of items to skip for pagination.
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  type: object
+                type: array
+          description: Successful response with the requested details.
+        '400':
+          description: Invalid request parameters.
+        '404':
+          description: Resource not found.
+      summary: GET /epoch
+  /epoch_param:
+    get:
+      description: Handles GET requests for /epoch_param. Detailed information is
+        returned based on query parameters.
+      parameters:
+      - description: Unique identifier for the resource.
+        in: query
+        name: id
+        required: false
+        schema:
+          type: string
+      - description: Maximum number of results to return.
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 10
+          type: integer
+      - description: Number of items to skip for pagination.
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  type: object
+                type: array
+          description: Successful response with the requested details.
+        '400':
+          description: Invalid request parameters.
+        '404':
+          description: Resource not found.
+      summary: GET /epoch_param
+  /epoch_stake:
+    get:
+      description: Handles GET requests for /epoch_stake. Detailed information is
+        returned based on query parameters.
+      parameters:
+      - description: Unique identifier for the resource.
+        in: query
+        name: id
+        required: false
+        schema:
+          type: string
+      - description: Maximum number of results to return.
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 10
+          type: integer
+      - description: Number of items to skip for pagination.
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  type: object
+                type: array
+          description: Successful response with the requested details.
+        '400':
+          description: Invalid request parameters.
+        '404':
+          description: Resource not found.
+      summary: GET /epoch_stake
+  /epoch_stake_progress:
+    get:
+      description: Handles GET requests for /epoch_stake_progress. Detailed information
+        is returned based on query parameters.
+      parameters:
+      - description: Unique identifier for the resource.
+        in: query
+        name: id
+        required: false
+        schema:
+          type: string
+      - description: Maximum number of results to return.
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 10
+          type: integer
+      - description: Number of items to skip for pagination.
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  type: object
+                type: array
+          description: Successful response with the requested details.
+        '400':
+          description: Invalid request parameters.
+        '404':
+          description: Resource not found.
+      summary: GET /epoch_stake_progress
+  /epoch_state:
+    get:
+      description: Handles GET requests for /epoch_state. Detailed information is
+        returned based on query parameters.
+      parameters:
+      - description: Unique identifier for the resource.
+        in: query
+        name: id
+        required: false
+        schema:
+          type: string
+      - description: Maximum number of results to return.
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 10
+          type: integer
+      - description: Number of items to skip for pagination.
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  type: object
+                type: array
+          description: Successful response with the requested details.
+        '400':
+          description: Invalid request parameters.
+        '404':
+          description: Resource not found.
+      summary: GET /epoch_state
+  /extra_key_witness:
+    get:
+      description: Handles GET requests for /extra_key_witness. Detailed information
+        is returned based on query parameters.
+      parameters:
+      - description: Unique identifier for the resource.
+        in: query
+        name: id
+        required: false
+        schema:
+          type: string
+      - description: Maximum number of results to return.
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 10
+          type: integer
+      - description: Number of items to skip for pagination.
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  type: object
+                type: array
+          description: Successful response with the requested details.
+        '400':
+          description: Invalid request parameters.
+        '404':
+          description: Resource not found.
+      summary: GET /extra_key_witness
+  /extra_migrations:
+    get:
+      description: Handles GET requests for /extra_migrations. Detailed information
+        is returned based on query parameters.
+      parameters:
+      - description: Unique identifier for the resource.
+        in: query
+        name: id
+        required: false
+        schema:
+          type: string
+      - description: Maximum number of results to return.
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 10
+          type: integer
+      - description: Number of items to skip for pagination.
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  type: object
+                type: array
+          description: Successful response with the requested details.
+        '400':
+          description: Invalid request parameters.
+        '404':
+          description: Resource not found.
+      summary: GET /extra_migrations
+  /ma_tx_mint:
+    get:
+      description: Handles GET requests for /ma_tx_mint. Detailed information is returned
+        based on query parameters.
+      parameters:
+      - description: The hash of the transaction.
+        in: query
+        name: tx_hash
+        required: true
+        schema:
+          type: string
+      - description: Include metadata in the response.
+        in: query
+        name: include_metadata
+        required: false
+        schema:
+          default: false
+          type: boolean
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  type: object
+                type: array
+          description: Successful response with the requested details.
+        '400':
+          description: Invalid request parameters.
+        '404':
+          description: Resource not found.
+      summary: GET /ma_tx_mint
+  /ma_tx_out:
+    get:
+      description: Handles GET requests for /ma_tx_out. Detailed information is returned
+        based on query parameters.
+      parameters:
+      - description: The hash of the transaction.
+        in: query
+        name: tx_hash
+        required: true
+        schema:
+          type: string
+      - description: Include metadata in the response.
+        in: query
+        name: include_metadata
+        required: false
+        schema:
+          default: false
+          type: boolean
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  type: object
+                type: array
+          description: Successful response with the requested details.
+        '400':
+          description: Invalid request parameters.
+        '404':
+          description: Resource not found.
+      summary: GET /ma_tx_out
+  /meta:
+    get:
+      description: Handles GET requests for /meta. Detailed information is returned
+        based on query parameters.
+      parameters:
+      - description: Unique identifier for the resource.
+        in: query
+        name: id
+        required: false
+        schema:
+          type: string
+      - description: Maximum number of results to return.
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 10
+          type: integer
+      - description: Number of items to skip for pagination.
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  type: object
+                type: array
+          description: Successful response with the requested details.
+        '400':
+          description: Invalid request parameters.
+        '404':
+          description: Resource not found.
+      summary: GET /meta
+  /multi_asset:
+    get:
+      description: Handles GET requests for /multi_asset. Detailed information is
+        returned based on query parameters.
+      parameters:
+      - description: Unique identifier for the resource.
+        in: query
+        name: id
+        required: false
+        schema:
+          type: string
+      - description: Maximum number of results to return.
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 10
+          type: integer
+      - description: Number of items to skip for pagination.
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  type: object
+                type: array
+          description: Successful response with the requested details.
+        '400':
+          description: Invalid request parameters.
+        '404':
+          description: Resource not found.
+      summary: GET /multi_asset
+  /off_chain_pool_data:
+    get:
+      description: Handles GET requests for /off_chain_pool_data. Detailed information
+        is returned based on query parameters.
+      parameters:
+      - description: Unique identifier for the resource.
+        in: query
+        name: id
+        required: false
+        schema:
+          type: string
+      - description: Maximum number of results to return.
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 10
+          type: integer
+      - description: Number of items to skip for pagination.
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  type: object
+                type: array
+          description: Successful response with the requested details.
+        '400':
+          description: Invalid request parameters.
+        '404':
+          description: Resource not found.
+      summary: GET /off_chain_pool_data
+  /off_chain_pool_fetch_error:
+    get:
+      description: Handles GET requests for /off_chain_pool_fetch_error. Detailed
+        information is returned based on query parameters.
+      parameters:
+      - description: Unique identifier for the resource.
+        in: query
+        name: id
+        required: false
+        schema:
+          type: string
+      - description: Maximum number of results to return.
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 10
+          type: integer
+      - description: Number of items to skip for pagination.
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  type: object
+                type: array
+          description: Successful response with the requested details.
+        '400':
+          description: Invalid request parameters.
+        '404':
+          description: Resource not found.
+      summary: GET /off_chain_pool_fetch_error
+  /pool_hash:
+    get:
+      description: Handles GET requests for /pool_hash. Detailed information is returned
+        based on query parameters.
+      parameters:
+      - description: Unique identifier for the resource.
+        in: query
+        name: id
+        required: false
+        schema:
+          type: string
+      - description: Maximum number of results to return.
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 10
+          type: integer
+      - description: Number of items to skip for pagination.
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  type: object
+                type: array
+          description: Successful response with the requested details.
+        '400':
+          description: Invalid request parameters.
+        '404':
+          description: Resource not found.
+      summary: GET /pool_hash
+  /pool_metadata_ref:
+    get:
+      description: Handles GET requests for /pool_metadata_ref. Detailed information
+        is returned based on query parameters.
+      parameters:
+      - description: Unique identifier for the resource.
+        in: query
+        name: id
+        required: false
+        schema:
+          type: string
+      - description: Maximum number of results to return.
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 10
+          type: integer
+      - description: Number of items to skip for pagination.
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  type: object
+                type: array
+          description: Successful response with the requested details.
+        '400':
+          description: Invalid request parameters.
+        '404':
+          description: Resource not found.
+      summary: GET /pool_metadata_ref
+  /pool_owner:
+    get:
+      description: Handles GET requests for /pool_owner. Detailed information is returned
+        based on query parameters.
+      parameters:
+      - description: Unique identifier for the resource.
+        in: query
+        name: id
+        required: false
+        schema:
+          type: string
+      - description: Maximum number of results to return.
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 10
+          type: integer
+      - description: Number of items to skip for pagination.
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  type: object
+                type: array
+          description: Successful response with the requested details.
+        '400':
+          description: Invalid request parameters.
+        '404':
+          description: Resource not found.
+      summary: GET /pool_owner
+  /pool_relay:
+    get:
+      description: Handles GET requests for /pool_relay. Detailed information is returned
+        based on query parameters.
+      parameters:
+      - description: Unique identifier for the resource.
+        in: query
+        name: id
+        required: false
+        schema:
+          type: string
+      - description: Maximum number of results to return.
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 10
+          type: integer
+      - description: Number of items to skip for pagination.
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  type: object
+                type: array
+          description: Successful response with the requested details.
+        '400':
+          description: Invalid request parameters.
+        '404':
+          description: Resource not found.
+      summary: GET /pool_relay
+  /pool_retire:
+    get:
+      description: Handles GET requests for /pool_retire. Detailed information is
+        returned based on query parameters.
+      parameters:
+      - description: Unique identifier for the resource.
+        in: query
+        name: id
+        required: false
+        schema:
+          type: string
+      - description: Maximum number of results to return.
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 10
+          type: integer
+      - description: Number of items to skip for pagination.
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  type: object
+                type: array
+          description: Successful response with the requested details.
+        '400':
+          description: Invalid request parameters.
+        '404':
+          description: Resource not found.
+      summary: GET /pool_retire
+  /pool_stat:
+    get:
+      description: Handles GET requests for /pool_stat. Detailed information is returned
+        based on query parameters.
+      parameters:
+      - description: Unique identifier for the resource.
+        in: query
+        name: id
+        required: false
+        schema:
+          type: string
+      - description: Maximum number of results to return.
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 10
+          type: integer
+      - description: Number of items to skip for pagination.
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  type: object
+                type: array
+          description: Successful response with the requested details.
+        '400':
+          description: Invalid request parameters.
+        '404':
+          description: Resource not found.
+      summary: GET /pool_stat
+  /pool_update:
+    get:
+      description: Handles GET requests for /pool_update. Detailed information is
+        returned based on query parameters.
+      parameters:
+      - description: Unique identifier for the resource.
+        in: query
+        name: id
+        required: false
+        schema:
+          type: string
+      - description: Maximum number of results to return.
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 10
+          type: integer
+      - description: Number of items to skip for pagination.
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  type: object
+                type: array
+          description: Successful response with the requested details.
+        '400':
+          description: Invalid request parameters.
+        '404':
+          description: Resource not found.
+      summary: GET /pool_update
+  /pot_transfer:
+    get:
+      description: Handles GET requests for /pot_transfer. Detailed information is
+        returned based on query parameters.
+      parameters:
+      - description: Unique identifier for the resource.
+        in: query
+        name: id
+        required: false
+        schema:
+          type: string
+      - description: Maximum number of results to return.
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 10
+          type: integer
+      - description: Number of items to skip for pagination.
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  type: object
+                type: array
+          description: Successful response with the requested details.
+        '400':
+          description: Invalid request parameters.
+        '404':
+          description: Resource not found.
+      summary: GET /pot_transfer
+  /redeemer:
+    get:
+      description: Handles GET requests for /redeemer. Detailed information is returned
+        based on query parameters.
+      parameters:
+      - description: Unique identifier for the resource.
+        in: query
+        name: id
+        required: false
+        schema:
+          type: string
+      - description: Maximum number of results to return.
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 10
+          type: integer
+      - description: Number of items to skip for pagination.
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  type: object
+                type: array
+          description: Successful response with the requested details.
+        '400':
+          description: Invalid request parameters.
+        '404':
+          description: Resource not found.
+      summary: GET /redeemer
+  /redeemer_data:
+    get:
+      description: Handles GET requests for /redeemer_data. Detailed information is
+        returned based on query parameters.
+      parameters:
+      - description: Unique identifier for the resource.
+        in: query
+        name: id
+        required: false
+        schema:
+          type: string
+      - description: Maximum number of results to return.
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 10
+          type: integer
+      - description: Number of items to skip for pagination.
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  type: object
+                type: array
+          description: Successful response with the requested details.
+        '400':
+          description: Invalid request parameters.
+        '404':
+          description: Resource not found.
+      summary: GET /redeemer_data
+  /reference_tx_in:
+    get:
+      description: Handles GET requests for /reference_tx_in. Detailed information
+        is returned based on query parameters.
+      parameters:
+      - description: The hash of the transaction.
+        in: query
+        name: tx_hash
+        required: true
+        schema:
+          type: string
+      - description: Include metadata in the response.
+        in: query
+        name: include_metadata
+        required: false
+        schema:
+          default: false
+          type: boolean
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  type: object
+                type: array
+          description: Successful response with the requested details.
+        '400':
+          description: Invalid request parameters.
+        '404':
+          description: Resource not found.
+      summary: GET /reference_tx_in
+  /reserve:
+    get:
+      description: Handles GET requests for /reserve. Detailed information is returned
+        based on query parameters.
+      parameters:
+      - description: Unique identifier for the resource.
+        in: query
+        name: id
+        required: false
+        schema:
+          type: string
+      - description: Maximum number of results to return.
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 10
+          type: integer
+      - description: Number of items to skip for pagination.
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  type: object
+                type: array
+          description: Successful response with the requested details.
+        '400':
+          description: Invalid request parameters.
+        '404':
+          description: Resource not found.
+      summary: GET /reserve
+  /reserved_pool_ticker:
+    get:
+      description: Handles GET requests for /reserved_pool_ticker. Detailed information
+        is returned based on query parameters.
+      parameters:
+      - description: Unique identifier for the resource.
+        in: query
+        name: id
+        required: false
+        schema:
+          type: string
+      - description: Maximum number of results to return.
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 10
+          type: integer
+      - description: Number of items to skip for pagination.
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  type: object
+                type: array
+          description: Successful response with the requested details.
+        '400':
+          description: Invalid request parameters.
+        '404':
+          description: Resource not found.
+      summary: GET /reserved_pool_ticker
+  /reverse_index:
+    get:
+      description: Handles GET requests for /reverse_index. Detailed information is
+        returned based on query parameters.
+      parameters:
+      - description: Unique identifier for the resource.
+        in: query
+        name: id
+        required: false
+        schema:
+          type: string
+      - description: Maximum number of results to return.
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 10
+          type: integer
+      - description: Number of items to skip for pagination.
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  type: object
+                type: array
+          description: Successful response with the requested details.
+        '400':
+          description: Invalid request parameters.
+        '404':
+          description: Resource not found.
+      summary: GET /reverse_index
+  /reward:
+    get:
+      description: Handles GET requests for /reward. Detailed information is returned
+        based on query parameters.
+      parameters:
+      - description: Unique identifier for the resource.
+        in: query
+        name: id
+        required: false
+        schema:
+          type: string
+      - description: Maximum number of results to return.
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 10
+          type: integer
+      - description: Number of items to skip for pagination.
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  type: object
+                type: array
+          description: Successful response with the requested details.
+        '400':
+          description: Invalid request parameters.
+        '404':
+          description: Resource not found.
+      summary: GET /reward
+  /reward_rest:
+    get:
+      description: Handles GET requests for /reward_rest. Detailed information is
+        returned based on query parameters.
+      parameters:
+      - description: Unique identifier for the resource.
+        in: query
+        name: id
+        required: false
+        schema:
+          type: string
+      - description: Maximum number of results to return.
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 10
+          type: integer
+      - description: Number of items to skip for pagination.
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  type: object
+                type: array
+          description: Successful response with the requested details.
+        '400':
+          description: Invalid request parameters.
+        '404':
+          description: Resource not found.
+      summary: GET /reward_rest
+  /schema_version:
+    get:
+      description: Handles GET requests for /schema_version. Detailed information
+        is returned based on query parameters.
+      parameters:
+      - description: Unique identifier for the resource.
+        in: query
+        name: id
+        required: false
+        schema:
+          type: string
+      - description: Maximum number of results to return.
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 10
+          type: integer
+      - description: Number of items to skip for pagination.
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  type: object
+                type: array
+          description: Successful response with the requested details.
+        '400':
+          description: Invalid request parameters.
+        '404':
+          description: Resource not found.
+      summary: GET /schema_version
+  /script:
+    get:
+      description: Handles GET requests for /script. Detailed information is returned
+        based on query parameters.
+      parameters:
+      - description: Unique identifier for the resource.
+        in: query
+        name: id
+        required: false
+        schema:
+          type: string
+      - description: Maximum number of results to return.
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 10
+          type: integer
+      - description: Number of items to skip for pagination.
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  type: object
+                type: array
+          description: Successful response with the requested details.
+        '400':
+          description: Invalid request parameters.
+        '404':
+          description: Resource not found.
+      summary: GET /script
+  /slot_leader:
+    get:
+      description: Handles GET requests for /slot_leader. Detailed information is
+        returned based on query parameters.
+      parameters:
+      - description: Unique identifier for the resource.
+        in: query
+        name: id
+        required: false
+        schema:
+          type: string
+      - description: Maximum number of results to return.
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 10
+          type: integer
+      - description: Number of items to skip for pagination.
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  type: object
+                type: array
+          description: Successful response with the requested details.
+        '400':
+          description: Invalid request parameters.
+        '404':
+          description: Resource not found.
+      summary: GET /slot_leader
+  /stake_address:
+    get:
+      description: Handles GET requests for /stake_address. Detailed information is
+        returned based on query parameters.
+      parameters:
+      - description: Unique identifier for the resource.
+        in: query
+        name: id
+        required: false
+        schema:
+          type: string
+      - description: Maximum number of results to return.
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 10
+          type: integer
+      - description: Number of items to skip for pagination.
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  type: object
+                type: array
+          description: Successful response with the requested details.
+        '400':
+          description: Invalid request parameters.
+        '404':
+          description: Resource not found.
+      summary: GET /stake_address
+  /stake_deregistration:
+    get:
+      description: Handles GET requests for /stake_deregistration. Detailed information
+        is returned based on query parameters.
+      parameters:
+      - description: Unique identifier for the resource.
+        in: query
+        name: id
+        required: false
+        schema:
+          type: string
+      - description: Maximum number of results to return.
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 10
+          type: integer
+      - description: Number of items to skip for pagination.
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  type: object
+                type: array
+          description: Successful response with the requested details.
+        '400':
+          description: Invalid request parameters.
+        '404':
+          description: Resource not found.
+      summary: GET /stake_deregistration
+  /stake_registration:
+    get:
+      description: Handles GET requests for /stake_registration. Detailed information
+        is returned based on query parameters.
+      parameters:
+      - description: Unique identifier for the resource.
+        in: query
+        name: id
+        required: false
+        schema:
+          type: string
+      - description: Maximum number of results to return.
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 10
+          type: integer
+      - description: Number of items to skip for pagination.
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  type: object
+                type: array
+          description: Successful response with the requested details.
+        '400':
+          description: Invalid request parameters.
+        '404':
+          description: Resource not found.
+      summary: GET /stake_registration
+  /treasury:
+    get:
+      description: Handles GET requests for /treasury. Detailed information is returned
+        based on query parameters.
+      parameters:
+      - description: Unique identifier for the resource.
+        in: query
+        name: id
+        required: false
+        schema:
+          type: string
+      - description: Maximum number of results to return.
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 10
+          type: integer
+      - description: Number of items to skip for pagination.
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  type: object
+                type: array
+          description: Successful response with the requested details.
+        '400':
+          description: Invalid request parameters.
+        '404':
+          description: Resource not found.
+      summary: GET /treasury
+  /treasury_withdrawal:
+    get:
+      description: Handles GET requests for /treasury_withdrawal. Detailed information
+        is returned based on query parameters.
+      parameters:
+      - description: Unique identifier for the resource.
+        in: query
+        name: id
+        required: false
+        schema:
+          type: string
+      - description: Maximum number of results to return.
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 10
+          type: integer
+      - description: Number of items to skip for pagination.
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  type: object
+                type: array
+          description: Successful response with the requested details.
+        '400':
+          description: Invalid request parameters.
+        '404':
+          description: Resource not found.
+      summary: GET /treasury_withdrawal
+  /tx:
+    get:
+      description: Handles GET requests for /tx. Detailed information is returned
+        based on query parameters.
+      parameters:
+      - description: The hash of the transaction.
+        in: query
+        name: tx_hash
+        required: true
+        schema:
+          type: string
+      - description: Include metadata in the response.
+        in: query
+        name: include_metadata
+        required: false
+        schema:
+          default: false
+          type: boolean
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  type: object
+                type: array
+          description: Successful response with the requested details.
+        '400':
+          description: Invalid request parameters.
+        '404':
+          description: Resource not found.
+      summary: GET /tx
+  /tx_cbor:
+    get:
+      description: Handles GET requests for /tx_cbor. Detailed information is returned
+        based on query parameters.
+      parameters:
+      - description: The hash of the transaction.
+        in: query
+        name: tx_hash
+        required: true
+        schema:
+          type: string
+      - description: Include metadata in the response.
+        in: query
+        name: include_metadata
+        required: false
+        schema:
+          default: false
+          type: boolean
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  type: object
+                type: array
+          description: Successful response with the requested details.
+        '400':
+          description: Invalid request parameters.
+        '404':
+          description: Resource not found.
+      summary: GET /tx_cbor
+  /tx_in:
+    get:
+      description: Handles GET requests for /tx_in. Detailed information is returned
+        based on query parameters.
+      parameters:
+      - description: The hash of the transaction.
+        in: query
+        name: tx_hash
+        required: true
+        schema:
+          type: string
+      - description: Include metadata in the response.
+        in: query
+        name: include_metadata
+        required: false
+        schema:
+          default: false
+          type: boolean
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  type: object
+                type: array
+          description: Successful response with the requested details.
+        '400':
+          description: Invalid request parameters.
+        '404':
+          description: Resource not found.
+      summary: GET /tx_in
+  /tx_metadata:
+    get:
+      description: Handles GET requests for /tx_metadata. Detailed information is
+        returned based on query parameters.
+      parameters:
+      - description: The hash of the transaction.
+        in: query
+        name: tx_hash
+        required: true
+        schema:
+          type: string
+      - description: Include metadata in the response.
+        in: query
+        name: include_metadata
+        required: false
+        schema:
+          default: false
+          type: boolean
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  type: object
+                type: array
+          description: Successful response with the requested details.
+        '400':
+          description: Invalid request parameters.
+        '404':
+          description: Resource not found.
+      summary: GET /tx_metadata
+  /tx_out:
+    get:
+      description: Handles GET requests for /tx_out. Detailed information is returned
+        based on query parameters.
+      parameters:
+      - description: The hash of the transaction.
+        in: query
+        name: tx_hash
+        required: true
+        schema:
+          type: string
+      - description: Include metadata in the response.
+        in: query
+        name: include_metadata
+        required: false
+        schema:
+          default: false
+          type: boolean
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  type: object
+                type: array
+          description: Successful response with the requested details.
+        '400':
+          description: Invalid request parameters.
+        '404':
+          description: Resource not found.
+      summary: GET /tx_out
+  /withdrawal:
+    get:
+      description: Handles GET requests for /withdrawal. Detailed information is returned
+        based on query parameters.
+      parameters:
+      - description: Unique identifier for the resource.
+        in: query
+        name: id
+        required: false
+        schema:
+          type: string
+      - description: Maximum number of results to return.
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 10
+          type: integer
+      - description: Number of items to skip for pagination.
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  type: object
+                type: array
+          description: Successful response with the requested details.
+        '400':
+          description: Invalid request parameters.
+        '404':
+          description: Resource not found.
+      summary: GET /withdrawal
